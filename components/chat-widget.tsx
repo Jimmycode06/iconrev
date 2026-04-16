@@ -50,7 +50,7 @@ export function ChatWidget() {
     setTimeout(() => {
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: "Thanks for reaching out! Our team replies within ~2 hours on business days. Meanwhile, many customers see 3× more Google reviews with Iconrev — cards start at $39, or email contact@iconrev.com anytime.",
+        text: "Thanks for reaching out! Our team replies within ~2 hours on business days. Meanwhile, many customers see 3× more Google reviews with Iconrev — cards start at $38,90, or email contact@iconrev.com anytime.",
         sender: "bot",
         timestamp: new Date(),
       };

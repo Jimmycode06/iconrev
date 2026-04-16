@@ -90,7 +90,7 @@ export function CTASection() {
             className="flex flex-wrap justify-center gap-8 mb-10 text-white"
           >
             <div className="text-center">
-              <div className="text-4xl font-extrabold mb-1">$39</div>
+              <div className="text-4xl font-extrabold mb-1">$38,90</div>
               <div className="text-sm opacity-90">Starting at</div>
             </div>
             <div className="w-px bg-white/20 hidden md:block" />
@@ -118,7 +118,7 @@ export function CTASection() {
               onClick={() => router.push("/products")}
             >
               <Zap className="mr-2 h-5 w-5" />
-              Order now — from $39
+              Order now — from $38,90
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </motion.div>

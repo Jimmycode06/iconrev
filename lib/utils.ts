@@ -9,7 +9,9 @@ export function formatPrice(price: number): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(price);
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })
+    .format(price)
+    .replace(/\.(\d{2})$/, ",$1");
 }

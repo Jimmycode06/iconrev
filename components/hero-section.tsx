@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { Star, ArrowRight, Smartphone, Zap, Shield, Clock } from "lucide-react";
+import { ArrowRight, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AuroraBackground } from "@/components/aurora-background";
 import { ProductCardShowcaseVisual } from "@/components/product-card-showcase-visual";
@@ -24,7 +24,7 @@ export function HeroSection() {
 
   return (
     <AuroraBackground>
-      <section className="relative py-16 md:py-20 lg:py-24 w-full">
+      <section className="relative pt-16 pb-8 md:pt-20 md:pb-10 lg:pt-24 lg:pb-12 w-full">
         <div
           className="absolute inset-0 pointer-events-none overflow-hidden [mask-image:radial-gradient(ellipse_85%_55%_at_50%_0%,#000_55%,transparent_100%)]"
           aria-hidden
@@ -77,7 +77,7 @@ export function HeroSection() {
                     onClick={() => router.push("/products")}
                   >
                     <Smartphone className="mr-2 h-5 w-5" />
-                    Get my card — from $39
+                    Get my card — from $38,90
                     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
                   <Button
@@ -91,25 +91,6 @@ export function HeroSection() {
                   </Button>
                 </motion.div>
 
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.35 }}
-                  className="flex flex-wrap justify-center lg:justify-start items-center gap-x-6 gap-y-2 text-sm text-muted-foreground mb-12 lg:mb-0"
-                >
-                  <span className="inline-flex items-center gap-1.5">
-                    <Shield className="h-4 w-4 text-green-600" />
-                    30-day money-back
-                  </span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <Clock className="h-4 w-4 text-blue-600" />
-                    Set up in 30 seconds
-                  </span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <Zap className="h-4 w-4 text-amber-500" />
-                    Free shipping
-                  </span>
-                </motion.div>
               </div>
 
               <div className="hidden lg:block">
@@ -117,46 +98,9 @@ export function HeroSection() {
               </div>
             </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.55 }}
-              className="max-w-2xl mx-auto mt-10 lg:mt-14"
-            >
-              <div className="relative rounded-2xl border border-blue-100 bg-white/70 backdrop-blur-sm p-5 shadow-sm">
-                <div className="absolute -top-3 left-6">
-                  <span className="inline-block text-xs font-semibold uppercase tracking-wider bg-blue-600 text-white px-3 py-1 rounded-full">
-                    Real customer result
-                  </span>
-                </div>
-                <div className="flex items-start gap-4 pt-1">
-                  <div className="flex-shrink-0 w-11 h-11 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold text-lg">
-                    M
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <span className="font-semibold text-foreground">
-                        Maria D. — Hair salon, Austin, TX
-                      </span>
-                      <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                        ))}
-                      </div>
-                    </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      &ldquo;In two months I went from 18 to 73 Google reviews. I&apos;m
-                      now #1 in my neighborhood on Maps. I had to hire another
-                      stylist to keep up with the walk-ins.&rdquo;
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background via-background/70 to-transparent pointer-events-none" />
       </section>
     </AuroraBackground>
   );

@@ -65,7 +65,7 @@ export function ProductCardShowcaseVisual({
               : "(max-width: 1024px) min(92vw, 420px) 480px"
           }
           className={cn(
-            "w-full h-auto drop-shadow-[0_18px_50px_rgba(15,23,42,0.18)]",
+            "w-full h-auto rounded-2xl drop-shadow-[0_18px_50px_rgba(15,23,42,0.18)]",
             emphasis
               ? "max-w-[min(100%,520px)] lg:max-w-[min(100%,600px)] xl:max-w-[min(100%,680px)]"
               : "max-w-[min(100%,420px)] lg:max-w-[460px]"

@@ -44,7 +44,7 @@ export default function RootLayout({
             <span className="inline-flex items-center rounded-md border border-white/30 bg-white/15 px-2 py-0.5 font-mono font-bold tracking-[0.08em] text-white">
               LAUNCH20
             </span>
-            <span className="hidden sm:inline"> {" "}&bull; Starter pack from $39</span>
+            <span className="hidden sm:inline"> {" "}&bull; Starter pack from $38,90</span>
           </p>
         </StickyBanner>
         <ClientProviders>

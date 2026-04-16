@@ -31,7 +31,7 @@ export const products: Product[] = [
     name: "Starter — 1 QR + NFC card",
     description:
       "Perfect to try it out: place the card and start collecting reviews fast. Many customers see 15+ new reviews in the first week. One card, ready to use.",
-    price: 39,
+    price: 38.9,
     image: PRODUCT_CARD_IMAGE,
     images: [...DEFAULT_PRODUCT_GALLERY],
     rating: 5,
@@ -59,9 +59,8 @@ export const products: Product[] = [
   {
     id: "2",
     name: "Pro — 2 QR + NFC cards",
-    description:
-      "Cover counter + dining area. More touchpoints, more reviews. Ideal for restaurants, cafés, and salons with a waiting area.",
-    price: 49,
+    description: "",
+    price: 69.9,
     image: PRODUCT_CARD_IMAGE,
     images: [...DEFAULT_PRODUCT_GALLERY],
     rating: 5,
@@ -86,13 +85,14 @@ export const products: Product[] = [
     inStock: true,
     category: "Pro",
     popular: true,
+    bestValue: true,
   },
   {
     id: "3",
-    name: "Business — 4 QR + NFC cards",
+    name: "Business — 5 QR + NFC cards",
     description:
-      "Equip your whole location. Four cards turn tables, counters, and high-traffic spots into review touchpoints. Best value — save about $87 vs buying singles.",
-    price: 69,
+      "Equip your whole location. Five cards turn tables, counters, and high-traffic spots into review touchpoints. Best value for multi-zone setups.",
+    price: 89.9,
     image: PRODUCT_CARD_IMAGE,
     images: [...DEFAULT_PRODUCT_GALLERY],
     rating: 5,
@@ -101,12 +101,12 @@ export const products: Product[] = [
       {
         title: "Cover the whole floor",
         description:
-          "Four cards for tables, counters, and busy spots — one consistent ask everywhere.",
+          "Five cards for tables, counters, and busy spots — one consistent ask everywhere.",
       },
       {
         title: "Best per-card value",
         description:
-          "About $17.25 each vs buying singles — save roughly $87 on four Starters.",
+          "Best value pack for multi-zone businesses that need full in-store coverage.",
       },
       {
         title: "NFC chip + QR both sides",
@@ -115,7 +115,6 @@ export const products: Product[] = [
       },
     ],
     inStock: true,
-    category: "Best value",
-    bestValue: true,
+    category: "Business",
   },
 ];

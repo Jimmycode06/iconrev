@@ -5,8 +5,6 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
-  Shield,
-  Truck,
   ShoppingCart,
   Check,
   CheckCircle,
@@ -77,14 +75,6 @@ function ProductsContent() {
         className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground mb-10 md:mb-12"
       >
         <span className="inline-flex items-center gap-1.5">
-          <Truck className="h-4 w-4 text-blue-600" />
-          Free shipping in 2–3 business days
-        </span>
-        <span className="inline-flex items-center gap-1.5">
-          <Shield className="h-4 w-4 text-green-600" />
-          30-day money-back guarantee
-        </span>
-        <span className="inline-flex items-center gap-1.5">
           <CheckCircle className="h-4 w-4 text-emerald-600" />
           NFC + QR on every card
         </span>
@@ -132,31 +122,31 @@ function ProductsContent() {
 
           <div className="pt-1">
             <Button
-              className="w-full bg-google-blue hover:bg-google-blue/90 h-11 px-4 flex flex-row items-center justify-between gap-3 text-left font-semibold"
+              className="w-full bg-gradient-to-r from-sky-500 via-blue-500 to-cyan-500 hover:from-sky-500/95 hover:via-blue-500/95 hover:to-cyan-500/95 text-white h-14 px-5 flex flex-row items-center justify-between gap-3.5 text-left font-bold text-base shadow-[0_10px_24px_rgba(37,99,235,0.22)]"
               onClick={handleAddToCart}
               disabled={!selected.inStock}
             >
               {justAdded ? (
                 <>
                   <span className="inline-flex items-center gap-2 min-w-0">
-                    <Check className="h-4 w-4 shrink-0" />
-                    <span className="uppercase tracking-wide text-sm sm:text-base truncate">
+                    <Check className="h-5 w-5 shrink-0" />
+                    <span className="uppercase tracking-wide text-base sm:text-lg truncate">
                       Added to cart
                     </span>
                   </span>
-                  <span className="tabular-nums text-sm sm:text-base font-bold shrink-0">
+                  <span className="tabular-nums text-base sm:text-lg font-bold shrink-0">
                     {formatPrice(selected.price)}
                   </span>
                 </>
               ) : (
                 <>
                   <span className="inline-flex items-center gap-2 min-w-0">
-                    <ShoppingCart className="h-4 w-4 shrink-0" />
-                    <span className="uppercase tracking-wide text-sm sm:text-base truncate">
+                    <ShoppingCart className="h-5 w-5 shrink-0" />
+                    <span className="uppercase tracking-wide text-base sm:text-lg truncate">
                       Add to cart
                     </span>
                   </span>
-                  <span className="tabular-nums text-sm sm:text-base font-bold shrink-0">
+                  <span className="tabular-nums text-base sm:text-lg font-bold shrink-0">
                     {formatPrice(selected.price)}
                   </span>
                 </>
