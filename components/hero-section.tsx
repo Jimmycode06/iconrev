@@ -1,9 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-import { ArrowRight, Smartphone } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { AuroraBackground } from "@/components/aurora-background";
 import { ProductCardShowcaseVisual } from "@/components/product-card-showcase-visual";
 
@@ -20,8 +17,6 @@ function HeroProductVisual({ priority = false }: { priority?: boolean }) {
 }
 
 export function HeroSection() {
-  const router = useRouter();
-
   return (
     <AuroraBackground>
       <section className="relative pt-16 pb-8 md:pt-20 md:pb-10 lg:pt-24 lg:pb-12 w-full">
@@ -64,32 +59,6 @@ export function HeroSection() {
                 <div className="mb-8 lg:hidden">
                   <HeroProductVisual priority />
                 </div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-6"
-                >
-                  <Button
-                    size="lg"
-                    className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300 group"
-                    onClick={() => router.push("/products")}
-                  >
-                    <Smartphone className="mr-2 h-5 w-5" />
-                    Get my card — from $38,90
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="text-lg px-8 py-6 border-2 border-gray-300 hover:bg-gray-50 group"
-                    onClick={() => router.push("/about")}
-                  >
-                    See how it works
-                    <ArrowRight className="ml-2 h-5 w-5 opacity-60 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </motion.div>
 
               </div>
 
