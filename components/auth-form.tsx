@@ -5,15 +5,25 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { Loader2, Mail, Lock, UserPlus, LogIn, Building2 } from "lucide-react";
+import {
+  Loader2,
+  Mail,
+  Lock,
+  UserPlus,
+  LogIn,
+  Building2,
+  ArrowLeft,
+} from "lucide-react";
 
 type Tab = "login" | "register";
+type View = "auth" | "forgot" | "forgot-sent";
 
 interface AuthFormProps {
   onAuthenticated: (email: string) => void;
 }
 
 export function AuthForm({ onAuthenticated }: AuthFormProps) {
+  const [view, setView] = useState<View>("auth");
   const [tab, setTab] = useState<Tab>("register");
   const [businessName, setBusinessName] = useState("");
   const [email, setEmail] = useState("");
@@ -67,15 +77,45 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
     }
   }
 
+  async function handleForgotPassword(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    try {
+      const redirectTo =
+        typeof window !== "undefined"
+          ? `${window.location.origin}/reset-password`
+          : undefined;
+
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+        email,
+        { redirectTo }
+      );
+
+      if (resetError) {
+        setError(resetError.message);
+        return;
+      }
+
+      setView("forgot-sent");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   if (confirmationSent) {
     return (
       <div className="text-center space-y-3 py-4">
         <div className="mx-auto w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center">
           <Mail className="h-6 w-6 text-blue-600" />
         </div>
-        <h3 className="text-lg font-semibold text-foreground">Check your email</h3>
+        <h3 className="text-lg font-semibold text-foreground">
+          Check your email
+        </h3>
         <p className="text-sm text-muted-foreground max-w-xs mx-auto">
-          We sent a confirmation link to <strong>{email}</strong>. Click the link to activate your account, then come back here.
+          We sent a confirmation link to <strong>{email}</strong>. Click the
+          link to activate your account, then come back here.
         </p>
         <Button
           variant="outline"
@@ -91,6 +131,103 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
     );
   }
 
+  if (view === "forgot-sent") {
+    return (
+      <div className="text-center space-y-3 py-4">
+        <div className="mx-auto w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center">
+          <Mail className="h-6 w-6 text-blue-600" />
+        </div>
+        <h3 className="text-lg font-semibold text-foreground">
+          Check your email
+        </h3>
+        <p className="text-sm text-muted-foreground max-w-xs mx-auto">
+          If <strong>{email}</strong> matches an account, we&apos;ve sent a
+          link to reset your password.
+        </p>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            setView("auth");
+            setTab("login");
+            setError(null);
+          }}
+        >
+          Back to login
+        </Button>
+      </div>
+    );
+  }
+
+  if (view === "forgot") {
+    return (
+      <div className="space-y-4">
+        <button
+          type="button"
+          onClick={() => {
+            setView("auth");
+            setError(null);
+          }}
+          className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Back to login
+        </button>
+
+        <div>
+          <h3 className="text-lg font-semibold text-foreground">
+            Reset your password
+          </h3>
+          <p className="text-sm text-muted-foreground mt-1">
+            Enter your email and we&apos;ll send you a link to set a new
+            password.
+          </p>
+        </div>
+
+        <form onSubmit={handleForgotPassword} className="space-y-3">
+          <div className="space-y-1.5">
+            <label
+              htmlFor="forgot-email"
+              className="text-sm font-medium text-foreground"
+            >
+              Email
+            </label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="forgot-email"
+                type="email"
+                placeholder="you@business.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="pl-9"
+                required
+              />
+            </div>
+          </div>
+
+          {error && (
+            <p className="text-sm text-red-600 bg-red-50 rounded-md px-3 py-2">
+              {error}
+            </p>
+          )}
+
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-gradient-to-r from-sky-500 via-blue-500 to-cyan-500 hover:from-sky-500/95 hover:via-blue-500/95 hover:to-cyan-500/95 text-white h-11"
+          >
+            {loading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              "Send reset link"
+            )}
+          </Button>
+        </form>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-5">
       <div className="flex rounded-lg border border-border bg-muted/40 p-1">
@@ -98,7 +235,10 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
           <button
             key={t}
             type="button"
-            onClick={() => { setTab(t); setError(null); }}
+            onClick={() => {
+              setTab(t);
+              setError(null);
+            }}
             className={cn(
               "flex-1 flex items-center justify-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-all",
               tab === t
@@ -124,7 +264,10 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
       <form onSubmit={handleSubmit} className="space-y-3">
         {tab === "register" && (
           <div className="space-y-1.5">
-            <label htmlFor="auth-business" className="text-sm font-medium text-foreground">
+            <label
+              htmlFor="auth-business"
+              className="text-sm font-medium text-foreground"
+            >
               Business name
             </label>
             <div className="relative">
@@ -143,7 +286,10 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
         )}
 
         <div className="space-y-1.5">
-          <label htmlFor="auth-email" className="text-sm font-medium text-foreground">
+          <label
+            htmlFor="auth-email"
+            className="text-sm font-medium text-foreground"
+          >
             Email
           </label>
           <div className="relative">
@@ -161,15 +307,34 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="auth-password" className="text-sm font-medium text-foreground">
-            Password
-          </label>
+          <div className="flex items-center justify-between">
+            <label
+              htmlFor="auth-password"
+              className="text-sm font-medium text-foreground"
+            >
+              Password
+            </label>
+            {tab === "login" && (
+              <button
+                type="button"
+                onClick={() => {
+                  setView("forgot");
+                  setError(null);
+                }}
+                className="text-xs font-medium text-blue-600 hover:text-blue-700 transition-colors"
+              >
+                Forgot password?
+              </button>
+            )}
+          </div>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               id="auth-password"
               type="password"
-              placeholder={tab === "register" ? "At least 6 characters" : "Your password"}
+              placeholder={
+                tab === "register" ? "At least 6 characters" : "Your password"
+              }
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="pl-9"
