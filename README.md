@@ -174,6 +174,29 @@ Modify products in \`data/products.ts\` or connect to your backend.
 
 Update contact details in \`components/footer.tsx\` and \`app/contact/page.tsx\`.
 
+## Card Activation Flow
+
+When a customer receives their physical Iconrev stand, they scan the QR code which directs them to `/activate?id=XXXXX`. The activation flow:
+
+1. **Register/Login** — email + password via Supabase Auth
+2. **Find business** — Google Places Autocomplete to search their business
+3. **Activate** — links the card ID to their Google Business review page
+
+Once activated, any subsequent scan of the same QR code redirects directly to the Google Review page.
+
+### Setup
+
+1. Create a free [Supabase](https://supabase.com) project
+2. Add env vars to `.env.local`:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGci...
+   SUPABASE_SERVICE_ROLE_KEY=eyJhbGci...
+   ```
+3. Run the schema in Supabase SQL Editor (`supabase/schema.sql`)
+4. Pre-seed the `cards` table with IDs from your supplier
+5. Ensure **Google Places API** is enabled in your Google Cloud Console
+
 ## Build for Production
 
 \`\`\`bash
