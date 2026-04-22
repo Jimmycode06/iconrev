@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, Phone, MapPin, Shield, Truck, ArrowRight } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import { IconrevLogo } from "@/components/iconrev-logo";
 
 export function Footer() {
@@ -13,16 +13,6 @@ export function Footer() {
               Built for local businesses that want to win on Google Maps.
               1,200+ locations use Iconrev to collect reviews the easy way.
             </p>
-            <div className="flex flex-col gap-1.5 text-xs text-muted-foreground">
-              <span className="inline-flex items-center gap-1.5">
-                <Shield className="h-3.5 w-3.5 text-green-600" />
-                30-day money-back guarantee
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <Truck className="h-3.5 w-3.5 text-blue-600" />
-                Free shipping in 2–3 business days
-              </span>
-            </div>
           </div>
 
           <div>

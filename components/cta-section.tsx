@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Shield, Clock, Gift, Star, Zap } from "lucide-react";
+import { ArrowRight, Gift, Zap } from "lucide-react";
 
 export function CTASection() {
   const router = useRouter();
@@ -121,27 +121,6 @@ export function CTASection() {
               Order now — from $38,90
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6 }}
-            className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-white/80"
-          >
-            <span className="inline-flex items-center gap-1.5">
-              <Shield className="h-4 w-4" />
-              Money-back guarantee
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <Clock className="h-4 w-4" />
-              30-second setup
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <Star className="h-4 w-4" />
-              Trusted by 1,247+ businesses
-            </span>
           </motion.div>
         </motion.div>
       </div>
