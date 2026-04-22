@@ -1,10 +1,14 @@
 import Link from "next/link";
 import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import { IconrevLogo } from "@/components/iconrev-logo";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export function Footer() {
   const t = useTranslations("Footer");
+  const locale = useLocale();
+  const isFr = locale === "fr";
+  const phone = isFr ? "+33 4 22 00 62 00" : "+1 (512) 555-0142";
+  const location = isFr ? "Nice 06200, France" : "Austin, TX";
 
   return (
     <footer className="border-t bg-gray-50">
@@ -103,11 +107,11 @@ export function Footer() {
               </li>
               <li className="flex items-center space-x-2 text-muted-foreground">
                 <Phone className="h-4 w-4 text-blue-600" />
-                <span>+1 (512) 555-0142</span>
+                <span>{phone}</span>
               </li>
               <li className="flex items-center space-x-2 text-muted-foreground">
                 <MapPin className="h-4 w-4 text-blue-600" />
-                <span>Austin, TX</span>
+                <span>{location}</span>
               </li>
             </ul>
             <p className="mt-3 text-xs text-muted-foreground">

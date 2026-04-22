@@ -55,7 +55,7 @@ export default function ContactPage() {
     {
       icon: MapPin,
       title: "Location",
-      content: locale === "fr" ? "Paris, France" : "Austin, TX",
+      content: locale === "fr" ? "Nice 06200, France" : "Austin, TX",
       sub: t("location_sub"),
       color: "text-emerald-600",
       bg: "bg-emerald-50",

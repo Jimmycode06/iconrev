@@ -10,7 +10,7 @@ import { GoogleBusinessLocation } from "@/components/google-business-location";
 import { ProductPackList } from "@/components/product-pack-list";
 import { ProductImageGallery } from "@/components/product-image-gallery";
 import { ProductAdvantages } from "@/components/product-advantages";
-import { PLACEMENT_IDEAS } from "@/data/placement-inspiration";
+import { getPlacementIdeas } from "@/data/placement-inspiration";
 import { useCartStore } from "@/store/cart-store";
 import { useCartUI } from "@/store/cart-ui-store";
 import { formatPrice } from "@/lib/utils";
@@ -21,6 +21,7 @@ function ProductsContent() {
   const t = useTranslations("Products");
   const locale = useLocale();
   const products = getProducts(locale);
+  const placementIdeas = getPlacementIdeas(locale);
 
   const searchParams = useSearchParams();
   const packParam = searchParams.get("pack");
@@ -189,7 +190,7 @@ function ProductsContent() {
         </p>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-7">
-          {PLACEMENT_IDEAS.map((item, i) => (
+          {placementIdeas.map((item, i) => (
             <motion.article
               key={item.id}
               initial={{ opacity: 0, y: 14 }}

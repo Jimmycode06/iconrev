@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { ShoppingCart, Mail, Info } from "lucide-react";
+import { ShoppingCart, Mail, Info, Menu, X } from "lucide-react";
 import { IconrevLogo } from "@/components/iconrev-logo";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/cart-store";
@@ -25,10 +25,20 @@ export function Header() {
   const itemCount = useCartStore((state) => state.getItemCount());
   const openCart = useCartUI((s) => s.open);
   const [mounted, setMounted] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileOpen(false);
+    };
+    window.addEventListener("keydown", onEsc);
+    return () => window.removeEventListener("keydown", onEsc);
+  }, [mobileOpen]);
 
   const showCartBadge = mounted && itemCount > 0;
 
@@ -97,6 +107,19 @@ export function Header() {
           <Button
             variant="outline"
             size="icon"
+            className="md:hidden"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          >
+            {mobileOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
             className="relative"
             onClick={openCart}
             aria-label={t("open_cart")}
@@ -110,6 +133,44 @@ export function Header() {
           </Button>
         </div>
       </div>
+
+      {mobileOpen && (
+        <div className="md:hidden border-t bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+          <nav className="container mx-auto px-4 py-3 flex flex-col gap-1">
+            <Link
+              href="/"
+              className="rounded-md px-3 py-2 text-sm font-medium hover:bg-accent"
+              onClick={() => setMobileOpen(false)}
+            >
+              {t("home")}
+            </Link>
+            <Link
+              href="/products"
+              className="rounded-md px-3 py-2 text-sm font-medium hover:bg-accent"
+              onClick={() => setMobileOpen(false)}
+            >
+              {t("products")}
+            </Link>
+            <div className="mt-1 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+              {t("company")}
+            </div>
+            <Link
+              href="/about"
+              className="rounded-md px-3 py-2 text-sm font-medium hover:bg-accent"
+              onClick={() => setMobileOpen(false)}
+            >
+              {t("about")}
+            </Link>
+            <Link
+              href="/contact"
+              className="rounded-md px-3 py-2 text-sm font-medium hover:bg-accent"
+              onClick={() => setMobileOpen(false)}
+            >
+              {t("contact")}
+            </Link>
+          </nav>
+        </div>
+      )}
     </motion.header>
   );
 }
