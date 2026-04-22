@@ -268,7 +268,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
               htmlFor="auth-business"
               className="text-sm font-medium text-foreground"
             >
-              Nom de l'etablissement
+              Nom de l&apos;etablissement
             </label>
             <div className="relative">
               <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />

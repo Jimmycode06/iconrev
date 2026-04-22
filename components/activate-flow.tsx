@@ -179,10 +179,10 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
           <div className="space-y-5">
             <div>
               <h2 className="text-xl font-bold text-foreground mb-1">
-                Confirmer l'activation
+                Confirmer l&apos;activation
               </h2>
               <p className="text-sm text-muted-foreground">
-                Verifiez qu'il s'agit du bon etablissement avant d'activer.
+                Verifiez qu&apos;il s&apos;agit du bon etablissement avant d&apos;activer.
               </p>
             </div>
 
@@ -228,7 +228,7 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
                 }}
                 className="flex-1"
               >
-                Changer d'etablissement
+                Changer d&apos;etablissement
               </Button>
               <Button
                 onClick={handleActivate}
@@ -255,7 +255,7 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
             </h2>
             <p className="text-muted-foreground max-w-sm mx-auto">
               Votre plaque est maintenant active. Quand les clients la
-              scannent, ils arrivent directement sur votre page d'avis Google.
+              scannent, ils arrivent directement sur votre page d&apos;avis Google.
             </p>
             {selectedPlace && (
               <div className="rounded-xl border border-emerald-100 bg-emerald-50/50 p-4 text-left max-w-xs mx-auto">
@@ -274,7 +274,7 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
               >
-                Tester votre lien d'avis
+                Tester votre lien d&apos;avis
                 <ExternalLink className="h-3.5 w-3.5" />
               </a>
             )}
