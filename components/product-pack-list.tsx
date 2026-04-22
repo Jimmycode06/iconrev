@@ -4,16 +4,11 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { products } from "@/data/products";
 import { formatPrice, cn } from "@/lib/utils";
 import { getPromoLabel } from "@/lib/promotions";
 import type { Product } from "@/types";
-
-export function packSubtitle(product: Product): string {
-  if (product.id === "1") return "1 card — perfect to try";
-  if (product.id === "2") return "2 cards — counter + floor";
-  return "5 cards — full location";
-}
+import { useTranslations, useLocale } from "next-intl";
+import { getProducts } from "@/data/products";
 
 function oldPackPrice(product: Product): number {
   if (product.id === "1") return 49.9;
@@ -25,12 +20,19 @@ function PackRowInner({
   product,
   compact,
   reserveCornerBadge,
+  packSubtitleText,
+  bestDealText,
+  locale,
 }: {
   product: Product;
   compact?: boolean;
-  /** Extra right padding so top-right ribbon does not cover title/price */
   reserveCornerBadge?: boolean;
+  packSubtitleText: string;
+  bestDealText: string;
+  locale: string;
 }) {
+  const t = useTranslations("PackList");
+
   return (
     <div className="flex-1 min-w-0 flex flex-col gap-1">
       <div
@@ -54,7 +56,7 @@ function PackRowInner({
               compact ? "text-[11px]" : "text-[14px] sm:text-[15px]"
             )}
           >
-            {formatPrice(product.price)}
+            {formatPrice(product.price, locale)}
           </span>
           <span
             className={cn(
@@ -62,7 +64,7 @@ function PackRowInner({
               compact ? "text-[9px]" : "text-[10px]"
             )}
           >
-            {formatPrice(oldPackPrice(product))}
+            {formatPrice(oldPackPrice(product), locale)}
           </span>
         </div>
       </div>
@@ -86,7 +88,7 @@ function PackRowInner({
               compact ? "text-[8px] px-1.5 py-0 h-[17px]" : "text-[9px] px-2 py-0 h-[17px]"
             )}
           >
-            Popular
+            {t("popular")}
           </Badge>
         )}
         {product.promotion && (
@@ -107,7 +109,7 @@ function PackRowInner({
           compact ? "text-[9px]" : "text-[10px] sm:text-[10px]"
         )}
       >
-        {packSubtitle(product)}
+        {packSubtitleText}
       </p>
     </div>
   );
@@ -125,7 +127,6 @@ function PackRowShell({
   compact: boolean;
   interactiveClass: string;
   children: ReactNode;
-  /** Radio select cards only — custom circle + peer-checked styles */
   peerRadio?: boolean;
 }) {
   return (
@@ -151,7 +152,6 @@ type SelectProps = {
   selectedId: string;
   onSelect: (id: string) => void;
   radioName?: string;
-  /** Tighter rows and type (e.g. products page sidebar) */
   compact?: boolean;
 };
 
@@ -163,7 +163,18 @@ type LinkProps = {
 export type ProductPackListProps = SelectProps | LinkProps;
 
 export function ProductPackList(props: ProductPackListProps) {
+  const t = useTranslations("PackList");
+  const locale = useLocale();
+  const products = getProducts(locale);
   const compact = "compact" in props ? Boolean(props.compact) : false;
+
+  const getPackSubtitle = (id: string) => {
+    if (id === "1") return t("subtitle_1");
+    if (id === "2") return t("subtitle_2");
+    return t("subtitle_5");
+  };
+
+  const bestDealText = t("best_deal");
 
   if (props.variant === "select") {
     const { selectedId, onSelect, radioName = "pack" } = props;
@@ -196,7 +207,13 @@ export function ProductPackList(props: ProductPackListProps) {
                   "border-blue-600/40 bg-gradient-to-br from-blue-50/90 via-white to-blue-50/30 shadow-md ring-2 ring-blue-600/10"
               )}
             >
-              <PackRowInner product={product} compact />
+              <PackRowInner
+                product={product}
+                compact
+                packSubtitleText={getPackSubtitle(product.id)}
+                bestDealText={bestDealText}
+                locale={locale}
+              />
             </PackRowShell>
           ) : (
             <PackRowShell
@@ -214,7 +231,7 @@ export function ProductPackList(props: ProductPackListProps) {
                   aria-hidden
                 >
                   <span className="absolute right-[-35%] top-[24%] block w-[140%] rotate-45 border border-white/25 bg-gradient-to-r from-blue-600 to-blue-700 py-[2px] text-center text-[6px] font-bold uppercase leading-none tracking-[0.18em] text-white shadow-[0_1px_4px_rgba(30,58,138,0.35)]">
-                    Best deal
+                    {bestDealText}
                   </span>
                 </div>
               ) : null}
@@ -222,6 +239,9 @@ export function ProductPackList(props: ProductPackListProps) {
                 product={product}
                 compact={false}
                 reserveCornerBadge={product.bestValue}
+                packSubtitleText={getPackSubtitle(product.id)}
+                bestDealText={bestDealText}
+                locale={locale}
               />
             </PackRowShell>
           )}
@@ -232,7 +252,7 @@ export function ProductPackList(props: ProductPackListProps) {
     return (
       <div
         role="radiogroup"
-        aria-label="Card packs"
+        aria-label={t("aria_label")}
         className={cn("min-w-0 p-0 m-0", packSpacing)}
       >
         {selectRows}
@@ -268,7 +288,7 @@ export function ProductPackList(props: ProductPackListProps) {
                 aria-hidden
               >
                 <span className="absolute right-[-35%] top-[24%] block w-[140%] rotate-45 border border-white/25 bg-gradient-to-r from-blue-600 to-blue-700 py-[2px] text-center text-[6px] font-bold uppercase leading-none tracking-[0.18em] text-white shadow-[0_1px_4px_rgba(30,58,138,0.35)]">
-                  Best deal
+                  {bestDealText}
                 </span>
               </div>
             )}
@@ -276,6 +296,9 @@ export function ProductPackList(props: ProductPackListProps) {
               product={product}
               compact={compact}
               reserveCornerBadge={!compact && product.bestValue}
+              packSubtitleText={getPackSubtitle(product.id)}
+              bestDealText={bestDealText}
+              locale={locale}
             />
             <ChevronRight
               className={cn(

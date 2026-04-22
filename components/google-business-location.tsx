@@ -5,6 +5,7 @@ import { Search, MapPin, Building2, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCartStore } from "@/store/cart-store";
+import { useTranslations } from "next-intl";
 
 interface PlaceResult {
   place_id: string;
@@ -23,6 +24,7 @@ function getGoogle(): Record<string, unknown> | undefined {
 }
 
 export function GoogleBusinessLocation({ className }: Props) {
+  const t = useTranslations("GoogleBusinessLocation");
   const establishment = useCartStore((s) => s.establishment);
   const setEstablishment = useCartStore((s) => s.setEstablishment);
 
@@ -139,20 +141,16 @@ export function GoogleBusinessLocation({ className }: Props) {
         <div className="mb-4">
           <h3 className="font-semibold text-lg mb-2 flex items-center gap-2">
             <Building2 className="h-5 w-5 text-blue-600" />
-            Your Google Business location
+            {t("title")}
           </h3>
-          <p className="text-sm text-muted-foreground">
-            Tell us which Google Business Profile this order is for. We use it to
-            link the correct review URL when we prepare your cards — setup is
-            handled by our team after purchase, not in this form.
-          </p>
+          <p className="text-sm text-muted-foreground">{t("desc")}</p>
         </div>
 
         <div className="relative mb-3">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             type="text"
-            placeholder="Search your business on Google Maps..."
+            placeholder={t("placeholder")}
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value);
@@ -211,7 +209,7 @@ export function GoogleBusinessLocation({ className }: Props) {
                 onClick={clearPlace}
                 className="text-green-700 hover:text-green-900 text-sm font-medium shrink-0"
               >
-                Change
+                {t("change")}
               </button>
             </div>
           </div>
@@ -240,13 +238,13 @@ export function GoogleBusinessLocation({ className }: Props) {
               className="rounded"
             />
             <span className="text-sm text-muted-foreground">
-              Or enter a custom business name
+              {t("custom_label")}
             </span>
           </label>
           {establishment.useCustomName && (
             <Input
               type="text"
-              placeholder="Business name"
+              placeholder={t("custom_placeholder")}
               value={establishment.businessName}
               onChange={(e) =>
                 setEstablishment({ businessName: e.target.value })

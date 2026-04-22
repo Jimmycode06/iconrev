@@ -5,13 +5,12 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatPrice(price: number): string {
-  return new Intl.NumberFormat("en-US", {
+export function formatPrice(price: number, locale = "en"): string {
+  const numberLocale = locale === "fr" ? "fr-FR" : "en-US";
+  return new Intl.NumberFormat(numberLocale, {
     style: "currency",
     currency: "USD",
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  })
-    .format(price)
-    .replace(/\.(\d{2})$/, ",$1");
+  }).format(price);
 }

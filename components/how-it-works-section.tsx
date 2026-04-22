@@ -3,35 +3,35 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Timer } from "lucide-react";
-
-const steps = [
-  {
-    number: 1,
-    imageSrc: "/steps/step-1.png",
-    imageAlt: "Step 1 placeholder image",
-    title: "Step 1: Scan the QR code",
-    description:
-      "When your stand arrives, scan the QR code to start the setup in seconds.",
-  },
-  {
-    number: 2,
-    imageSrc: "/steps/step-2.png",
-    imageAlt: "Step 2 placeholder image",
-    title: "Step 2: Activate your stand",
-    description:
-      "Open the setup flow, enter your activation details, and connect your Google review link.",
-  },
-  {
-    number: 3,
-    imageSrc: "/steps/step-3.png",
-    imageAlt: "Step 3 placeholder image",
-    title: "Step 3: Collect reviews daily",
-    description:
-      "That’s it. Your stand keeps generating reviews while your team focuses on service.",
-  },
-];
+import { useTranslations } from "next-intl";
 
 export function HowItWorksSection() {
+  const t = useTranslations("HowItWorks");
+
+  const steps = [
+    {
+      number: 1,
+      imageSrc: "/steps/step-1.png",
+      imageAlt: t("step1_alt"),
+      title: t("step1_title"),
+      description: t("step1_desc"),
+    },
+    {
+      number: 2,
+      imageSrc: "/steps/step-2.png",
+      imageAlt: t("step2_alt"),
+      title: t("step2_title"),
+      description: t("step2_desc"),
+    },
+    {
+      number: 3,
+      imageSrc: "/steps/step-3.png",
+      imageAlt: t("step3_alt"),
+      title: t("step3_title"),
+      description: t("step3_desc"),
+    },
+  ];
+
   return (
     <section className="pt-10 pb-20 md:pt-12 md:pb-24 bg-white">
       <div className="container mx-auto px-4">
@@ -44,10 +44,10 @@ export function HowItWorksSection() {
         >
           <h2 className="inline-flex items-center gap-2 text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4 text-balance">
             <Timer className="h-6 w-6 md:h-7 md:w-7 text-blue-600" />
-            Setup Your Stand in 3 Easy Steps
+            {t("title")}
           </h2>
           <p className="text-lg text-muted-foreground text-balance">
-            A clean setup flow your staff can explain in 10 seconds.
+            {t("subtitle")}
           </p>
         </motion.div>
 

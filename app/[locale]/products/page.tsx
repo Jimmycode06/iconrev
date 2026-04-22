@@ -4,23 +4,24 @@ import { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import {
-  ShoppingCart,
-  Check,
-  CheckCircle,
-} from "lucide-react";
+import { ShoppingCart, Check, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GoogleBusinessLocation } from "@/components/google-business-location";
 import { ProductPackList } from "@/components/product-pack-list";
 import { ProductImageGallery } from "@/components/product-image-gallery";
 import { ProductAdvantages } from "@/components/product-advantages";
-import { products } from "@/data/products";
 import { PLACEMENT_IDEAS } from "@/data/placement-inspiration";
 import { useCartStore } from "@/store/cart-store";
 import { useCartUI } from "@/store/cart-ui-store";
 import { formatPrice } from "@/lib/utils";
+import { useTranslations, useLocale } from "next-intl";
+import { getProducts } from "@/data/products";
 
 function ProductsContent() {
+  const t = useTranslations("Products");
+  const locale = useLocale();
+  const products = getProducts(locale);
+
   const searchParams = useSearchParams();
   const packParam = searchParams.get("pack");
   const addItem = useCartStore((s) => s.addItem);
@@ -33,7 +34,7 @@ function ProductsContent() {
     if (packParam && products.some((p) => p.id === packParam)) {
       setSelectedId(packParam);
     }
-  }, [packParam]);
+  }, [packParam, products]);
 
   const selected = products.find((p) => p.id === selectedId) ?? products[0];
 
@@ -57,14 +58,13 @@ function ProductsContent() {
         className="text-center mb-8 md:mb-10"
       >
         <p className="text-sm font-semibold uppercase tracking-wider text-blue-600 mb-3">
-          NFC + QR review cards
+          {t("label")}
         </p>
         <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-foreground text-balance">
-          Choose your pack
+          {t("title")}
         </h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-balance">
-          Pick a pack, then tell us which business it&apos;s for — we&apos;ll use
-          that profile when we prepare your cards.
+          {t("subtitle")}
         </p>
       </motion.div>
 
@@ -76,7 +76,7 @@ function ProductsContent() {
       >
         <span className="inline-flex items-center gap-1.5">
           <CheckCircle className="h-4 w-4 text-emerald-600" />
-          NFC + QR on every card
+          {t("nfc_badge")}
         </span>
       </motion.div>
 
@@ -89,11 +89,7 @@ function ProductsContent() {
         >
           <ProductImageGallery
             key={selected.id}
-            images={
-              selected.images?.length
-                ? selected.images
-                : [selected.image]
-            }
+            images={selected.images?.length ? selected.images : [selected.image]}
             productName={selected.name}
             priority
           />
@@ -108,7 +104,7 @@ function ProductsContent() {
           <ProductAdvantages key={selected.id} product={selected} />
 
           <p className="text-sm font-semibold text-foreground">
-            Select a pack
+            {t("select_pack")}
           </p>
           <ProductPackList
             variant="select"
@@ -131,11 +127,11 @@ function ProductsContent() {
                   <span className="inline-flex items-center gap-2 min-w-0">
                     <Check className="h-5 w-5 shrink-0" />
                     <span className="uppercase tracking-wide text-base sm:text-lg truncate">
-                      Added to cart
+                      {t("added_to_cart")}
                     </span>
                   </span>
                   <span className="tabular-nums text-base sm:text-lg font-bold shrink-0">
-                    {formatPrice(selected.price)}
+                    {formatPrice(selected.price, locale)}
                   </span>
                 </>
               ) : (
@@ -143,11 +139,11 @@ function ProductsContent() {
                   <span className="inline-flex items-center gap-2 min-w-0">
                     <ShoppingCart className="h-5 w-5 shrink-0" />
                     <span className="uppercase tracking-wide text-base sm:text-lg truncate">
-                      Add to cart
+                      {t("add_to_cart")}
                     </span>
                   </span>
                   <span className="tabular-nums text-base sm:text-lg font-bold shrink-0">
-                    {formatPrice(selected.price)}
+                    {formatPrice(selected.price, locale)}
                   </span>
                 </>
               )}
@@ -163,11 +159,10 @@ function ProductsContent() {
         className="max-w-3xl mx-auto"
       >
         <h2 className="text-xl font-bold mb-3 text-center md:text-left">
-          Where is your business?
+          {t("location_title")}
         </h2>
         <p className="text-sm text-muted-foreground mb-4 text-center md:text-left">
-          This lets us match the right Google profile before we ship. You can
-          update it in the cart if needed.
+          {t("location_desc")}
         </p>
         <GoogleBusinessLocation />
       </motion.div>
@@ -181,18 +176,16 @@ function ProductsContent() {
         aria-labelledby="inspiration-heading"
       >
         <p className="text-sm font-semibold uppercase tracking-wider text-blue-600 mb-2">
-          Inspiration
+          {t("inspiration_label")}
         </p>
         <h2
           id="inspiration-heading"
           className="text-2xl md:text-3xl font-bold tracking-tight text-foreground mb-3 text-balance"
         >
-          Where to put your Google review stand
+          {t("inspiration_title")}
         </h2>
         <p className="text-muted-foreground text-base leading-relaxed mb-10 max-w-2xl">
-          A few placement ideas — counter, desk, table, and more. The first image
-          shows our card in a real checkout context; the others suggest typical
-          spots (stock photos). Adapt to your layout.
+          {t("inspiration_desc")}
         </p>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-7">
@@ -208,7 +201,7 @@ function ProductsContent() {
               <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-border/80 bg-muted/20 shadow-sm ring-1 ring-black/[0.04]">
                 <Image
                   src={item.imageSrc}
-                  alt={`${item.title} — example placement for a Google review stand`}
+                  alt={`${item.title} — ${t("inspiration_img_alt")}`}
                   fill
                   className="object-cover transition-transform duration-300 hover:scale-[1.03]"
                   sizes="(max-width: 768px) 44vw, 260px"
@@ -225,8 +218,7 @@ function ProductsContent() {
         </div>
 
         <p className="mt-10 text-sm text-muted-foreground max-w-2xl">
-          Illustration only where noted — other photos are mood/context examples,
-          not your exact product in that location.
+          {t("inspiration_note")}
         </p>
       </motion.section>
     </div>
@@ -234,11 +226,12 @@ function ProductsContent() {
 }
 
 export default function ProductsPage() {
+  const t = useTranslations("Products");
   return (
     <Suspense
       fallback={
         <div className="container mx-auto px-4 py-24 text-center text-muted-foreground">
-          Loading…
+          {t("loading")}
         </div>
       }
     >

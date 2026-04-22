@@ -7,8 +7,10 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GoogleBusinessLocation } from "@/components/google-business-location";
 import { useCartStore } from "@/store/cart-store";
+import { useTranslations } from "next-intl";
 
 export default function CheckoutPage() {
+  const t = useTranslations("Checkout");
   const router = useRouter();
   const { items, establishment } = useCartStore();
 
@@ -20,14 +22,12 @@ export default function CheckoutPage() {
 
   const handleContinue = async () => {
     if (!establishment.placeId && !establishment.useCustomName) {
-      alert(
-        "Please select your business on Google or enter a custom name."
-      );
+      alert(t("alert_no_business"));
       return;
     }
 
     if (establishment.useCustomName && !establishment.businessName.trim()) {
-      alert("Please enter your business name.");
+      alert(t("alert_no_name"));
       return;
     }
 
@@ -40,13 +40,8 @@ export default function CheckoutPage() {
     try {
       const response = await fetch("/api/checkout", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          items: items,
-          businessInfo: businessInfo,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items, businessInfo }),
       });
 
       const data = await response.json();
@@ -54,11 +49,11 @@ export default function CheckoutPage() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert("Something went wrong. Please try again.");
+        alert(t("alert_error"));
       }
     } catch (error) {
       console.error("Checkout error:", error);
-      alert("Something went wrong. Please try again.");
+      alert(t("alert_error"));
     }
   };
 
@@ -70,7 +65,7 @@ export default function CheckoutPage() {
   if (items.length === 0) {
     return (
       <div className="container mx-auto px-4 py-24 text-center text-muted-foreground">
-        Redirecting…
+        {t("redirecting")}
       </div>
     );
   }
@@ -83,13 +78,8 @@ export default function CheckoutPage() {
         className="max-w-3xl mx-auto"
       >
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">
-            Confirm your business
-          </h1>
-          <p className="text-xl text-muted-foreground">
-            We use this to attach the correct Google review link when we prepare
-            your cards.
-          </p>
+          <h1 className="text-4xl font-bold mb-4">{t("title")}</h1>
+          <p className="text-xl text-muted-foreground">{t("subtitle")}</p>
         </div>
 
         <GoogleBusinessLocation className="mb-6" />
@@ -100,14 +90,14 @@ export default function CheckoutPage() {
             onClick={() => router.push("/cart")}
             className="flex-1"
           >
-            Back to cart
+            {t("back")}
           </Button>
           <Button
             onClick={handleContinue}
             disabled={!canContinue}
             className="flex-1 bg-blue-600 hover:bg-blue-700"
           >
-            Continue to payment
+            {t("continue")}
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </div>

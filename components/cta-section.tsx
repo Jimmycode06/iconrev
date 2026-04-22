@@ -4,9 +4,11 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Gift, Zap } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function CTASection() {
   const router = useRouter();
+  const t = useTranslations("CTA");
 
   return (
     <section className="py-20 md:py-24 relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-700">
@@ -17,27 +19,13 @@ export function CTASection() {
 
       <motion.div
         className="absolute top-20 right-20 w-64 h-64 bg-white/10 rounded-full blur-3xl"
-        animate={{
-          scale: [1, 1.1, 1],
-          opacity: [0.5, 0.8, 0.5],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
         className="absolute bottom-10 left-10 w-48 h-48 bg-cyan-400/10 rounded-full blur-3xl"
-        animate={{
-          scale: [1.1, 1, 1.1],
-          opacity: [0.4, 0.7, 0.4],
-        }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        animate={{ scale: [1.1, 1, 1.1], opacity: [0.4, 0.7, 0.4] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       />
 
       <div className="container mx-auto px-4 text-center relative z-10">
@@ -56,7 +44,7 @@ export function CTASection() {
           >
             <Gift className="h-4 w-4 text-amber-300" />
             <span className="text-sm font-semibold text-white">
-              Limited offer: 20% off with code LAUNCH20
+              {t("badge")}
             </span>
           </motion.div>
 
@@ -67,7 +55,7 @@ export function CTASection() {
             transition={{ delay: 0.2 }}
             className="text-4xl md:text-5xl font-extrabold mb-6 text-white leading-tight tracking-tight text-balance"
           >
-            While you read this, competitors are collecting reviews
+            {t("title")}
           </motion.h2>
 
           <motion.p
@@ -77,9 +65,7 @@ export function CTASection() {
             transition={{ delay: 0.3 }}
             className="text-xl mb-10 text-white/90 max-w-2xl mx-auto leading-relaxed"
           >
-            Every day without fresh reviews is a day Google ranks you lower.
-            Order today — cards ship in 2–3 business days and start working
-            immediately.
+            {t("subtitle")}
           </motion.p>
 
           <motion.div
@@ -90,18 +76,18 @@ export function CTASection() {
             className="flex flex-wrap justify-center gap-8 mb-10 text-white"
           >
             <div className="text-center">
-              <div className="text-4xl font-extrabold mb-1">$38,90</div>
-              <div className="text-sm opacity-90">Starting at</div>
+              <div className="text-4xl font-extrabold mb-1">{t("price_value")}</div>
+              <div className="text-sm opacity-90">{t("price_label")}</div>
             </div>
             <div className="w-px bg-white/20 hidden md:block" />
             <div className="text-center">
-              <div className="text-4xl font-extrabold mb-1">2–3 days</div>
-              <div className="text-sm opacity-90">Free shipping</div>
+              <div className="text-4xl font-extrabold mb-1">{t("shipping_value")}</div>
+              <div className="text-sm opacity-90">{t("shipping_label")}</div>
             </div>
             <div className="w-px bg-white/20 hidden md:block" />
             <div className="text-center">
-              <div className="text-4xl font-extrabold mb-1">30 days</div>
-              <div className="text-sm opacity-90">Money-back guarantee</div>
+              <div className="text-4xl font-extrabold mb-1">{t("guarantee_value")}</div>
+              <div className="text-sm opacity-90">{t("guarantee_label")}</div>
             </div>
           </motion.div>
 
@@ -118,7 +104,7 @@ export function CTASection() {
               onClick={() => router.push("/products")}
             >
               <Zap className="mr-2 h-5 w-5" />
-              Order now — from $38,90
+              {t("cta_button")}
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </motion.div>

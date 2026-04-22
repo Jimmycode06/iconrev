@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { AuroraBackground } from "@/components/aurora-background";
 import { ProductCardShowcaseVisual } from "@/components/product-card-showcase-visual";
+import { useTranslations } from "next-intl";
 
 function HeroProductVisual({ priority = false }: { priority?: boolean }) {
   return (
@@ -17,6 +18,8 @@ function HeroProductVisual({ priority = false }: { priority?: boolean }) {
 }
 
 export function HeroSection() {
+  const t = useTranslations("Hero");
+
   return (
     <AuroraBackground>
       <section className="relative pt-16 pb-8 md:pt-20 md:pb-10 lg:pt-24 lg:pb-12 w-full">
@@ -39,9 +42,9 @@ export function HeroSection() {
                   transition={{ duration: 0.6, delay: 0.1 }}
                   className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 text-center lg:text-left text-foreground leading-[1.08] tracking-tight text-balance"
                 >
-                  Your competitors are stacking Google reviews.{" "}
+                  {t("headline")}{" "}
                   <span className="bg-gradient-to-r from-blue-600 via-blue-600 to-cyan-500 bg-clip-text text-transparent">
-                    Are you?
+                    {t("highlight")}
                   </span>
                 </motion.h1>
 
@@ -51,25 +54,20 @@ export function HeroSection() {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 text-center lg:text-left max-w-xl lg:max-w-none mx-auto lg:mx-0 leading-relaxed text-balance"
                 >
-                  One physical card your customers actually see: NFC + QR, a clear
-                  ask, and a direct path to your Google review screen. Less
-                  friction — more five-star reviews.
+                  {t("subtext")}
                 </motion.p>
 
                 <div className="mb-8 lg:hidden">
                   <HeroProductVisual priority />
                 </div>
-
               </div>
 
               <div className="hidden lg:block">
                 <HeroProductVisual />
               </div>
             </div>
-
           </div>
         </div>
-
       </section>
     </AuroraBackground>
   );

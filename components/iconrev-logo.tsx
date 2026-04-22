@@ -2,6 +2,7 @@
 
 import { useId } from "react";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export function IconrevLogoMark({ className }: { className?: string }) {
   const rawId = useId().replace(/:/g, "");
@@ -71,6 +72,7 @@ export function IconrevLogo({
   showTagline?: boolean;
   className?: string;
 }) {
+  const t = useTranslations("Logo");
   const s = sizeConfig[size];
 
   return (
@@ -96,7 +98,7 @@ export function IconrevLogo({
               s.tag
             )}
           >
-            Reviews &amp; visibility
+            {t("tagline")}
           </span>
         )}
       </div>

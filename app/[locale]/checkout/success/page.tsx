@@ -8,6 +8,7 @@ import { CheckCircle, Package, Mail, Home, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCartStore } from "@/store/cart-store";
+import { useTranslations, useLocale } from "next-intl";
 
 interface CheckoutSession {
   id: string;
@@ -35,6 +36,8 @@ interface CheckoutSession {
 }
 
 function CheckoutSuccessContent() {
+  const t = useTranslations("CheckoutSuccess");
+  const locale = useLocale();
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const [session, setSession] = useState<CheckoutSession | null>(null);
@@ -62,8 +65,9 @@ function CheckoutSuccessContent() {
       });
   }, [sessionId, clearCart]);
 
-  const formatPrice = (cents: number) => {
-    return new Intl.NumberFormat("en-US", {
+  const formatSessionPrice = (cents: number) => {
+    const numberLocale = locale === "fr" ? "fr-FR" : "en-US";
+    return new Intl.NumberFormat(numberLocale, {
       style: "currency",
       currency: "USD",
     }).format(cents / 100);
@@ -73,7 +77,7 @@ function CheckoutSuccessContent() {
     return (
       <div className="container mx-auto px-4 py-20 text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-        <p className="mt-4 text-muted-foreground">Loading…</p>
+        <p className="mt-4 text-muted-foreground">{t("loading")}</p>
       </div>
     );
   }
@@ -81,9 +85,9 @@ function CheckoutSuccessContent() {
   if (!session) {
     return (
       <div className="container mx-auto px-4 py-20 text-center">
-        <h1 className="text-3xl font-bold mb-4">Session not found</h1>
+        <h1 className="text-3xl font-bold mb-4">{t("not_found_title")}</h1>
         <Link href="/products">
-          <Button>Back to products</Button>
+          <Button>{t("back_products")}</Button>
         </Link>
       </div>
     );
@@ -105,9 +109,9 @@ function CheckoutSuccessContent() {
           >
             <CheckCircle className="h-12 w-12 text-green-600" />
           </motion.div>
-          <h1 className="text-4xl font-bold mb-2">Order confirmed</h1>
+          <h1 className="text-4xl font-bold mb-2">{t("confirmed_title")}</h1>
           <p className="text-xl text-muted-foreground">
-            Thank you — we&apos;ve received your payment.
+            {t("confirmed_subtitle")}
           </p>
         </div>
 
@@ -115,28 +119,28 @@ function CheckoutSuccessContent() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Package className="h-5 w-5" />
-              Order details
+              {t("order_details")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex justify-between items-center pb-4 border-b">
-              <span className="text-muted-foreground">Order ID</span>
+              <span className="text-muted-foreground">{t("order_id")}</span>
               <span className="font-mono font-semibold text-sm break-all text-right max-w-[60%]">
                 {session.id}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-muted-foreground">Total</span>
+              <span className="text-muted-foreground">{t("total")}</span>
               <span className="text-2xl font-bold text-blue-600">
-                {formatPrice(session.amount_total)}
+                {formatSessionPrice(session.amount_total)}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-muted-foreground">Payment status</span>
+              <span className="text-muted-foreground">
+                {t("payment_status")}
+              </span>
               <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                {session.payment_status === "paid"
-                  ? "Paid"
-                  : session.payment_status}
+                {session.payment_status === "paid" ? t("paid") : session.payment_status}
               </span>
             </div>
           </CardContent>
@@ -147,7 +151,7 @@ function CheckoutSuccessContent() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Home className="h-5 w-5" />
-                Shipping address
+                {t("shipping_address")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -175,7 +179,7 @@ function CheckoutSuccessContent() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Building2 className="h-5 w-5" />
-                Business
+                {t("business")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -201,12 +205,12 @@ function CheckoutSuccessContent() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Mail className="h-5 w-5" />
-                Confirmation email
+                {t("confirmation_email")}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                We sent a confirmation to{" "}
+                {t("email_sent")}{" "}
                 <span className="font-medium">
                   {session.customer_details.email}
                 </span>
@@ -217,13 +221,11 @@ function CheckoutSuccessContent() {
 
         <Card className="mb-6 bg-blue-50 border-blue-200">
           <CardContent className="p-6">
-            <h3 className="font-semibold mb-2">What happens next</h3>
+            <h3 className="font-semibold mb-2">{t("next_steps_title")}</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• You&apos;ll get an order confirmation email shortly</li>
-              <li>• We prepare and ship your cards quickly</li>
-              <li>
-                • Tracking details will be emailed when your order ships
-              </li>
+              <li>• {t("next_step1")}</li>
+              <li>• {t("next_step2")}</li>
+              <li>• {t("next_step3")}</li>
             </ul>
           </CardContent>
         </Card>
@@ -231,12 +233,12 @@ function CheckoutSuccessContent() {
         <div className="flex flex-col sm:flex-row gap-4">
           <Link href="/products" className="flex-1">
             <Button variant="outline" className="w-full">
-              Continue shopping
+              {t("continue_shopping")}
             </Button>
           </Link>
           <Link href="/" className="flex-1">
             <Button className="w-full bg-blue-600 hover:bg-blue-700">
-              Back to home
+              {t("back_home")}
             </Button>
           </Link>
         </div>
@@ -246,12 +248,13 @@ function CheckoutSuccessContent() {
 }
 
 export default function CheckoutSuccessPage() {
+  const t = useTranslations("CheckoutSuccess");
   return (
     <Suspense
       fallback={
         <div className="container mx-auto px-4 py-20 text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto" />
-          <p className="mt-4 text-muted-foreground">Loading…</p>
+          <p className="mt-4 text-muted-foreground">{t("loading")}</p>
         </div>
       }
     >

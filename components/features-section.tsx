@@ -2,59 +2,56 @@
 
 import { motion } from "framer-motion";
 import { Zap, Award, Smartphone, TrendingUp, Clock, ShieldCheck } from "lucide-react";
-
-const features = [
-  {
-    icon: TrendingUp,
-    title: "3× more reviews on average",
-    description:
-      "Most teams go from a handful of reviews to dozens in weeks. Each review moves you closer to the Google Maps top three — where most local clicks happen.",
-    color: "from-blue-500 to-blue-600",
-    delay: 0,
-  },
-  {
-    icon: Smartphone,
-    title: "Zero friction for customers",
-    description:
-      "No app, no account, no hunting for your listing. One tap or scan lands them on your review screen. Many businesses see review conversion jump from ~2% to ~30%.",
-    color: "from-indigo-500 to-indigo-600",
-    delay: 0.1,
-  },
-  {
-    icon: Zap,
-    title: "NFC + QR in one card",
-    description:
-      "Tap with a phone or scan the QR — both work. iPhone and Android. No customer left behind, no excuse not to leave a review.",
-    color: "from-cyan-500 to-blue-600",
-    delay: 0.2,
-  },
-  {
-    icon: Clock,
-    title: "Pays for itself fast",
-    description:
-      "One new customer from better visibility can cover the card. Many teams see strong ROI in the first month.",
-    color: "from-emerald-500 to-emerald-600",
-    delay: 0.3,
-  },
-  {
-    icon: Award,
-    title: "Premium look customers trust",
-    description:
-      "No more homemade signs. A polished card matches your brand and makes leaving a review feel natural.",
-    color: "from-violet-500 to-violet-600",
-    delay: 0.4,
-  },
-  {
-    icon: ShieldCheck,
-    title: "30-day money-back guarantee",
-    description:
-      "Try it risk-free. If you are not seeing momentum in the first month, we refund you — no hassle.",
-    color: "from-blue-600 to-blue-700",
-    delay: 0.5,
-  },
-];
+import { useTranslations } from "next-intl";
 
 export function FeaturesSection() {
+  const t = useTranslations("Features");
+
+  const features = [
+    {
+      icon: TrendingUp,
+      title: t("f1_title"),
+      description: t("f1_desc"),
+      color: "from-blue-500 to-blue-600",
+      delay: 0,
+    },
+    {
+      icon: Smartphone,
+      title: t("f2_title"),
+      description: t("f2_desc"),
+      color: "from-indigo-500 to-indigo-600",
+      delay: 0.1,
+    },
+    {
+      icon: Zap,
+      title: t("f3_title"),
+      description: t("f3_desc"),
+      color: "from-cyan-500 to-blue-600",
+      delay: 0.2,
+    },
+    {
+      icon: Clock,
+      title: t("f4_title"),
+      description: t("f4_desc"),
+      color: "from-emerald-500 to-emerald-600",
+      delay: 0.3,
+    },
+    {
+      icon: Award,
+      title: t("f5_title"),
+      description: t("f5_desc"),
+      color: "from-violet-500 to-violet-600",
+      delay: 0.4,
+    },
+    {
+      icon: ShieldCheck,
+      title: t("f6_title"),
+      description: t("f6_desc"),
+      color: "from-blue-600 to-blue-700",
+      delay: 0.5,
+    },
+  ];
+
   return (
     <section className="py-20 md:py-24 bg-muted/50 border-y border-border/60">
       <div className="container mx-auto px-4">
@@ -66,14 +63,13 @@ export function FeaturesSection() {
           className="text-center max-w-2xl mx-auto mb-14"
         >
           <p className="text-sm font-semibold uppercase tracking-wider text-blue-600 mb-3">
-            Why Iconrev
+            {t("label")}
           </p>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4 text-balance">
-            Everything you need to win local search on Google
+            {t("title")}
           </h2>
           <p className="text-lg text-muted-foreground text-balance">
-            No complicated software, no hidden subscription. One physical card
-            working for you around the clock.
+            {t("subtitle")}
           </p>
         </motion.div>
         <motion.div

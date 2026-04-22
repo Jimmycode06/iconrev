@@ -3,21 +3,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import {
-  Trash2,
-  Plus,
-  Minus,
-  ShoppingBag,
-  ArrowRight,
-} from "lucide-react";
+import { Trash2, Plus, Minus, ShoppingBag, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { GoogleBusinessLocation } from "@/components/google-business-location";
 import { useCartStore } from "@/store/cart-store";
 import { formatPrice } from "@/lib/utils";
 import { getBogoFreeQuantity, getPromoLabel } from "@/lib/promotions";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function CartPage() {
+  const t = useTranslations("Cart");
+  const locale = useLocale();
   const {
     items,
     removeItem,
@@ -32,14 +29,12 @@ export default function CartPage() {
     if (items.length === 0) return;
 
     if (!establishment.placeId && !establishment.useCustomName) {
-      alert(
-        "Please select your business on Google or enter a custom name before checkout."
-      );
+      alert(t("alert_no_business"));
       return;
     }
 
     if (establishment.useCustomName && !establishment.businessName.trim()) {
-      alert("Please enter your business name.");
+      alert(t("alert_no_name"));
       return;
     }
 
@@ -52,13 +47,8 @@ export default function CartPage() {
     try {
       const response = await fetch("/api/checkout", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          items: items,
-          businessInfo: businessInfo,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items, businessInfo }),
       });
 
       const data = await response.json();
@@ -66,11 +56,11 @@ export default function CartPage() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert("Something went wrong. Please try again.");
+        alert(t("alert_error"));
       }
     } catch (error) {
       console.error("Checkout error:", error);
-      alert("Something went wrong. Please try again.");
+      alert(t("alert_error"));
     }
   };
 
@@ -88,16 +78,14 @@ export default function CartPage() {
           className="text-center max-w-md mx-auto"
         >
           <ShoppingBag className="h-24 w-24 mx-auto mb-6 text-muted-foreground" />
-          <h1 className="text-3xl font-bold mb-4">Your cart is empty</h1>
-          <p className="text-muted-foreground mb-8">
-            Browse packs and add items to get started
-          </p>
+          <h1 className="text-3xl font-bold mb-4">{t("empty_title")}</h1>
+          <p className="text-muted-foreground mb-8">{t("empty_desc")}</p>
           <Button
             size="lg"
             className="bg-google-blue hover:bg-google-blue/90"
             asChild
           >
-            <Link href="/products">Shop now</Link>
+            <Link href="/products">{t("shop_now")}</Link>
           </Button>
         </motion.div>
       </div>
@@ -111,7 +99,7 @@ export default function CartPage() {
         animate={{ opacity: 1, y: 0 }}
       >
         <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-google-blue via-google-red to-google-yellow bg-clip-text text-transparent">
-          Cart
+          {t("title")}
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -144,9 +132,11 @@ export default function CartPage() {
                               >
                                 {item.product.name}
                               </Link>
-                              <p className="text-sm text-muted-foreground mt-1">
-                                {item.product.description.slice(0, 100)}...
-                              </p>
+                              {item.product.description && (
+                                <p className="text-sm text-muted-foreground mt-1">
+                                  {item.product.description.slice(0, 100)}...
+                                </p>
+                              )}
                             </div>
                             <Button
                               variant="ghost"
@@ -202,7 +192,8 @@ export default function CartPage() {
                                     <div className="space-y-1">
                                       <div className="text-xl font-bold text-google-blue">
                                         {formatPrice(
-                                          item.product.price * paidQty
+                                          item.product.price * paidQty,
+                                          locale
                                         )}
                                       </div>
                                       {freeQty > 0 && (
@@ -210,7 +201,7 @@ export default function CartPage() {
                                           {getPromoLabel(
                                             item.product.promotion
                                           )}{" "}
-                                          — {freeQty} free
+                                          — {freeQty} {t("free_qty")}
                                         </div>
                                       )}
                                     </div>
@@ -219,7 +210,8 @@ export default function CartPage() {
                               ) : (
                                 <div className="text-xl font-bold text-google-blue">
                                   {formatPrice(
-                                    item.product.price * item.quantity
+                                    item.product.price * item.quantity,
+                                    locale
                                   )}
                                 </div>
                               )}
@@ -242,23 +234,23 @@ export default function CartPage() {
           >
             <Card className="sticky top-24">
               <CardContent className="p-6">
-                <h2 className="text-2xl font-bold mb-6">Order summary</h2>
+                <h2 className="text-2xl font-bold mb-6">{t("order_summary")}</h2>
                 <div className="space-y-4">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Subtotal</span>
-                    <span className="font-medium">{formatPrice(total)}</span>
+                    <span className="text-muted-foreground">{t("subtotal")}</span>
+                    <span className="font-medium">{formatPrice(total, locale)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Shipping</span>
+                    <span className="text-muted-foreground">{t("shipping")}</span>
                     <span className="font-medium text-google-green">
-                      Free
+                      {t("shipping_free")}
                     </span>
                   </div>
                   <div className="border-t pt-4">
                     <div className="flex justify-between">
-                      <span className="text-lg font-semibold">Total</span>
+                      <span className="text-lg font-semibold">{t("total")}</span>
                       <span className="text-2xl font-bold text-google-blue">
-                        {formatPrice(total)}
+                        {formatPrice(total, locale)}
                       </span>
                     </div>
                   </div>
@@ -268,7 +260,7 @@ export default function CartPage() {
                     onClick={handleCheckout}
                     disabled={!canPay}
                   >
-                    Proceed to checkout
+                    {t("checkout")}
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                   <Button
@@ -276,14 +268,14 @@ export default function CartPage() {
                     className="w-full"
                     onClick={clearCart}
                   >
-                    Clear cart
+                    {t("clear")}
                   </Button>
                   <div className="text-center">
                     <Link
                       href="/products"
                       className="text-sm text-google-blue hover:underline"
                     >
-                      Continue shopping
+                      {t("continue")}
                     </Link>
                   </div>
                 </div>

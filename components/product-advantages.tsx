@@ -3,6 +3,7 @@
 import { Check, Star } from "lucide-react";
 import type { Product } from "@/types";
 import { cn } from "@/lib/utils";
+import { useTranslations, useLocale } from "next-intl";
 
 type Props = {
   product: Product;
@@ -10,6 +11,9 @@ type Props = {
 };
 
 export function ProductAdvantages({ product, className }: Props) {
+  const t = useTranslations("ProductAdvantages");
+  const locale = useLocale();
+
   const items = (product.advantages ?? []).slice(0, 3);
   if (items.length === 0) return null;
 
@@ -17,15 +21,17 @@ export function ProductAdvantages({ product, className }: Props) {
   const fullStars = Math.round(rating);
   const reviewCount = product.reviews ?? 0;
 
+  const numberLocale = locale === "fr" ? "fr-FR" : "en-US";
+
   return (
     <div className={cn("space-y-4", className)}>
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
         <span className="inline-flex items-center gap-2 text-foreground">
           <span className="text-lg leading-none" aria-hidden>
-            🇺🇸
+            {locale === "fr" ? "🇫🇷" : "🇺🇸"}
           </span>
           <span className="font-semibold tracking-tight">
-            Designed for US businesses
+            {t("designed_for")}
           </span>
         </span>
         <span
@@ -50,12 +56,12 @@ export function ProductAdvantages({ product, className }: Props) {
             {reviewCount > 0 ? (
               <>
                 <span className="font-medium text-foreground tabular-nums">
-                  {reviewCount.toLocaleString("en-US")}
+                  {reviewCount.toLocaleString(numberLocale)}
                 </span>
-                + reviews
+                {t("reviews_suffix")}
               </>
             ) : (
-              "Top rated"
+              t("top_rated")
             )}
           </span>
         </span>

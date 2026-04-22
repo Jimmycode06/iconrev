@@ -2,13 +2,26 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send, Gift, Clock, Shield, CheckCircle } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Send,
+  Gift,
+  Clock,
+  Shield,
+  CheckCircle,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function ContactPage() {
+  const t = useTranslations("Contact");
+  const locale = useLocale();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,9 +31,36 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Thanks! We’ll get back to you within 2 business hours.");
+    alert(t("alert_success"));
     setFormData({ name: "", email: "", phone: "", message: "" });
   };
+
+  const contactItems = [
+    {
+      icon: Mail,
+      title: "Email",
+      content: "contact@iconrev.com",
+      sub: t("email_sub"),
+      color: "text-blue-600",
+      bg: "bg-blue-50",
+    },
+    {
+      icon: Phone,
+      title: "Phone",
+      content: locale === "fr" ? "+33 1 00 00 00 00" : "+1 (512) 555-0142",
+      sub: t("phone_sub"),
+      color: "text-indigo-600",
+      bg: "bg-indigo-50",
+    },
+    {
+      icon: MapPin,
+      title: "Location",
+      content: locale === "fr" ? "Paris, France" : "Austin, TX",
+      sub: t("location_sub"),
+      color: "text-emerald-600",
+      bg: "bg-emerald-50",
+    },
+  ];
 
   return (
     <div className="container mx-auto px-4 py-12 md:py-16">
@@ -31,11 +71,10 @@ export default function ContactPage() {
       >
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent text-balance">
-            Let’s talk about your visibility
+            {t("title")}
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-balance">
-            Questions or tailored advice? Our team replies within about 2 hours on
-            business days.
+            {t("subtitle")}
           </p>
         </div>
 
@@ -52,13 +91,10 @@ export default function ContactPage() {
                   <Gift className="h-7 w-7" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-bold mb-1">
-                    Free Google Business Profile audit
-                  </h3>
+                  <h3 className="text-lg font-bold mb-1">{t("audit_title")}</h3>
                   <p className="text-white/90 text-sm leading-relaxed">
-                    Send us your business name and we’ll reply with a quick audit:
-                    review count, rating, Maps positioning, and improvement tips.{" "}
-                    <strong>100% free, no obligation.</strong>
+                    {t("audit_desc")}{" "}
+                    <strong>{t("audit_free")}</strong>
                   </p>
                 </div>
               </div>
@@ -67,32 +103,7 @@ export default function ContactPage() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          {[
-            {
-              icon: Mail,
-              title: "Email",
-              content: "contact@iconrev.com",
-              sub: "Reply in < 2h",
-              color: "text-blue-600",
-              bg: "bg-blue-50",
-            },
-            {
-              icon: Phone,
-              title: "Phone",
-              content: "+1 (512) 555-0142",
-              sub: "Mon–Fri, 9am–6pm CT",
-              color: "text-indigo-600",
-              bg: "bg-indigo-50",
-            },
-            {
-              icon: MapPin,
-              title: "Location",
-              content: "Austin, TX",
-              sub: "We ship across the US & more",
-              color: "text-emerald-600",
-              bg: "bg-emerald-50",
-            },
-          ].map((item, index) => (
+          {contactItems.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
@@ -129,22 +140,20 @@ export default function ContactPage() {
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl tracking-tight">
-                Send us a message
+                {t("form_title")}
               </CardTitle>
-              <p className="text-sm text-muted-foreground">
-                Include your business name if you’d like the free audit.
-              </p>
+              <p className="text-sm text-muted-foreground">{t("form_hint")}</p>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label htmlFor="name" className="text-sm font-medium">
-                      Name *
+                      {t("name_label")}
                     </label>
                     <Input
                       id="name"
-                      placeholder="Your name"
+                      placeholder={t("name_placeholder")}
                       value={formData.name}
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
@@ -154,12 +163,12 @@ export default function ContactPage() {
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="email" className="text-sm font-medium">
-                      Email *
+                      {t("email_label")}
                     </label>
                     <Input
                       id="email"
                       type="email"
-                      placeholder="you@company.com"
+                      placeholder={t("email_placeholder")}
                       value={formData.email}
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
@@ -170,12 +179,12 @@ export default function ContactPage() {
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="phone" className="text-sm font-medium">
-                    Phone (optional)
+                    {t("phone_label")}
                   </label>
                   <Input
                     id="phone"
                     type="tel"
-                    placeholder="+1 (555) 000-0000"
+                    placeholder={t("phone_placeholder")}
                     value={formData.phone}
                     onChange={(e) =>
                       setFormData({ ...formData, phone: e.target.value })
@@ -184,11 +193,11 @@ export default function ContactPage() {
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="message" className="text-sm font-medium">
-                    Message *
+                    {t("message_label")}
                   </label>
                   <Textarea
                     id="message"
-                    placeholder="Tell us about your business and what you need. Mention your business name for a free audit."
+                    placeholder={t("message_placeholder")}
                     rows={6}
                     value={formData.message}
                     onChange={(e) =>
@@ -203,7 +212,7 @@ export default function ContactPage() {
                   className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 font-bold"
                 >
                   <Send className="mr-2 h-5 w-5" />
-                  Send + request free audit
+                  {t("submit")}
                 </Button>
               </form>
             </CardContent>
@@ -218,15 +227,15 @@ export default function ContactPage() {
         >
           <span className="inline-flex items-center gap-1.5">
             <Clock className="h-4 w-4 text-blue-600" />
-            Under 2-hour response
+            {t("badge1")}
           </span>
           <span className="inline-flex items-center gap-1.5">
             <Shield className="h-4 w-4 text-green-600" />
-            No commitment
+            {t("badge2")}
           </span>
           <span className="inline-flex items-center gap-1.5">
             <CheckCircle className="h-4 w-4 text-emerald-600" />
-            100% free audit
+            {t("badge3")}
           </span>
         </motion.div>
       </motion.div>

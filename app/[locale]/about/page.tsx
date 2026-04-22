@@ -1,14 +1,58 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Target, Users, Award, TrendingUp, CheckCircle, ArrowRight } from "lucide-react";
+import {
+  Target,
+  Users,
+  Award,
+  TrendingUp,
+  CheckCircle,
+  ArrowRight,
+} from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { IconrevLogo } from "@/components/iconrev-logo";
+import { useTranslations } from "next-intl";
 
 export default function AboutPage() {
   const router = useRouter();
+  const t = useTranslations("About");
+
+  const values = [
+    {
+      icon: Target,
+      title: t("v1_title"),
+      description: t("v1_desc"),
+      color: "text-blue-600",
+      bg: "bg-blue-50",
+    },
+    {
+      icon: Users,
+      title: t("v2_title"),
+      description: t("v2_desc"),
+      color: "text-indigo-600",
+      bg: "bg-indigo-50",
+    },
+    {
+      icon: Award,
+      title: t("v3_title"),
+      description: t("v3_desc"),
+      color: "text-emerald-600",
+      bg: "bg-emerald-50",
+    },
+  ];
+
+  const stats = [
+    { value: t("stat1_value"), label: t("stat1_label") },
+    { value: t("stat2_value"), label: t("stat2_label") },
+    { value: t("stat3_value"), label: t("stat3_label") },
+    { value: t("stat4_value"), label: t("stat4_label") },
+    { value: t("stat5_value"), label: t("stat5_label") },
+    { value: t("stat6_value"), label: t("stat6_label") },
+  ];
+
+  const quotes = [t("q1"), t("q2"), t("q3"), t("q4")];
 
   return (
     <div className="container mx-auto px-4 py-12 md:py-16">
@@ -22,71 +66,46 @@ export default function AboutPage() {
             <IconrevLogo size="md" showTagline />
           </div>
           <h1 className="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent text-balance">
-            We built the product we wished we had for our own business
+            {t("title")}
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-balance">
-            Iconrev started with a simple frustration: why is it so hard to turn
-            happy customers into Google reviews?
+            {t("subtitle")}
           </p>
         </div>
 
         <div className="prose prose-lg max-w-none mb-16">
           <Card>
             <CardContent className="p-8 md:p-10">
-              <h2 className="text-2xl font-bold mb-4 tracking-tight">Our story</h2>
+              <h2 className="text-2xl font-bold mb-4 tracking-tight">
+                {t("story_title")}
+              </h2>
               <p className="text-muted-foreground mb-4 leading-relaxed">
-                In 2023, after years running a local restaurant, our founder saw
-                the same pattern:{" "}
+                {t("story_p1").split(t("story_p1_strong"))[0]}
                 <strong className="text-foreground">
-                  guests loved the place, but only about 2% left a review
+                  {t("story_p1_strong")}
                 </strong>
-                . Why? The path was too long — open Maps, find the business, hunt
-                for the review button. Most people give up.
+                {t("story_p1").split(t("story_p1_strong"))[1]}
               </p>
               <p className="text-muted-foreground mb-4 leading-relaxed">
-                The fix was obvious:{" "}
-                <strong className="text-foreground">remove the friction</strong>. One
-                card on the counter. Tap or scan. Land straight on the review
-                screen. For many teams, that turned ~2% into ~28% completion.
+                {t("story_p2").split(t("story_p2_strong"))[0]}
+                <strong className="text-foreground">
+                  {t("story_p2_strong")}
+                </strong>
+                {t("story_p2").split(t("story_p2_strong"))[1]}
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                Today, <strong className="text-foreground">1,200+ businesses</strong>{" "}
-                use Iconrev — restaurants, salons, shops, trades. Same outcome:
-                more reviews, stronger ratings, better Maps visibility, more
-                customers. Our mission: help every local business compete on Google
-                like the big brands.
+                {t("story_p3_prefix")}{" "}
+                <strong className="text-foreground">
+                  {t("story_p3_strong")}
+                </strong>{" "}
+                {t("story_p3_suffix")}
               </p>
             </CardContent>
           </Card>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          {[
-            {
-              icon: Target,
-              title: "Own local visibility",
-              description:
-                "Roughly three in four people never scroll past the top three on Maps. We help you get there.",
-              color: "text-blue-600",
-              bg: "bg-blue-50",
-            },
-            {
-              icon: Users,
-              title: "Zero friction, zero training",
-              description:
-                "No customer app, no staff workshop. If you can place a card on a counter, you can use Iconrev.",
-              color: "text-indigo-600",
-              bg: "bg-indigo-50",
-            },
-            {
-              icon: Award,
-              title: "ROI that shows up fast",
-              description:
-                "One new customer from better visibility can pay for the card. Many teams see strong payback in the first month.",
-              color: "text-emerald-600",
-              bg: "bg-emerald-50",
-            },
-          ].map((item, index) => (
+          {values.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
@@ -115,17 +134,10 @@ export default function AboutPage() {
         <Card className="bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-700 text-white mb-16">
           <CardContent className="p-8 md:p-10">
             <h2 className="text-3xl font-bold mb-6 text-center tracking-tight">
-              By the numbers
+              {t("stats_title")}
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-center mb-8">
-              {[
-                { value: "1,247+", label: "Businesses equipped" },
-                { value: "+300%", label: "Typical review lift" },
-                { value: "4.9/5", label: "Satisfaction" },
-                { value: "< 30s", label: "To leave a review" },
-                { value: "15×", label: "Avg. first-month ROI (reported)" },
-                { value: "97%", label: "Would recommend Iconrev" },
-              ].map((stat, index) => (
+              {stats.map((stat, index) => (
                 <div key={index}>
                   <div className="text-2xl md:text-3xl font-extrabold mb-1">
                     {stat.value}
@@ -145,15 +157,10 @@ export default function AboutPage() {
           <Card className="border-2 border-blue-100">
             <CardContent className="p-8 md:p-10">
               <h2 className="text-2xl font-bold mb-6 tracking-tight">
-                What we hear most from customers
+                {t("quotes_title")}
               </h2>
               <div className="space-y-4">
-                {[
-                  "I didn’t think reviews could move revenue this much.",
-                  "In six weeks I had more reviews than my competitor who’s been there ten years.",
-                  "The hardest part was trying it once. After that it runs itself.",
-                  "The card paid for itself in the first week.",
-                ].map((quote, i) => (
+                {quotes.map((quote, i) => (
                   <div key={i} className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
                     <p className="text-muted-foreground italic leading-relaxed">
@@ -169,7 +176,7 @@ export default function AboutPage() {
                   onClick={() => router.push("/products")}
                 >
                   <TrendingUp className="mr-2 h-5 w-5" />
-                  Join 1,247+ businesses
+                  {t("cta")}
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>

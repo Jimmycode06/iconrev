@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import { IconrevLogo } from "@/components/iconrev-logo";
+import { useTranslations } from "next-intl";
 
 export function Footer() {
+  const t = useTranslations("Footer");
+
   return (
     <footer className="border-t bg-gray-50">
       <div className="container mx-auto px-4 py-12">
@@ -10,20 +13,19 @@ export function Footer() {
           <div className="space-y-4">
             <IconrevLogo size="sm" showTagline className="items-start" />
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Built for local businesses that want to win on Google Maps.
-              1,200+ locations use Iconrev to collect reviews the easy way.
+              {t("tagline")}
             </p>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Quick links</h4>
+            <h4 className="font-semibold mb-4">{t("quick_links")}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
                   href="/"
                   className="text-muted-foreground hover:text-blue-600 transition-colors"
                 >
-                  Home
+                  {t("home")}
                 </Link>
               </li>
               <li>
@@ -31,7 +33,7 @@ export function Footer() {
                   href="/products"
                   className="text-muted-foreground hover:text-blue-600 transition-colors inline-flex items-center gap-1"
                 >
-                  Order a card
+                  {t("order_card")}
                   <ArrowRight className="h-3 w-3" />
                 </Link>
               </li>
@@ -40,7 +42,7 @@ export function Footer() {
                   href="/about"
                   className="text-muted-foreground hover:text-blue-600 transition-colors"
                 >
-                  How it works
+                  {t("how_it_works")}
                 </Link>
               </li>
               <li>
@@ -48,21 +50,21 @@ export function Footer() {
                   href="/contact"
                   className="text-muted-foreground hover:text-blue-600 transition-colors"
                 >
-                  Contact &amp; free audit
+                  {t("contact_audit")}
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Legal</h4>
+            <h4 className="font-semibold mb-4">{t("legal")}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
                   href="/privacy"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Privacy policy
+                  {t("privacy")}
                 </Link>
               </li>
               <li>
@@ -70,7 +72,7 @@ export function Footer() {
                   href="/terms"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Terms of use
+                  {t("terms")}
                 </Link>
               </li>
               <li>
@@ -78,7 +80,7 @@ export function Footer() {
                   href="/shipping"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Shipping
+                  {t("shipping")}
                 </Link>
               </li>
               <li>
@@ -86,14 +88,14 @@ export function Footer() {
                   href="/returns"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Returns &amp; refunds
+                  {t("returns")}
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Contact</h4>
+            <h4 className="font-semibold mb-4">{t("contact")}</h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-center space-x-2 text-muted-foreground">
                 <Mail className="h-4 w-4 text-blue-600" />
@@ -109,14 +111,14 @@ export function Footer() {
               </li>
             </ul>
             <p className="mt-3 text-xs text-muted-foreground">
-              We reply within 2 hours on business days
+              {t("reply_time")}
             </p>
           </div>
         </div>
 
         <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
           <p>
-            &copy; {new Date().getFullYear()} Iconrev. All rights reserved.
+            &copy; {new Date().getFullYear()} Iconrev. {t("copyright")}
           </p>
         </div>
       </div>

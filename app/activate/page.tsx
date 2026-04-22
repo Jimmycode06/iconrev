@@ -4,9 +4,9 @@ import { ActivateFlow } from "@/components/activate-flow";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Activate your stand — Iconrev",
+  title: "Activez votre plaque — Iconrev",
   description:
-    "Scan the QR code on your Iconrev stand and follow the steps to link it to your Google Business Profile.",
+    "Scannez le QR code de votre plaque Iconrev et suivez les etapes pour la lier a votre fiche Google Business.",
 };
 
 interface PageProps {
@@ -21,11 +21,11 @@ export default async function ActivatePage({ searchParams }: PageProps) {
       <section className="min-h-[60vh] flex items-center justify-center px-4">
         <div className="text-center max-w-md space-y-3">
           <h1 className="text-2xl font-bold text-foreground">
-            Missing card ID
+            ID carte manquant
           </h1>
           <p className="text-muted-foreground">
-            Please scan the QR code on your Iconrev stand to activate it. The
-            URL should contain your unique card ID.
+            Veuillez scanner le QR code de votre plaque Iconrev pour l&apos;activer.
+            L&apos;URL doit contenir un identifiant de carte unique.
           </p>
         </div>
       </section>
@@ -37,12 +37,12 @@ export default async function ActivatePage({ searchParams }: PageProps) {
       <section className="min-h-[60vh] flex items-center justify-center px-4">
         <div className="text-center max-w-md space-y-3">
           <h1 className="text-2xl font-bold text-foreground">
-            Setup required
+            Configuration requise
           </h1>
           <p className="text-muted-foreground">
-            Supabase is not configured yet. Please add your Supabase URL and
-            keys to <code className="text-xs bg-muted px-1.5 py-0.5 rounded">.env.local</code> and
-            restart the server.
+            Supabase n&apos;est pas encore configure. Ajoutez votre URL et vos
+            cles dans <code className="text-xs bg-muted px-1.5 py-0.5 rounded">.env.local</code>, puis
+            redemarrez le serveur.
           </p>
         </div>
       </section>
@@ -66,11 +66,11 @@ export default async function ActivatePage({ searchParams }: PageProps) {
       <div className="container mx-auto">
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-2">
-            Activate your stand
+            Activez votre plaque
           </h1>
           <p className="text-muted-foreground max-w-md mx-auto">
-            Follow the steps below to link your Iconrev stand to your Google
-            Business Profile.
+            Suivez les etapes ci-dessous pour lier votre plaque Iconrev a votre
+            fiche Google Business.
           </p>
         </div>
         <ActivateFlow cardId={cardId} />

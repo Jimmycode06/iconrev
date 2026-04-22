@@ -18,8 +18,10 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { useTranslations } from "next-intl";
 
 export function Header() {
+  const t = useTranslations("Header");
   const itemCount = useCartStore((state) => state.getItemCount());
   const openCart = useCartUI((s) => s.open);
   const [mounted, setMounted] = useState(false);
@@ -39,7 +41,7 @@ export function Header() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link
           href="/"
-          aria-label="Iconrev — Home"
+          aria-label="Iconrev"
           className="flex items-center rounded-lg outline-none ring-offset-2 focus-visible:ring-2 focus-visible:ring-blue-600"
         >
           <IconrevLogo size="md" />
@@ -53,7 +55,7 @@ export function Header() {
                   asChild
                   className={navigationMenuTriggerStyle()}
                 >
-                  <Link href="/">Home</Link>
+                  <Link href="/">{t("home")}</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
@@ -62,27 +64,27 @@ export function Header() {
                   asChild
                   className={navigationMenuTriggerStyle()}
                 >
-                  <Link href="/products">Products</Link>
+                  <Link href="/products">{t("products")}</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Company</NavigationMenuTrigger>
+                <NavigationMenuTrigger>{t("company")}</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[300px] gap-3 p-4">
                     <ListItem
                       href="/about"
-                      title="About"
+                      title={t("about")}
                       icon={<Info className="h-4 w-4" />}
                     >
-                      Our mission and how Iconrev works
+                      {t("about_desc")}
                     </ListItem>
                     <ListItem
                       href="/contact"
-                      title="Contact"
+                      title={t("contact")}
                       icon={<Mail className="h-4 w-4" />}
                     >
-                      Talk to our team
+                      {t("contact_desc")}
                     </ListItem>
                   </ul>
                 </NavigationMenuContent>
@@ -97,7 +99,7 @@ export function Header() {
             size="icon"
             className="relative"
             onClick={openCart}
-            aria-label="Open cart"
+            aria-label={t("open_cart")}
           >
             <ShoppingCart className="h-5 w-5" />
             {showCartBadge && (
@@ -123,7 +125,7 @@ const ListItem = React.forwardRef<
     <li>
       <NavigationMenuLink asChild>
         <Link
-          ref={ref as any}
+          ref={ref as React.Ref<HTMLAnchorElement>}
           href={href || "#"}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",

@@ -1,7 +1,9 @@
+const createNextIntlPlugin = require("next-intl/plugin");
+
+const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Évite les erreurs PackFileCacheStrategy / chunks 404 quand le projet est
-  // sous ~/Downloads ou un volume avec snapshot FS capricieux (webpack cache disque).
   webpack: (config, { dev }) => {
     if (dev) {
       config.cache = false;
@@ -18,4 +20,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);

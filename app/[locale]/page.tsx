@@ -12,12 +12,17 @@ import { HowItWorksSection } from "@/components/how-it-works-section";
 import { FeaturesSection } from "@/components/features-section";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import { CTASection } from "@/components/cta-section";
-import { products } from "@/data/products";
 import { useCartStore } from "@/store/cart-store";
 import { useCartUI } from "@/store/cart-ui-store";
 import { formatPrice } from "@/lib/utils";
+import { useTranslations, useLocale } from "next-intl";
+import { getProducts } from "@/data/products";
 
 export default function Home() {
+  const t = useTranslations("Home");
+  const locale = useLocale();
+  const products = getProducts(locale);
+
   const [selectedId, setSelectedId] = useState<string>("1");
   const [justAdded, setJustAdded] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
@@ -51,15 +56,13 @@ export default function Home() {
             className="text-center mb-10 md:mb-12 max-w-2xl mx-auto"
           >
             <p className="inline-flex items-center rounded-full border border-blue-200/80 bg-gradient-to-r from-sky-100 via-blue-100 to-cyan-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-blue-800 shadow-sm mb-3">
-              Our cards
+              {t("pack_label")}
             </p>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-balance">
-              Choose your pack
+              {t("pack_title")}
             </h2>
             <p className="text-lg text-muted-foreground text-balance leading-relaxed">
-              Same flow as the product page: pick a pack, then tell us which
-              location it&apos;s for so we can prepare your order with the right
-              Google profile.
+              {t("pack_desc")}
             </p>
           </motion.div>
 
@@ -88,7 +91,7 @@ export default function Home() {
               <ProductAdvantages key={selected.id} product={selected} />
 
               <p className="text-sm font-semibold text-foreground">
-                Select a pack
+                {t("select_pack")}
               </p>
 
               <ProductPackList
@@ -112,11 +115,11 @@ export default function Home() {
                       <span className="inline-flex items-center gap-2 min-w-0">
                         <Check className="h-5 w-5 shrink-0" />
                         <span className="uppercase tracking-wide text-base sm:text-lg truncate">
-                          Added to cart
+                          {t("added_to_cart")}
                         </span>
                       </span>
                       <span className="tabular-nums text-base sm:text-lg font-bold shrink-0">
-                        {formatPrice(selected.price)}
+                        {formatPrice(selected.price, locale)}
                       </span>
                     </>
                   ) : (
@@ -124,11 +127,11 @@ export default function Home() {
                       <span className="inline-flex items-center gap-2 min-w-0">
                         <ShoppingCart className="h-5 w-5 shrink-0" />
                         <span className="uppercase tracking-wide text-base sm:text-lg truncate">
-                          Add to cart
+                          {t("add_to_cart")}
                         </span>
                       </span>
                       <span className="tabular-nums text-base sm:text-lg font-bold shrink-0">
-                        {formatPrice(selected.price)}
+                        {formatPrice(selected.price, locale)}
                       </span>
                     </>
                   )}

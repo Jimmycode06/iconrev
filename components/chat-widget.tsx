@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 interface Message {
   id: string;
@@ -15,22 +16,23 @@ interface Message {
 }
 
 export function ChatWidget() {
+  const t = useTranslations("Chat");
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
 
-  // Initialize messages on mount to avoid hydration mismatch
   useEffect(() => {
     setIsMounted(true);
     setMessages([
       {
         id: "1",
-        text: "Hi! 👋 Questions about our NFC + QR review cards? I can help you get more Google reviews — or ask for a free profile audit.",
+        text: t("bot_welcome"),
         sender: "bot",
         timestamp: new Date(),
       },
     ]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSendMessage = () => {
@@ -46,17 +48,18 @@ export function ChatWidget() {
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
 
-    // Simulate bot response
     setTimeout(() => {
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: "Thanks for reaching out! Our team replies within ~2 hours on business days. Meanwhile, many customers see 3× more Google reviews with Iconrev — cards start at $38,90, or email contact@iconrev.com anytime.",
+        text: t("bot_reply"),
         sender: "bot",
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, botMessage]);
     }, 1000);
   };
+
+  if (!isMounted) return null;
 
   return (
     <>
@@ -73,8 +76,8 @@ export function ChatWidget() {
               <CardHeader className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle className="text-lg">Need help?</CardTitle>
-                    <p className="text-xs text-white/80 mt-0.5">We reply in &lt; 2h</p>
+                    <CardTitle className="text-lg">{t("title")}</CardTitle>
+                    <p className="text-xs text-white/80 mt-0.5">{t("reply_time")}</p>
                   </div>
                   <Button
                     variant="ghost"
@@ -114,10 +117,10 @@ export function ChatWidget() {
                 <div className="border-t p-4">
                   <div className="flex space-x-2">
                     <Input
-                      placeholder="Type your message..."
+                      placeholder={t("placeholder")}
                       value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
-                      onKeyPress={(e) => {
+                      onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           handleSendMessage();
                         }
