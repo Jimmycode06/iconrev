@@ -11,9 +11,9 @@ import { useTranslations, useLocale } from "next-intl";
 import { getProducts } from "@/data/products";
 
 function oldPackPrice(product: Product): number {
-  if (product.id === "1") return 49.9;
-  if (product.id === "2") return 99.9;
-  return 249.9;
+  if (product.id === "1") return 39;
+  if (product.id === "2") return 69;
+  return 129;
 }
 
 function PackRowInner({

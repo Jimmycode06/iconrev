@@ -4,7 +4,7 @@
     "banner_discount": "20% OFF",
     "banner_code_text": "free shipping with code",
     "banner_code": "LAUNCH20",
-    "banner_starter": "Starter pack from $38.90",
+    "banner_starter": "Starter pack from €29.00",
     "lang": "en"
   },
   "Header": {
@@ -108,13 +108,13 @@
     "badge": "Limited offer: 20% off with code LAUNCH20",
     "title": "While you read this, competitors are collecting reviews",
     "subtitle": "Every day without fresh reviews is a day Google ranks you lower. Order today — cards ship in 2–3 business days and start working immediately.",
-    "price_value": "$38.90",
+    "price_value": "€29.00",
     "price_label": "Starting at",
     "shipping_value": "2–3 days",
     "shipping_label": "Free shipping",
     "guarantee_value": "30 days",
     "guarantee_label": "Money-back guarantee",
-    "cta_button": "Order now — from $38.90"
+    "cta_button": "Order now — from €29.00"
   },
   "Home": {
     "pack_label": "Our cards",
@@ -291,7 +291,7 @@
     "title": "Need help?",
     "reply_time": "We reply in < 2h",
     "bot_welcome": "Hi! 👋 Questions about our NFC + QR review cards? I can help you get more Google reviews — or ask for a free profile audit.",
-    "bot_reply": "Thanks for reaching out! Our team replies within ~2 hours on business days. Meanwhile, many customers see 3× more Google reviews with Iconrev — cards start at $38.90, or email contact@iconrev.com anytime.",
+    "bot_reply": "Thanks for reaching out! Our team replies within ~2 hours on business days. Meanwhile, many customers see 3× more Google reviews with Iconrev — cards start at €29.00, or email contact@iconrev.com anytime.",
     "placeholder": "Type your message..."
   },
   "ResetPassword": {

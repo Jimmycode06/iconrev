@@ -24,9 +24,9 @@ interface ActivateFlowProps {
 }
 
 const STEPS: { key: Step; label: string; icon: React.ElementType }[] = [
-  { key: "auth", label: "Account", icon: UserPlus },
-  { key: "search", label: "Find business", icon: Search },
-  { key: "confirm", label: "Activate", icon: CheckCircle2 },
+  { key: "auth", label: "Compte", icon: UserPlus },
+  { key: "search", label: "Trouver l'etablissement", icon: Search },
+  { key: "confirm", label: "Activer", icon: CheckCircle2 },
 ];
 
 export function ActivateFlow({ cardId }: ActivateFlowProps) {
@@ -83,14 +83,14 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Activation failed. Please try again.");
+        setError(data.error || "Echec de l'activation. Veuillez reessayer.");
         return;
       }
 
       setReviewUrl(data.reviewUrl);
       setStep("done");
     } catch {
-      setError("Network error. Please check your connection and try again.");
+      setError("Erreur reseau. Verifiez votre connexion puis reessayez.");
     } finally {
       setActivating(false);
     }
@@ -102,7 +102,7 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
     <div className="w-full max-w-lg mx-auto">
       {/* Progress stepper */}
       {step !== "done" && (
-        <nav className="mb-8" aria-label="Activation progress">
+        <nav className="mb-8" aria-label="Progression de l'activation">
           <ol className="flex items-center">
             {STEPS.map((s, i) => {
               const Icon = s.icon;
@@ -153,10 +153,11 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
         {step === "auth" && (
           <div>
             <h2 className="text-xl font-bold text-foreground mb-1">
-              Create your account
+              Creez votre compte
             </h2>
             <p className="text-sm text-muted-foreground mb-5">
-              Sign up to activate your Iconrev stand and start collecting Google reviews.
+              Inscrivez-vous pour activer votre plaque Iconrev et commencer a
+              collecter des avis Google.
             </p>
             <AuthForm onAuthenticated={handleAuthenticated} />
           </div>
@@ -165,10 +166,10 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
         {step === "search" && (
           <div>
             <h2 className="text-xl font-bold text-foreground mb-1">
-              Find your business
+              Trouvez votre etablissement
             </h2>
             <p className="text-sm text-muted-foreground mb-5">
-              Search for your business on Google to link it to your stand.
+              Recherchez votre etablissement sur Google pour lier votre plaque.
             </p>
             <PlacesSearch onSelect={handlePlaceSelected} />
           </div>
@@ -178,10 +179,10 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
           <div className="space-y-5">
             <div>
               <h2 className="text-xl font-bold text-foreground mb-1">
-                Confirm activation
+                Confirmer l'activation
               </h2>
               <p className="text-sm text-muted-foreground">
-                Make sure this is the right business before activating.
+                Verifiez qu'il s'agit du bon etablissement avant d'activer.
               </p>
             </div>
 
@@ -204,10 +205,10 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
 
             <div className="rounded-lg bg-muted/40 px-4 py-3 text-sm text-muted-foreground space-y-1">
               <p>
-                <strong className="text-foreground">Card ID:</strong> {cardId}
+                <strong className="text-foreground">ID carte :</strong> {cardId}
               </p>
               <p>
-                <strong className="text-foreground">Account:</strong> {email}
+                <strong className="text-foreground">Compte :</strong> {email}
               </p>
             </div>
 
@@ -227,7 +228,7 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
                 }}
                 className="flex-1"
               >
-                Change business
+                Changer d'etablissement
               </Button>
               <Button
                 onClick={handleActivate}
@@ -237,7 +238,7 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
                 {activating ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
-                  "Activate my stand"
+                  "Activer ma plaque"
                 )}
               </Button>
             </div>
@@ -250,11 +251,11 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
               <PartyPopper className="h-7 w-7 text-emerald-600" />
             </div>
             <h2 className="text-2xl font-bold text-foreground">
-              You&apos;re all set!
+              Tout est pret !
             </h2>
             <p className="text-muted-foreground max-w-sm mx-auto">
-              Your stand is now active. When customers scan it, they&apos;ll go
-              directly to your Google review page.
+              Votre plaque est maintenant active. Quand les clients la
+              scannent, ils arrivent directement sur votre page d'avis Google.
             </p>
             {selectedPlace && (
               <div className="rounded-xl border border-emerald-100 bg-emerald-50/50 p-4 text-left max-w-xs mx-auto">
@@ -273,7 +274,7 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
               >
-                Test your review link
+                Tester votre lien d'avis
                 <ExternalLink className="h-3.5 w-3.5" />
               </a>
             )}

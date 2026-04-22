@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       console.log(
         "Amount:",
         session.amount_total != null ? session.amount_total / 100 : "—",
-        "USD"
+        (session.currency || "eur").toUpperCase()
       );
 
       break;

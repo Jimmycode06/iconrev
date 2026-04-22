@@ -23,7 +23,7 @@ const enProducts: Product[] = [
     name: "Starter — 1 QR + NFC card",
     description:
       "Perfect to get started: place the card and start collecting reviews quickly. Many customers get 15+ new reviews in the first week. One card, ready to go.",
-    price: 38.9,
+    price: 29,
     image: PRODUCT_CARD_IMAGE,
     images: [...DEFAULT_PRODUCT_GALLERY],
     rating: 5,
@@ -52,7 +52,7 @@ const enProducts: Product[] = [
     id: "2",
     name: "Pro — 2 QR + NFC cards",
     description: "",
-    price: 69.9,
+    price: 49,
     image: PRODUCT_CARD_IMAGE,
     images: [...DEFAULT_PRODUCT_GALLERY],
     rating: 5,
@@ -84,7 +84,7 @@ const enProducts: Product[] = [
     name: "Business — 5 QR + NFC cards",
     description:
       "Equip your entire location. Five cards turn tables, counters and high-traffic zones into review collection points. Best value for multi-zone spaces.",
-    price: 89.9,
+    price: 99,
     image: PRODUCT_CARD_IMAGE,
     images: [...DEFAULT_PRODUCT_GALLERY],
     rating: 5,
@@ -117,7 +117,7 @@ const frProducts: Product[] = [
     name: "Débutant — 1 carte QR + NFC",
     description:
       "Parfait pour démarrer : posez la carte et commencez à collecter des avis rapidement. Beaucoup de clients obtiennent 15+ nouveaux avis la première semaine. Une carte, prête à l'emploi.",
-    price: 38.9,
+    price: 29,
     image: PRODUCT_CARD_IMAGE,
     images: [...DEFAULT_PRODUCT_GALLERY],
     rating: 5,
@@ -146,7 +146,7 @@ const frProducts: Product[] = [
     id: "2",
     name: "Pro — 2 cartes QR + NFC",
     description: "",
-    price: 69.9,
+    price: 49,
     image: PRODUCT_CARD_IMAGE,
     images: [...DEFAULT_PRODUCT_GALLERY],
     rating: 5,
@@ -178,7 +178,7 @@ const frProducts: Product[] = [
     name: "Business — 5 cartes QR + NFC",
     description:
       "Équipez tout votre établissement. Cinq cartes transforment tables, comptoirs et zones passantes en points de collecte d'avis. Le meilleur rapport valeur pour les espaces multi-zones.",
-    price: 89.9,
+    price: 99,
     image: PRODUCT_CARD_IMAGE,
     images: [...DEFAULT_PRODUCT_GALLERY],
     rating: 5,

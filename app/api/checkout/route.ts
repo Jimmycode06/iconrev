@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
         const freeQty = getBogoFreeQuantity(item.quantity, promo);
         const paidQty = Math.max(0, item.quantity - freeQty);
         const base = {
-          currency: "usd",
+          currency: "eur",
           product_data: {
             name: item.product.name,
             description: item.product.description?.slice(0, 500),
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
       return [
         {
           price_data: {
-            currency: "usd",
+            currency: "eur",
             product_data: {
               name: item.product.name,
               description: item.product.description?.slice(0, 500),

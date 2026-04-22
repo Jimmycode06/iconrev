@@ -85,7 +85,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
     try {
       const redirectTo =
         typeof window !== "undefined"
-          ? `${window.location.origin}/reset-password`
+          ? `${window.location.origin}/fr/reset-password`
           : undefined;
 
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(
@@ -111,11 +111,11 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
           <Mail className="h-6 w-6 text-blue-600" />
         </div>
         <h3 className="text-lg font-semibold text-foreground">
-          Check your email
+          Verifiez votre email
         </h3>
         <p className="text-sm text-muted-foreground max-w-xs mx-auto">
-          We sent a confirmation link to <strong>{email}</strong>. Click the
-          link to activate your account, then come back here.
+          Nous avons envoye un lien de confirmation a <strong>{email}</strong>.
+          Cliquez sur le lien pour activer votre compte, puis revenez ici.
         </p>
         <Button
           variant="outline"
@@ -125,7 +125,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
             setTab("login");
           }}
         >
-          I confirmed my email — Log in
+          J&apos;ai confirme mon email — Se connecter
         </Button>
       </div>
     );
@@ -138,11 +138,11 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
           <Mail className="h-6 w-6 text-blue-600" />
         </div>
         <h3 className="text-lg font-semibold text-foreground">
-          Check your email
+          Verifiez votre email
         </h3>
         <p className="text-sm text-muted-foreground max-w-xs mx-auto">
-          If <strong>{email}</strong> matches an account, we&apos;ve sent a
-          link to reset your password.
+          Si <strong>{email}</strong> correspond a un compte, nous avons envoye
+          un lien pour reinitialiser votre mot de passe.
         </p>
         <Button
           variant="outline"
@@ -153,7 +153,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
             setError(null);
           }}
         >
-          Back to login
+          Retour a la connexion
         </Button>
       </div>
     );
@@ -171,16 +171,16 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
           className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
-          Back to login
+          Retour a la connexion
         </button>
 
         <div>
           <h3 className="text-lg font-semibold text-foreground">
-            Reset your password
+            Reinitialiser votre mot de passe
           </h3>
           <p className="text-sm text-muted-foreground mt-1">
-            Enter your email and we&apos;ll send you a link to set a new
-            password.
+            Entrez votre email et nous vous enverrons un lien pour definir un
+            nouveau mot de passe.
           </p>
         </div>
 
@@ -197,7 +197,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
               <Input
                 id="forgot-email"
                 type="email"
-                placeholder="you@business.com"
+                placeholder="vous@entreprise.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="pl-9"
@@ -220,7 +220,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
             {loading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              "Send reset link"
+              "Envoyer le lien de reinitialisation"
             )}
           </Button>
         </form>
@@ -249,12 +249,12 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
             {t === "register" ? (
               <>
                 <UserPlus className="h-3.5 w-3.5" />
-                Create account
+                Creer un compte
               </>
             ) : (
               <>
                 <LogIn className="h-3.5 w-3.5" />
-                Log in
+                Se connecter
               </>
             )}
           </button>
@@ -268,14 +268,14 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
               htmlFor="auth-business"
               className="text-sm font-medium text-foreground"
             >
-              Business name
+              Nom de l'etablissement
             </label>
             <div className="relative">
               <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 id="auth-business"
                 type="text"
-                placeholder="My Restaurant, My Salon..."
+                placeholder="Mon restaurant, Mon salon..."
                 value={businessName}
                 onChange={(e) => setBusinessName(e.target.value)}
                 className="pl-9"
@@ -297,7 +297,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
             <Input
               id="auth-email"
               type="email"
-              placeholder="you@business.com"
+              placeholder="vous@entreprise.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="pl-9"
@@ -312,7 +312,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
               htmlFor="auth-password"
               className="text-sm font-medium text-foreground"
             >
-              Password
+              Mot de passe
             </label>
             {tab === "login" && (
               <button
@@ -323,7 +323,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
                 }}
                 className="text-xs font-medium text-blue-600 hover:text-blue-700 transition-colors"
               >
-                Forgot password?
+                Mot de passe oublie ?
               </button>
             )}
           </div>
@@ -333,7 +333,9 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
               id="auth-password"
               type="password"
               placeholder={
-                tab === "register" ? "At least 6 characters" : "Your password"
+                tab === "register"
+                  ? "Au moins 6 caracteres"
+                  : "Votre mot de passe"
               }
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -358,9 +360,9 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
           {loading ? (
             <Loader2 className="h-4 w-4 animate-spin" />
           ) : tab === "register" ? (
-            "Create my account"
+            "Creer mon compte"
           ) : (
-            "Log in"
+            "Se connecter"
           )}
         </Button>
       </form>

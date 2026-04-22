@@ -4,7 +4,7 @@
     "banner_discount": "-20%",
     "banner_code_text": "livraison offerte avec le code",
     "banner_code": "LAUNCH20",
-    "banner_starter": "Pack débutant à partir de 38,90 $",
+    "banner_starter": "Pack débutant à partir de 29,00 €",
     "lang": "fr"
   },
   "Header": {
@@ -108,13 +108,13 @@
     "badge": "Offre limitée : -20 % avec le code LAUNCH20",
     "title": "Pendant que vous lisez ceci, vos concurrents collectent des avis",
     "subtitle": "Chaque jour sans avis récents est un jour où Google vous déclasse. Commandez aujourd'hui — livraison en 2–3 jours ouvrés, efficace immédiatement.",
-    "price_value": "38,90 $",
+    "price_value": "29,00 €",
     "price_label": "À partir de",
     "shipping_value": "2–3 jours",
     "shipping_label": "Livraison offerte",
     "guarantee_value": "30 jours",
     "guarantee_label": "Satisfait ou remboursé",
-    "cta_button": "Commander maintenant — à partir de 38,90 $"
+    "cta_button": "Commander maintenant — à partir de 29,00 €"
   },
   "Home": {
     "pack_label": "Nos cartes",
@@ -291,7 +291,7 @@
     "title": "Besoin d'aide ?",
     "reply_time": "Réponse en < 2h",
     "bot_welcome": "Bonjour ! 👋 Des questions sur nos cartes NFC + QR ? Je peux vous aider à obtenir plus d'avis Google — ou demandez un audit de fiche gratuit.",
-    "bot_reply": "Merci pour votre message ! Notre équipe répond sous ~2 heures ouvrées. En attendant, de nombreux clients voient 3× plus d'avis Google avec Iconrev — les cartes commencent à 38,90 $, ou écrivez à contact@iconrev.com.",
+    "bot_reply": "Merci pour votre message ! Notre équipe répond sous ~2 heures ouvrées. En attendant, de nombreux clients voient 3× plus d'avis Google avec Iconrev — les cartes commencent à 29,00 €, ou écrivez à contact@iconrev.com.",
     "placeholder": "Écrivez votre message..."
   },
   "ResetPassword": {

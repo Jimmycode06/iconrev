@@ -94,7 +94,7 @@ export function PlacesSearch({ onSelect }: PlacesSearchProps) {
     return (
       <div className="flex items-center justify-center gap-2 py-6 text-sm text-muted-foreground">
         <Loader2 className="h-4 w-4 animate-spin" />
-        Loading Google Places...
+        Chargement de Google Places...
       </div>
     );
   }
@@ -105,7 +105,7 @@ export function PlacesSearch({ onSelect }: PlacesSearchProps) {
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
           type="text"
-          placeholder="Search your business name or address..."
+          placeholder="Recherchez le nom ou l'adresse de votre etablissement..."
           value={query}
           onChange={(e) => handleInputChange(e.target.value)}
           className="pl-9 pr-9"

@@ -69,7 +69,7 @@ function CheckoutSuccessContent() {
     const numberLocale = locale === "fr" ? "fr-FR" : "en-US";
     return new Intl.NumberFormat(numberLocale, {
       style: "currency",
-      currency: "USD",
+      currency: "EUR",
     }).format(cents / 100);
   };
 
