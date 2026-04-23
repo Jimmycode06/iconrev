@@ -11,8 +11,20 @@ const isSupabaseConfigured =
 
 const intlMiddleware = createMiddleware(routing);
 
+function isLocalhost(request: NextRequest): boolean {
+  const host = request.headers.get("host") || "";
+  return host.startsWith("localhost") || host.startsWith("127.0.0.1");
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Block admin routes on production — localhost only
+  if (pathname.includes("/admin")) {
+    if (!isLocalhost(request)) {
+      return new NextResponse("Not Found", { status: 404 });
+    }
+  }
 
   // Skip locale routing for /activate (French-only, root-level page)
   if (pathname.startsWith("/activate")) {
