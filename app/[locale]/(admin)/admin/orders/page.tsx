@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { TrendingUpIcon, TrendingDownIcon, EuroIcon, ShoppingBagIcon, UsersIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -274,18 +275,26 @@ export default async function AdminOrdersPage({
                       </TableHeader>
                       <TableBody>
                         {orders.map((order) => (
-                          <TableRow key={order.id}>
+                          <TableRow
+                            key={order.id}
+                            className="cursor-pointer hover:bg-muted/50 transition-colors"
+                          >
                             <TableCell className="whitespace-nowrap text-muted-foreground text-xs">
-                              {new Date(order.created_at).toLocaleString(
-                                isFr ? "fr-FR" : "en-US",
-                                {
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                }
-                              )}
+                              <Link
+                                href={`/${locale}/admin/orders/${order.id}`}
+                                className="hover:text-foreground transition-colors hover:underline"
+                              >
+                                {new Date(order.created_at).toLocaleString(
+                                  isFr ? "fr-FR" : "en-US",
+                                  {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  }
+                                )}
+                              </Link>
                             </TableCell>
                             <TableCell className="font-medium">
                               {order.customer_email || "—"}
