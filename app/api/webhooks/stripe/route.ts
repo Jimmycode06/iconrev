@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import Stripe from "stripe";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
@@ -37,19 +38,9 @@ export async function POST(request: NextRequest) {
 
   switch (event.type) {
     case "checkout.session.completed":
-      const session = event.data.object as Stripe.Checkout.Session;
-      console.log("Payment succeeded:", session.id);
-      console.log("Customer email:", session.customer_details?.email);
-      console.log(
-        "Shipping address:",
-        session.collected_information?.shipping_details?.address
+      await handleCheckoutSessionCompleted(
+        event.data.object as Stripe.Checkout.Session
       );
-      console.log(
-        "Amount:",
-        session.amount_total != null ? session.amount_total / 100 : "—",
-        (session.currency || "eur").toUpperCase()
-      );
-
       break;
 
     case "payment_intent.succeeded":
@@ -67,4 +58,107 @@ export async function POST(request: NextRequest) {
   }
 
   return NextResponse.json({ received: true });
+}
+
+async function handleCheckoutSessionCompleted(
+  session: Stripe.Checkout.Session
+) {
+  console.log("Payment succeeded:", session.id);
+  console.log("Customer email:", session.customer_details?.email);
+  console.log(
+    "Shipping address:",
+    session.collected_information?.shipping_details?.address
+  );
+  console.log(
+    "Amount:",
+    session.amount_total != null ? session.amount_total / 100 : "—",
+    (session.currency || "eur").toUpperCase()
+  );
+
+  const supabase = createAdminClient();
+  if (!supabase) {
+    console.warn(
+      "Supabase admin client is not configured. Skipping order persistence."
+    );
+    return;
+  }
+
+  const enrichedSession = await stripe.checkout.sessions.retrieve(session.id, {
+    expand: ["line_items.data.price.product"],
+  });
+
+  const shipping = enrichedSession.collected_information?.shipping_details;
+  const amountTotal = enrichedSession.amount_total ?? 0;
+  const orderPayload = {
+    stripe_session_id: enrichedSession.id,
+    stripe_payment_intent_id:
+      typeof enrichedSession.payment_intent === "string"
+        ? enrichedSession.payment_intent
+        : null,
+    customer_email:
+      enrichedSession.customer_details?.email || enrichedSession.customer_email,
+    amount_total: amountTotal,
+    currency: (enrichedSession.currency || "eur").toUpperCase(),
+    payment_status: enrichedSession.payment_status,
+    order_status: "paid",
+    business_name: enrichedSession.metadata?.business_name || null,
+    business_place_id: enrichedSession.metadata?.business_place_id || null,
+    business_address: enrichedSession.metadata?.business_address || null,
+    shipping_name: shipping?.name || null,
+    shipping_line1: shipping?.address?.line1 || null,
+    shipping_line2: shipping?.address?.line2 || null,
+    shipping_city: shipping?.address?.city || null,
+    shipping_state: shipping?.address?.state || null,
+    shipping_postal_code: shipping?.address?.postal_code || null,
+    shipping_country: shipping?.address?.country || null,
+    raw_checkout_session: enrichedSession,
+  };
+
+  const { data: order, error: orderError } = await supabase
+    .from("orders")
+    .upsert(orderPayload, { onConflict: "stripe_session_id" })
+    .select("id")
+    .single();
+
+  if (orderError || !order) {
+    console.error("Failed to persist order:", orderError);
+    return;
+  }
+
+  const lineItems = enrichedSession.line_items?.data ?? [];
+  if (lineItems.length === 0) return;
+
+  const orderItemsPayload = lineItems.map((lineItem) => {
+    const product = lineItem.price?.product;
+    return {
+      order_id: order.id,
+      stripe_line_item_id: lineItem.id,
+      stripe_price_id:
+        typeof lineItem.price?.id === "string" ? lineItem.price.id : null,
+      stripe_product_id:
+        typeof product === "string"
+          ? product
+          : (product as Stripe.Product | undefined)?.id || null,
+      product_name:
+        lineItem.description ||
+        (typeof product === "string"
+          ? null
+          : (product as Stripe.Product | undefined)?.name) ||
+        "Card pack",
+      quantity: lineItem.quantity || 1,
+      unit_amount: lineItem.price?.unit_amount ?? 0,
+      amount_subtotal: lineItem.amount_subtotal ?? 0,
+      amount_total: lineItem.amount_total ?? 0,
+      currency: (lineItem.currency || enrichedSession.currency || "eur").toUpperCase(),
+    };
+  });
+
+  await supabase.from("order_items").delete().eq("order_id", order.id);
+  const { error: itemsError } = await supabase
+    .from("order_items")
+    .insert(orderItemsPayload);
+
+  if (itemsError) {
+    console.error("Failed to persist order items:", itemsError);
+  }
 }

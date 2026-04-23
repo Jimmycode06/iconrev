@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { ShoppingCart, Mail, Info, Menu, X } from "lucide-react";
+import { ShoppingCart, Mail, Info, LayoutDashboard, Menu, X } from "lucide-react";
 import { IconrevLogo } from "@/components/iconrev-logo";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/cart-store";
@@ -96,6 +96,13 @@ export function Header() {
                     >
                       {t("contact_desc")}
                     </ListItem>
+                    <ListItem
+                      href="/admin/orders"
+                      title={t("admin")}
+                      icon={<LayoutDashboard className="h-4 w-4" />}
+                    >
+                      {t("admin_desc")}
+                    </ListItem>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -167,6 +174,13 @@ export function Header() {
               onClick={() => setMobileOpen(false)}
             >
               {t("contact")}
+            </Link>
+            <Link
+              href="/admin/orders"
+              className="rounded-md px-3 py-2 text-sm font-medium hover:bg-accent"
+              onClick={() => setMobileOpen(false)}
+            >
+              {t("admin")}
             </Link>
           </nav>
         </div>

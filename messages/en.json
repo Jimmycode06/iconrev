@@ -15,6 +15,8 @@
     "about_desc": "Our mission and how Iconrev works",
     "contact": "Contact",
     "contact_desc": "Talk to our team",
+    "admin": "Dashboard",
+    "admin_desc": "Manage orders and payments",
     "open_cart": "Open cart"
   },
   "Footer": {
