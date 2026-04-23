@@ -20,6 +20,7 @@ type OrderItem = {
 
 type Order = {
   id: string;
+  order_number: number | null;
   stripe_session_id: string;
   stripe_payment_intent_id: string | null;
   customer_email: string | null;
@@ -54,7 +55,7 @@ export default async function OrderDetailPage({
   const { data, error } = await supabase
     .from("orders")
     .select(
-      "id,stripe_session_id,stripe_payment_intent_id,customer_email,amount_total,currency,payment_status,order_status,business_name,business_address,shipping_name,shipping_line1,shipping_line2,shipping_city,shipping_state,shipping_postal_code,shipping_country,created_at,order_items(id,product_name,quantity,unit_amount,amount_total,currency)"
+      "id,order_number,stripe_session_id,stripe_payment_intent_id,customer_email,amount_total,currency,payment_status,order_status,business_name,business_address,shipping_name,shipping_line1,shipping_line2,shipping_city,shipping_state,shipping_postal_code,shipping_country,created_at,order_items(id,product_name,quantity,unit_amount,amount_total,currency)"
     )
     .eq("id", id)
     .single();
@@ -91,8 +92,10 @@ export default async function OrderDetailPage({
             {isFr ? "Commandes" : "Orders"}
           </Link>
           <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
-          <span className="text-sm font-medium text-muted-foreground">
-            {new Date(order.created_at).toLocaleDateString(locale_, { year: "numeric", month: "short", day: "numeric" })}
+          <span className="text-sm font-medium text-muted-foreground font-mono">
+            {order.order_number != null
+              ? `#${order.order_number}`
+              : (isFr ? "Commande" : "Order")}
           </span>
         </div>
       </header>
@@ -110,12 +113,30 @@ export default async function OrderDetailPage({
           >
             {order.payment_status === "paid" ? (isFr ? "Payée" : "Paid") : order.payment_status}
           </Badge>
-          <h1 className="text-xl font-semibold tracking-tight">
-            {new Date(order.created_at).toLocaleString(locale_, {
-              year: "numeric", month: "long", day: "numeric",
-              hour: "2-digit", minute: "2-digit",
-            })}
-          </h1>
+          <div>
+            <h1 className="text-xl font-semibold tracking-tight">
+              {order.order_number != null
+                ? `${isFr ? "Commande" : "Order"} #${order.order_number}`
+                : new Date(order.created_at).toLocaleString(locale_, {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+            </h1>
+            {order.order_number != null && (
+              <p className="text-sm text-muted-foreground mt-0.5">
+                {new Date(order.created_at).toLocaleString(locale_, {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Two-column layout */}

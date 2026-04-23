@@ -26,6 +26,7 @@ type OrderItem = {
 
 type Order = {
   id: string;
+  order_number: number | null;
   stripe_session_id: string;
   customer_email: string | null;
   amount_total: number;
@@ -69,7 +70,7 @@ export default async function AdminOrdersPage({
   const { data: ordersData, error } = await supabase
     .from("orders")
     .select(
-      "id,stripe_session_id,customer_email,amount_total,currency,payment_status,order_status,business_name,shipping_name,shipping_city,shipping_country,created_at,order_items(id,product_name,quantity,amount_total,currency)"
+      "id,order_number,stripe_session_id,customer_email,amount_total,currency,payment_status,order_status,business_name,shipping_name,shipping_city,shipping_country,created_at,order_items(id,product_name,quantity,amount_total,currency)"
     )
     .order("created_at", { ascending: false })
     .limit(100);

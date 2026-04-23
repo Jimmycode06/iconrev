@@ -22,6 +22,7 @@ type OrderItem = {
 
 type Order = {
   id: string;
+  order_number: number | null;
   stripe_session_id: string;
   customer_email: string | null;
   amount_total: number;
@@ -65,6 +66,11 @@ export function AdminOrdersTable({ orders, locale, isFr }: Props) {
             className="cursor-pointer hover:bg-muted/50 transition-colors"
             onClick={() => router.push(`/${locale}/admin/orders/${order.id}`)}
           >
+            <TableCell className="whitespace-nowrap text-sm font-medium font-mono">
+              {order.order_number != null
+                ? `#${order.order_number}`
+                : "—"}
+            </TableCell>
             <TableCell className="whitespace-nowrap text-muted-foreground text-xs">
               {new Date(order.created_at).toLocaleString(
                 isFr ? "fr-FR" : "en-US",

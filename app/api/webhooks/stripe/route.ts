@@ -114,15 +114,36 @@ async function handleCheckoutSessionCompleted(
     raw_checkout_session: enrichedSession,
   };
 
-  const { data: order, error: orderError } = await supabase
+  const { data: existing } = await supabase
     .from("orders")
-    .upsert(orderPayload, { onConflict: "stripe_session_id" })
     .select("id")
-    .single();
+    .eq("stripe_session_id", enrichedSession.id)
+    .maybeSingle();
 
-  if (orderError || !order) {
-    console.error("Failed to persist order:", orderError);
-    return;
+  let order: { id: string };
+  if (existing) {
+    const { data: updated, error: updateError } = await supabase
+      .from("orders")
+      .update(orderPayload)
+      .eq("id", existing.id)
+      .select("id")
+      .single();
+    if (updateError || !updated) {
+      console.error("Failed to update order:", updateError);
+      return;
+    }
+    order = updated;
+  } else {
+    const { data: inserted, error: insertError } = await supabase
+      .from("orders")
+      .insert(orderPayload)
+      .select("id")
+      .single();
+    if (insertError || !inserted) {
+      console.error("Failed to persist order:", insertError);
+      return;
+    }
+    order = inserted;
   }
 
   const lineItems = enrichedSession.line_items?.data ?? [];

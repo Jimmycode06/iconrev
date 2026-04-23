@@ -108,6 +108,45 @@ before update on public.orders
 for each row
 execute function public.set_updated_at();
 
+-- 7b. Human-readable order numbers (1001+); Stripe only exposes cs_ / pi_ ids. Run `migration-order-number.sql` on existing projects.
+-- (Included below is idempotent when combined with the migration file.)
+
 -- 8. RLS for orders tables (disabled public access)
 alter table public.orders enable row level security;
 alter table public.order_items enable row level security;
+
+-- 9. Order number sequence + trigger (see also migration-order-number.sql)
+create sequence if not exists public.orders_order_number_seq start with 1001;
+alter table public.orders add column if not exists order_number integer;
+with ranked as (
+  select id, row_number() over (order by created_at asc) as rn
+  from public.orders
+  where order_number is null
+)
+update public.orders o
+set order_number = 1000 + r.rn
+from ranked r
+where o.id = r.id;
+create or replace function public.orders_assign_order_number()
+returns trigger
+language plpgsql
+as $fn$
+begin
+  if new.order_number is null then
+    new.order_number := nextval('public.orders_order_number_seq');
+  end if;
+  return new;
+end;
+$fn$;
+drop trigger if exists trg_orders_assign_order_number on public.orders;
+create trigger trg_orders_assign_order_number
+  before insert on public.orders
+  for each row
+  execute function public.orders_assign_order_number();
+select setval(
+  'public.orders_order_number_seq',
+  coalesce((select max(order_number) from public.orders), 1000)
+);
+create unique index if not exists idx_orders_order_number
+  on public.orders (order_number)
+  where order_number is not null;
