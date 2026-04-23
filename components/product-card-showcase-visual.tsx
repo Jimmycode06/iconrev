@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { PRODUCT_CARD_IMAGE } from "@/data/products";
+import { useLocale } from "next-intl";
 
 type Props = {
   className?: string;
@@ -23,6 +26,9 @@ export function ProductCardShowcaseVisual({
   emphasis = false,
   alignTop = false,
 }: Props) {
+  const locale = useLocale();
+  const isFr = locale === "fr";
+
   return (
     <div
       className={cn(
@@ -55,7 +61,11 @@ export function ProductCardShowcaseVisual({
       >
         <Image
           src={`${PRODUCT_CARD_IMAGE}?v=3`}
-          alt="Iconrev review card: tap NFC or scan QR to leave a Google review"
+          alt={
+            isFr
+              ? "Carte avis Iconrev : approchez en NFC ou scannez le QR pour laisser un avis Google"
+              : "Iconrev review card: tap NFC or scan QR to leave a Google review"
+          }
           width={720}
           height={720}
           priority={priority}
@@ -79,7 +89,9 @@ export function ProductCardShowcaseVisual({
             emphasis ? "text-center lg:text-left" : "text-center"
           )}
         >
-          What you get: ready to place at the counter or on the floor
+          {isFr
+            ? "Ce que vous recevez : pret a poser sur le comptoir ou au sol"
+            : "What you get: ready to place at the counter or on the floor"}
         </p>
       )}
     </div>

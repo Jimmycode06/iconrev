@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
@@ -10,13 +10,17 @@ import { useCartStore } from "@/store/cart-store";
 import { useCartUI } from "@/store/cart-ui-store";
 import { formatPrice } from "@/lib/utils";
 import { getBogoFreeQuantity, getPromoLabel } from "@/lib/promotions";
+import { useLocale, useTranslations } from "next-intl";
 
 export function CartDrawer() {
+  const t = useTranslations("CartDrawer");
+  const locale = useLocale();
   const isOpen = useCartUI((s) => s.isOpen);
   const close = useCartUI((s) => s.close);
   const { items, removeItem, updateQuantity, getTotal } = useCartStore();
   const total = getTotal();
   const drawerRef = useRef<HTMLDivElement>(null);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -30,6 +34,39 @@ export function CartDrawer() {
       document.body.style.overflow = "";
     };
   }, [isOpen, close]);
+
+  const handleCheckout = async () => {
+    if (items.length === 0 || isCheckingOut) return;
+    setIsCheckingOut(true);
+
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items }),
+      });
+
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(
+          locale === "fr"
+            ? "Une erreur est survenue. Veuillez reessayer."
+            : "Something went wrong. Please try again."
+        );
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      alert(
+        locale === "fr"
+          ? "Une erreur est survenue. Veuillez reessayer."
+          : "Something went wrong. Please try again."
+      );
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -55,17 +92,17 @@ export function CartDrawer() {
             transition={{ type: "spring", damping: 28, stiffness: 300 }}
             className="fixed top-0 right-0 z-[70] h-full w-full max-w-md bg-white shadow-2xl flex flex-col"
             role="dialog"
-            aria-label="Shopping cart"
+            aria-label={t("title")}
           >
             <div className="flex items-center justify-between px-5 py-4 border-b">
               <h2 className="text-lg font-bold tracking-tight uppercase">
-                Cart
+                {t("title")}
               </h2>
               <button
                 type="button"
                 onClick={close}
                 className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
-                aria-label="Close"
+                aria-label={t("close")}
               >
                 <X className="h-5 w-5" />
               </button>
@@ -76,17 +113,17 @@ export function CartDrawer() {
                 <div className="flex flex-col items-center justify-center h-full px-6 text-center">
                   <ShoppingBag className="h-16 w-16 text-muted-foreground/40 mb-4" />
                   <p className="font-medium text-lg mb-1">
-                    Your cart is empty
+                    {t("empty_title")}
                   </p>
                   <p className="text-sm text-muted-foreground mb-6">
-                    Add a pack to get started
+                    {t("empty_desc")}
                   </p>
                   <Button
                     className="bg-google-blue hover:bg-google-blue/90"
                     onClick={close}
                     asChild
                   >
-                    <Link href="/products">Browse packs</Link>
+                    <Link href="/products">{t("browse")}</Link>
                   </Button>
                 </div>
               ) : (
@@ -122,7 +159,7 @@ export function CartDrawer() {
                                 {item.product.name}
                               </p>
                               <p className="font-bold text-sm tabular-nums shrink-0">
-                                {formatPrice(lineTotal)}
+                                {formatPrice(lineTotal, locale)}
                               </p>
                             </div>
 
@@ -143,7 +180,7 @@ export function CartDrawer() {
                                     )
                                   }
                                   className="p-1.5 hover:bg-gray-100 rounded-l-lg transition-colors"
-                                  aria-label="Decrease quantity"
+                                  aria-label={t("decrease")}
                                 >
                                   <Minus className="h-3.5 w-3.5" />
                                 </button>
@@ -159,7 +196,7 @@ export function CartDrawer() {
                                     )
                                   }
                                   className="p-1.5 hover:bg-gray-100 rounded-r-lg transition-colors"
-                                  aria-label="Increase quantity"
+                                  aria-label={t("increase")}
                                 >
                                   <Plus className="h-3.5 w-3.5" />
                                 </button>
@@ -169,7 +206,7 @@ export function CartDrawer() {
                                 type="button"
                                 onClick={() => removeItem(item.product.id)}
                                 className="p-1.5 hover:bg-red-50 text-muted-foreground hover:text-red-600 rounded-lg transition-colors"
-                                aria-label="Remove item"
+                                aria-label={t("remove")}
                               >
                                 <Trash2 className="h-4 w-4" />
                               </button>
@@ -186,22 +223,20 @@ export function CartDrawer() {
             {items.length > 0 && (
               <div className="border-t px-5 py-4 space-y-3 bg-white">
                 <div className="flex justify-between items-baseline">
-                  <span className="text-base font-semibold">Total</span>
+                  <span className="text-base font-semibold">{t("total")}</span>
                   <span className="text-xl font-bold text-google-blue tabular-nums">
-                    {formatPrice(total)}
+                    {formatPrice(total, locale)}
                   </span>
                 </div>
 
                 <Button
                   className="w-full bg-gray-900 hover:bg-gray-800 text-white"
                   size="lg"
-                  onClick={close}
-                  asChild
+                  onClick={handleCheckout}
+                  disabled={isCheckingOut}
                 >
-                  <Link href="/cart">
-                    Checkout
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
+                  {t("checkout")}
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
 
                 <Button
@@ -210,7 +245,7 @@ export function CartDrawer() {
                   onClick={close}
                   asChild
                 >
-                  <Link href="/cart">View full cart</Link>
+                  <Link href="/cart">{t("view_cart")}</Link>
                 </Button>
               </div>
             )}
