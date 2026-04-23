@@ -1,29 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  ArrowLeftIcon,
-  MapPinIcon,
-  BuildingIcon,
-  PackageIcon,
-} from "lucide-react";
+import { ArrowLeftIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { formatPrice } from "@/lib/utils";
 
@@ -94,16 +74,15 @@ export default async function OrderDetailPage({
     order.shipping_country,
   ].filter(Boolean);
 
+  const subtotal = order.order_items?.reduce((sum, item) => sum + (item.amount_total || 0), 0) ?? 0;
+
   return (
     <>
       {/* Header */}
       <header className="flex h-12 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear">
         <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
           <SidebarTrigger className="-ml-1" />
-          <Separator
-            orientation="vertical"
-            className="mx-2 data-[orientation=vertical]:h-4"
-          />
+          <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
           <Link
             href={`/${locale}/admin/orders`}
             className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -111,171 +90,143 @@ export default async function OrderDetailPage({
             <ArrowLeftIcon className="h-3.5 w-3.5" />
             {isFr ? "Commandes" : "Orders"}
           </Link>
-          <Separator
-            orientation="vertical"
-            className="mx-2 data-[orientation=vertical]:h-4"
-          />
+          <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
           <span className="text-sm font-medium text-muted-foreground">
-            {isFr ? "Détail commande" : "Order detail"}
+            {new Date(order.created_at).toLocaleDateString(locale_, { year: "numeric", month: "short", day: "numeric" })}
           </span>
         </div>
       </header>
 
       {/* Content */}
-      <div className="flex flex-1 flex-col gap-6 p-4 md:p-6">
-        {/* Top row: status + date */}
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight">
-              {isFr ? "Détail de la commande" : "Order details"}
-            </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
-              {new Date(order.created_at).toLocaleString(locale_, {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Badge
-              className={
-                order.payment_status === "paid"
-                  ? "bg-green-100 text-green-800 hover:bg-green-100 border-green-200 px-3 py-1"
-                  : "px-3 py-1"
-              }
-              variant="outline"
-            >
-              {order.payment_status}
-            </Badge>
-            <span className="text-xl font-bold tabular-nums">
-              {formatPrice((order.amount_total || 0) / 100, locale)}
-            </span>
-          </div>
+      <div className="flex flex-1 flex-col gap-4 p-4 md:p-6">
+
+        {/* Title row */}
+        <div className="flex flex-wrap items-center gap-3">
+          <Badge
+            className={order.payment_status === "paid"
+              ? "bg-green-100 text-green-800 hover:bg-green-100 border-green-200 gap-1.5 px-3 py-1 text-sm"
+              : "gap-1.5 px-3 py-1 text-sm"}
+            variant="outline"
+          >
+            {order.payment_status === "paid" ? (isFr ? "Payée" : "Paid") : order.payment_status}
+          </Badge>
+          <h1 className="text-xl font-semibold tracking-tight">
+            {new Date(order.created_at).toLocaleString(locale_, {
+              year: "numeric", month: "long", day: "numeric",
+              hour: "2-digit", minute: "2-digit",
+            })}
+          </h1>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {/* Customer */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium flex items-center gap-2">
-                {isFr ? "Client" : "Customer"}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-1 text-sm">
-              <p className="font-medium">{order.customer_email || "—"}</p>
-            </CardContent>
-          </Card>
+        {/* Two-column layout */}
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
 
-          {/* Shipping address */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium flex items-center gap-2">
-                <MapPinIcon className="h-4 w-4 text-muted-foreground" />
-                {isFr ? "Adresse d'expédition" : "Shipping address"}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm">
-              {shippingLines.length > 0 ? (
-                <div className="space-y-0.5">
-                  {shippingLines.map((line, i) => (
-                    <p key={i} className={i === 0 ? "font-medium" : "text-muted-foreground"}>
-                      {line}
+          {/* LEFT — order items + totals (2/3) */}
+          <div className="flex flex-col gap-4 lg:col-span-2">
+
+            {/* Items card */}
+            <div className="rounded-xl border bg-card shadow-xs overflow-hidden">
+              <div className="px-5 py-4 border-b">
+                <div className="flex items-center gap-2">
+                  <Badge
+                    className={order.order_status === "fulfilled"
+                      ? "bg-green-100 text-green-800 border-green-200"
+                      : "bg-blue-50 text-blue-700 border-blue-200"}
+                    variant="outline"
+                  >
+                    {order.order_status === "fulfilled"
+                      ? (isFr ? "Traité" : "Fulfilled")
+                      : (isFr ? "En attente" : "Pending")}
+                  </Badge>
+                </div>
+              </div>
+
+              {/* Items list */}
+              {order.order_items?.map((item, i) => (
+                <div key={item.id} className={`flex items-center gap-4 px-5 py-4 ${i < order.order_items.length - 1 ? "border-b" : ""}`}>
+                  <div className="h-12 w-12 rounded-lg bg-muted flex items-center justify-center text-muted-foreground text-xs shrink-0">
+                    NFC
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-sm">{item.product_name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {formatPrice((item.unit_amount || 0) / 100, locale)} × {item.quantity}
                     </p>
+                  </div>
+                  <p className="font-semibold tabular-nums text-sm">
+                    {formatPrice((item.amount_total || 0) / 100, locale)}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Totals card */}
+            <div className="rounded-xl border bg-card shadow-xs px-5 py-4 space-y-2 text-sm">
+              <div className="flex justify-between text-muted-foreground">
+                <span>{isFr ? "Sous-total" : "Subtotal"}</span>
+                <span>{order.order_items?.length ?? 0} {isFr ? "article(s)" : "item(s)"}</span>
+                <span className="tabular-nums">{formatPrice(subtotal / 100, locale)}</span>
+              </div>
+              <Separator />
+              <div className="flex justify-between font-semibold">
+                <span>Total</span>
+                <span />
+                <span className="tabular-nums">{formatPrice((order.amount_total || 0) / 100, locale)}</span>
+              </div>
+              <div className="flex justify-between text-muted-foreground">
+                <span>{isFr ? "Payé" : "Paid"}</span>
+                <span />
+                <span className="tabular-nums">{formatPrice((order.amount_total || 0) / 100, locale)}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT — customer + shipping (1/3) */}
+          <div className="flex flex-col gap-4">
+
+            {/* Customer card */}
+            <div className="rounded-xl border bg-card shadow-xs px-5 py-4 space-y-3 text-sm">
+              <p className="font-semibold">{isFr ? "Client" : "Customer"}</p>
+              <div className="space-y-1">
+                {order.shipping_name && (
+                  <p className="font-medium">{order.shipping_name}</p>
+                )}
+                {order.customer_email && (
+                  <p className="text-muted-foreground">{order.customer_email}</p>
+                )}
+              </div>
+              {order.business_name && (
+                <>
+                  <Separator />
+                  <div className="space-y-0.5">
+                    <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
+                      {isFr ? "Établissement" : "Business"}
+                    </p>
+                    <p className="font-medium">{order.business_name}</p>
+                    {order.business_address && (
+                      <p className="text-muted-foreground text-xs">{order.business_address}</p>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Shipping address card */}
+            <div className="rounded-xl border bg-card shadow-xs px-5 py-4 space-y-2 text-sm">
+              <p className="font-semibold">{isFr ? "Adresse d'expédition" : "Shipping address"}</p>
+              {shippingLines.length > 0 ? (
+                <div className="space-y-0.5 text-muted-foreground">
+                  {shippingLines.map((line, i) => (
+                    <p key={i} className={i === 0 ? "font-medium text-foreground" : ""}>{line}</p>
                   ))}
                 </div>
               ) : (
                 <p className="text-muted-foreground">—</p>
               )}
-            </CardContent>
-          </Card>
+            </div>
 
-          {/* Business */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium flex items-center gap-2">
-                <BuildingIcon className="h-4 w-4 text-muted-foreground" />
-                {isFr ? "Établissement" : "Business"}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm space-y-0.5">
-              {order.business_name ? (
-                <>
-                  <p className="font-medium">{order.business_name}</p>
-                  {order.business_address && (
-                    <p className="text-muted-foreground">{order.business_address}</p>
-                  )}
-                </>
-              ) : (
-                <p className="text-muted-foreground">—</p>
-              )}
-            </CardContent>
-          </Card>
+          </div>
         </div>
-
-        {/* Order items */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <PackageIcon className="h-4 w-4 text-muted-foreground" />
-              {isFr ? "Articles commandés" : "Items ordered"}
-            </CardTitle>
-            <CardDescription>
-              {order.order_items?.length ?? 0}{" "}
-              {isFr ? "article(s)" : "item(s)"}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{isFr ? "Produit" : "Product"}</TableHead>
-                  <TableHead className="text-right">
-                    {isFr ? "Qté" : "Qty"}
-                  </TableHead>
-                  <TableHead className="text-right">
-                    {isFr ? "Prix unitaire" : "Unit price"}
-                  </TableHead>
-                  <TableHead className="text-right">
-                    {isFr ? "Total" : "Total"}
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {order.order_items?.map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell className="font-medium">
-                      {item.product_name}
-                    </TableCell>
-                    <TableCell className="text-right tabular-nums">
-                      {item.quantity}
-                    </TableCell>
-                    <TableCell className="text-right tabular-nums">
-                      {formatPrice((item.unit_amount || 0) / 100, locale)}
-                    </TableCell>
-                    <TableCell className="text-right font-semibold tabular-nums">
-                      {formatPrice((item.amount_total || 0) / 100, locale)}
-                    </TableCell>
-                  </TableRow>
-                ))}
-                <TableRow className="border-t-2">
-                  <TableCell
-                    colSpan={3}
-                    className="text-right font-semibold"
-                  >
-                    Total
-                  </TableCell>
-                  <TableCell className="text-right font-bold tabular-nums text-base">
-                    {formatPrice((order.amount_total || 0) / 100, locale)}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-
       </div>
     </>
   );
