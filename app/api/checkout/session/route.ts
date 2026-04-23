@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import Stripe from "stripe";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +20,20 @@ export async function GET(request: NextRequest) {
     const session = (await stripe.checkout.sessions.retrieve(sessionId, {
       expand: ["customer", "payment_intent"],
     })) as unknown as Stripe.Checkout.Session;
+
+    let orderNumber: number | null = null;
+    const supabase = createAdminClient();
+    if (supabase) {
+      const { data: orderRow } = await supabase
+        .from("orders")
+        .select("order_number")
+        .eq("stripe_session_id", sessionId)
+        .maybeSingle();
+      orderNumber =
+        orderRow && typeof orderRow.order_number === "number"
+          ? orderRow.order_number
+          : null;
+    }
 
     const shippingDetails = (session as any).shipping_details as
       | Stripe.Checkout.Session.CollectedInformation.ShippingDetails
@@ -48,7 +63,7 @@ export async function GET(request: NextRequest) {
       metadata: session.metadata || {},
     };
 
-    return NextResponse.json({ session: sessionData });
+    return NextResponse.json({ session: sessionData, order_number: orderNumber });
   } catch (error: any) {
     console.error("Checkout session retrieve error:", error);
     return NextResponse.json(

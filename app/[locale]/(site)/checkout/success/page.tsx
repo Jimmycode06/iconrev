@@ -41,6 +41,7 @@ function CheckoutSuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const [session, setSession] = useState<CheckoutSession | null>(null);
+  const [orderNumber, setOrderNumber] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const { clearCart } = useCartStore();
 
@@ -50,19 +51,45 @@ function CheckoutSuccessContent() {
       return;
     }
 
-    fetch(`/api/checkout/session?session_id=${sessionId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.session) {
-          setSession(data.session);
-          clearCart();
+    let cancelled = false;
+    let cartCleared = false;
+
+    (async () => {
+      try {
+        for (let attempt = 0; attempt < 9; attempt++) {
+          if (cancelled) return;
+          const res = await fetch(
+            `/api/checkout/session?session_id=${encodeURIComponent(sessionId)}`
+          );
+          const data = (await res.json()) as {
+            session?: CheckoutSession;
+            order_number?: number | null;
+          };
+          if (attempt === 0 && !cancelled) setLoading(false);
+          if (data.session) {
+            setSession(data.session);
+            if (!cartCleared) {
+              clearCart();
+              cartCleared = true;
+            }
+          }
+          if (typeof data.order_number === "number") {
+            setOrderNumber(data.order_number);
+            break;
+          }
+          if (attempt < 8) {
+            await new Promise((r) => setTimeout(r, 1000));
+          }
         }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Session fetch error:", error);
-        setLoading(false);
-      });
+      } catch (e) {
+        console.error("Session fetch error:", e);
+        if (!cancelled) setLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, [sessionId, clearCart]);
 
   const formatSessionPrice = (cents: number) => {
@@ -123,10 +150,14 @@ function CheckoutSuccessContent() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex justify-between items-center pb-4 border-b">
-              <span className="text-muted-foreground">{t("order_id")}</span>
-              <span className="font-mono font-semibold text-sm break-all text-right max-w-[60%]">
-                {session.id}
+            <div className="flex justify-between items-center gap-4 pb-4 border-b">
+              <span className="text-muted-foreground shrink-0">
+                {t("order_number_label")}
+              </span>
+              <span className="font-semibold text-right text-lg tabular-nums">
+                {orderNumber != null
+                  ? `#${orderNumber}`
+                  : t("order_number_pending")}
               </span>
             </div>
             <div className="flex justify-between items-center">
