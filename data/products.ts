@@ -20,7 +20,7 @@ export const DEFAULT_PRODUCT_GALLERY = [
 const enProducts: Product[] = [
   {
     id: "1",
-    name: "Starter — 1 QR + NFC card",
+    name: "1 card — QR + NFC",
     description:
       "Perfect to get started: place the card and start collecting reviews quickly. Many customers get 15+ new reviews in the first week. One card, ready to go.",
     price: 29,
@@ -46,11 +46,11 @@ const enProducts: Product[] = [
       },
     ],
     inStock: true,
-    category: "Starter",
+    category: "1 card",
   },
   {
     id: "2",
-    name: "Pro — 2 QR + NFC cards",
+    name: "2 cards — QR + NFC",
     description: "",
     price: 49,
     image: PRODUCT_CARD_IMAGE,
@@ -75,13 +75,13 @@ const enProducts: Product[] = [
       },
     ],
     inStock: true,
-    category: "Pro",
+    category: "2 cards",
     popular: true,
     bestValue: true,
   },
   {
     id: "3",
-    name: "Business — 5 QR + NFC cards",
+    name: "5 cards — QR + NFC",
     description:
       "Equip your entire location. Five cards turn tables, counters and high-traffic zones into review collection points. Best value for multi-zone spaces.",
     price: 89,
@@ -107,14 +107,14 @@ const enProducts: Product[] = [
       },
     ],
     inStock: true,
-    category: "Business",
+    category: "5 cards",
   },
 ];
 
 const frProducts: Product[] = [
   {
     id: "1",
-    name: "Débutant — 1 carte QR + NFC",
+    name: "1 carte — QR + NFC",
     description:
       "Parfait pour démarrer : posez la carte et commencez à collecter des avis rapidement. Beaucoup de clients obtiennent 15+ nouveaux avis la première semaine. Une carte, prête à l'emploi.",
     price: 29,
@@ -140,11 +140,11 @@ const frProducts: Product[] = [
       },
     ],
     inStock: true,
-    category: "Débutant",
+    category: "1 carte",
   },
   {
     id: "2",
-    name: "Pro — 2 cartes QR + NFC",
+    name: "2 cartes — QR + NFC",
     description: "",
     price: 49,
     image: PRODUCT_CARD_IMAGE,
@@ -169,13 +169,13 @@ const frProducts: Product[] = [
       },
     ],
     inStock: true,
-    category: "Pro",
+    category: "2 cartes",
     popular: true,
     bestValue: true,
   },
   {
     id: "3",
-    name: "Business — 5 cartes QR + NFC",
+    name: "5 cartes — QR + NFC",
     description:
       "Équipez tout votre établissement. Cinq cartes transforment tables, comptoirs et zones passantes en points de collecte d'avis. Le meilleur rapport valeur pour les espaces multi-zones.",
     price: 89,
@@ -201,7 +201,7 @@ const frProducts: Product[] = [
       },
     ],
     inStock: true,
-    category: "Business",
+    category: "5 cartes",
   },
 ];
 
