@@ -61,7 +61,7 @@ function PackRowInner({
           <span
             className={cn(
               "block tabular-nums text-muted-foreground/80 line-through",
-              compact ? "text-[9px]" : "text-[10px]"
+              compact ? "text-[10px]" : "text-[12px]"
             )}
           >
             {formatPrice(oldPackPrice(product), locale)}

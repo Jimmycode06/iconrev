@@ -84,7 +84,7 @@ const enProducts: Product[] = [
     name: "Business — 5 QR + NFC cards",
     description:
       "Equip your entire location. Five cards turn tables, counters and high-traffic zones into review collection points. Best value for multi-zone spaces.",
-    price: 99,
+    price: 89,
     image: PRODUCT_CARD_IMAGE,
     images: [...DEFAULT_PRODUCT_GALLERY],
     rating: 5,
@@ -178,7 +178,7 @@ const frProducts: Product[] = [
     name: "Business — 5 cartes QR + NFC",
     description:
       "Équipez tout votre établissement. Cinq cartes transforment tables, comptoirs et zones passantes en points de collecte d'avis. Le meilleur rapport valeur pour les espaces multi-zones.",
-    price: 99,
+    price: 89,
     image: PRODUCT_CARD_IMAGE,
     images: [...DEFAULT_PRODUCT_GALLERY],
     rating: 5,
