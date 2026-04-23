@@ -136,6 +136,13 @@ export default async function OrderDetailPage({
                 })}
               </p>
             )}
+            {order.order_items && order.order_items.length > 0 && (
+              <p className="text-sm font-medium text-foreground mt-2 max-w-2xl">
+                {order.order_items
+                  .map((i) => `${i.quantity}× ${i.product_name}`)
+                  .join(" · ")}
+              </p>
+            )}
           </div>
         </div>
 
@@ -147,8 +154,18 @@ export default async function OrderDetailPage({
 
             {/* Items card */}
             <div className="rounded-xl border bg-card shadow-xs overflow-hidden">
-              <div className="px-5 py-4 border-b">
-                <div className="flex items-center gap-2">
+              <div className="px-5 py-4 border-b space-y-2">
+                <h2 className="text-base font-semibold">
+                  {isFr ? "Contenu de la commande" : "What was ordered"}
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  {order.order_items?.length
+                    ? isFr
+                      ? `${order.order_items.length} article(s)`
+                      : `${order.order_items.length} item(s)`
+                    : (isFr ? "Aucun article enregistré" : "No line items stored")}
+                </p>
+                <div className="flex flex-wrap items-center gap-2">
                   <Badge
                     className={order.order_status === "fulfilled"
                       ? "bg-green-100 text-green-800 border-green-200"
@@ -163,22 +180,40 @@ export default async function OrderDetailPage({
               </div>
 
               {/* Items list */}
-              {order.order_items?.map((item, i) => (
-                <div key={item.id} className={`flex items-center gap-4 px-5 py-4 ${i < order.order_items.length - 1 ? "border-b" : ""}`}>
-                  <div className="h-12 w-12 rounded-lg bg-muted flex items-center justify-center text-muted-foreground text-xs shrink-0">
-                    NFC
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm">{item.product_name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {formatPrice((item.unit_amount || 0) / 100, locale)} × {item.quantity}
+              {order.order_items && order.order_items.length > 0 ? (
+                order.order_items.map((item, i) => (
+                  <div
+                    key={item.id}
+                    className={`flex items-start sm:items-center gap-4 px-5 py-4 ${
+                      i < order.order_items.length - 1 ? "border-b" : ""
+                    }`}
+                  >
+                    <div className="h-12 w-12 rounded-lg bg-muted flex items-center justify-center text-muted-foreground text-[10px] font-medium leading-tight text-center px-0.5 shrink-0">
+                      QR+NFC
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-base leading-snug">
+                        {item.quantity}× {item.product_name}
+                      </p>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {isFr ? "Prix unitaire" : "Unit"}{" "}
+                        {formatPrice((item.unit_amount || 0) / 100, locale)} ·{" "}
+                        {isFr ? "Total ligne" : "Line total"}{" "}
+                        {formatPrice((item.amount_total || 0) / 100, locale)}
+                      </p>
+                    </div>
+                    <p className="font-bold tabular-nums text-base shrink-0">
+                      {formatPrice((item.amount_total || 0) / 100, locale)}
                     </p>
                   </div>
-                  <p className="font-semibold tabular-nums text-sm">
-                    {formatPrice((item.amount_total || 0) / 100, locale)}
-                  </p>
+                ))
+              ) : (
+                <div className="px-5 py-8 text-center text-sm text-muted-foreground">
+                  {isFr
+                    ? "Les articles n’ont pas pu être rechargés. Vérifiez Supabase ou le webhook Stripe."
+                    : "Line items could not be loaded. Check Supabase or the Stripe webhook."}
                 </div>
-              ))}
+              )}
             </div>
 
             {/* Totals card */}

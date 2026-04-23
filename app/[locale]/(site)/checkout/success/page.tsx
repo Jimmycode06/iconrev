@@ -4,14 +4,23 @@ import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { CheckCircle, Package, Mail, Home, Building2 } from "lucide-react";
+import { CheckCircle, Package, Mail, Home, Building2, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCartStore } from "@/store/cart-store";
 import { useTranslations, useLocale } from "next-intl";
 
+interface CheckoutLineItem {
+  description: string;
+  quantity: number;
+  amount_total: number;
+  unit_amount: number;
+  currency: string;
+}
+
 interface CheckoutSession {
   id: string;
+  line_items?: CheckoutLineItem[];
   customer_details: {
     email: string;
     name?: string;
@@ -176,6 +185,41 @@ function CheckoutSuccessContent() {
             </div>
           </CardContent>
         </Card>
+
+        {session.line_items && session.line_items.length > 0 && (
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <ShoppingBag className="h-5 w-5" />
+                {t("ordered_items_title")}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="divide-y rounded-lg border bg-muted/30">
+                {session.line_items.map((line, idx) => (
+                  <li
+                    key={`${line.description}-${idx}`}
+                    className="flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+                  >
+                    <div className="min-w-0">
+                      <p className="font-semibold">
+                        {line.quantity}× {line.description}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {t("unit_price_each", {
+                          price: formatSessionPrice(line.unit_amount),
+                        })}
+                      </p>
+                    </div>
+                    <p className="font-bold tabular-nums text-base sm:shrink-0">
+                      {formatSessionPrice(line.amount_total)}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        )}
 
         {session.shipping_details && (
           <Card className="mb-6">

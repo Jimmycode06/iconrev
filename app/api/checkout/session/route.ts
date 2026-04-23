@@ -18,7 +18,11 @@ export async function GET(request: NextRequest) {
     }
 
     const session = (await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ["customer", "payment_intent"],
+      expand: [
+        "line_items.data.price.product",
+        "customer",
+        "payment_intent",
+      ],
     })) as unknown as Stripe.Checkout.Session;
 
     let orderNumber: number | null = null;
@@ -40,8 +44,34 @@ export async function GET(request: NextRequest) {
       | null
       | undefined;
 
+    let lineItems = session.line_items?.data ?? [];
+    if (lineItems.length === 0) {
+      const listed = await stripe.checkout.sessions.listLineItems(sessionId, {
+        limit: 100,
+        expand: ["data.price.product"],
+      });
+      lineItems = listed.data;
+    }
+    const lineItemsPayload = lineItems.map((line) => {
+      const product = line.price?.product;
+      const name =
+        line.description ||
+        (typeof product === "string"
+          ? null
+          : (product as Stripe.Product | undefined)?.name) ||
+        "Item";
+      return {
+        description: name,
+        quantity: line.quantity ?? 1,
+        amount_total: line.amount_total ?? 0,
+        unit_amount: line.price?.unit_amount ?? 0,
+        currency: (line.currency || session.currency || "eur").toUpperCase(),
+      };
+    });
+
     const sessionData = {
       id: session.id,
+      line_items: lineItemsPayload,
       customer_details: {
         email: session.customer_details?.email,
         name: session.customer_details?.name,

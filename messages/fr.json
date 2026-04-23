@@ -214,6 +214,8 @@
     "order_details": "Détails de commande",
     "order_number_label": "N° de commande",
     "order_number_pending": "Attribution en cours…",
+    "ordered_items_title": "Ce que vous avez commandé",
+    "unit_price_each": "Prix unitaire : {price}",
     "total": "Total",
     "payment_status": "Statut du paiement",
     "paid": "Payé",

@@ -214,6 +214,8 @@
     "order_details": "Order details",
     "order_number_label": "Order number",
     "order_number_pending": "Retrieving…",
+    "ordered_items_title": "What you ordered",
+    "unit_price_each": "Unit price: {price} each",
     "total": "Total",
     "payment_status": "Payment status",
     "paid": "Paid",
