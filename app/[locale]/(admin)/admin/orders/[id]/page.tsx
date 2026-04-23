@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import {
   ArrowLeftIcon,
   MapPinIcon,
-  MailIcon,
   BuildingIcon,
   PackageIcon,
   CreditCardIcon,
@@ -163,7 +162,6 @@ export default async function OrderDetailPage({
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
-                <MailIcon className="h-4 w-4 text-muted-foreground" />
                 {isFr ? "Client" : "Customer"}
               </CardTitle>
             </CardHeader>

@@ -51,7 +51,6 @@ export function AdminOrdersTable({ orders, locale, isFr }: Props) {
         <TableRow>
           <TableHead>{isFr ? "Date" : "Date"}</TableHead>
           <TableHead>Email</TableHead>
-          <TableHead>{isFr ? "Business" : "Business"}</TableHead>
           <TableHead>{isFr ? "Produits" : "Items"}</TableHead>
           <TableHead className="text-right">
             {isFr ? "Montant" : "Amount"}
@@ -81,16 +80,6 @@ export function AdminOrdersTable({ orders, locale, isFr }: Props) {
             </TableCell>
             <TableCell className="font-medium">
               {order.customer_email || "—"}
-            </TableCell>
-            <TableCell>
-              <div className="flex flex-col gap-0.5">
-                <span className="font-medium text-sm">
-                  {order.business_name || order.shipping_name || "—"}
-                </span>
-                <span className="text-[10px] text-muted-foreground font-mono truncate max-w-[140px]">
-                  {order.stripe_session_id}
-                </span>
-              </div>
             </TableCell>
             <TableCell>
               <ul className="space-y-0.5">
