@@ -5,7 +5,6 @@ import {
   MapPinIcon,
   BuildingIcon,
   PackageIcon,
-  CreditCardIcon,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -116,8 +115,8 @@ export default async function OrderDetailPage({
             orientation="vertical"
             className="mx-2 data-[orientation=vertical]:h-4"
           />
-          <span className="text-sm font-medium font-mono text-muted-foreground truncate max-w-[200px]">
-            {order.stripe_session_id}
+          <span className="text-sm font-medium text-muted-foreground">
+            {isFr ? "Détail commande" : "Order detail"}
           </span>
         </div>
       </header>
@@ -167,11 +166,6 @@ export default async function OrderDetailPage({
             </CardHeader>
             <CardContent className="space-y-1 text-sm">
               <p className="font-medium">{order.customer_email || "—"}</p>
-              {order.stripe_payment_intent_id && (
-                <p className="text-xs text-muted-foreground font-mono truncate">
-                  {order.stripe_payment_intent_id}
-                </p>
-              )}
             </CardContent>
           </Card>
 
@@ -282,33 +276,6 @@ export default async function OrderDetailPage({
           </CardContent>
         </Card>
 
-        {/* Stripe IDs */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <CreditCardIcon className="h-4 w-4 text-muted-foreground" />
-              {isFr ? "Identifiants Stripe" : "Stripe IDs"}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2 text-xs text-muted-foreground font-mono">
-            <div className="flex flex-col gap-0.5">
-              <span className="text-[10px] uppercase tracking-wide text-muted-foreground/60">
-                Session
-              </span>
-              <span className="break-all">{order.stripe_session_id}</span>
-            </div>
-            {order.stripe_payment_intent_id && (
-              <div className="flex flex-col gap-0.5">
-                <span className="text-[10px] uppercase tracking-wide text-muted-foreground/60">
-                  Payment Intent
-                </span>
-                <span className="break-all">
-                  {order.stripe_payment_intent_id}
-                </span>
-              </div>
-            )}
-          </CardContent>
-        </Card>
       </div>
     </>
   );
