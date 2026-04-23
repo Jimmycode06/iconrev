@@ -87,7 +87,7 @@ function createSupabaseClient(request: NextRequest, response: NextResponse) {
 
 export const config = {
   matcher: [
-    // Match all paths except static assets
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    // Match all paths except API routes and static assets
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

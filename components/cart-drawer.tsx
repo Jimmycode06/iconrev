@@ -47,13 +47,13 @@ export function CartDrawer() {
       });
 
       const data = await response.json();
-      if (data.url) {
+      if (response.ok && data.url) {
         window.location.href = data.url;
       } else {
         alert(
           locale === "fr"
-            ? "Une erreur est survenue. Veuillez reessayer."
-            : "Something went wrong. Please try again."
+            ? data?.error || "Une erreur est survenue. Veuillez reessayer."
+            : data?.error || "Something went wrong. Please try again."
         );
       }
     } catch (error) {
