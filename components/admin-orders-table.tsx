@@ -77,15 +77,8 @@ export function AdminOrdersTable({ orders, locale, isFr }: Props) {
                 }
               )}
             </TableCell>
-            <TableCell className="text-sm">
-              <div className="flex flex-col gap-0.5">
-                {order.shipping_name && (
-                  <span className="font-medium">{order.shipping_name}</span>
-                )}
-                <span className="text-muted-foreground text-xs">
-                  {order.customer_email || "—"}
-                </span>
-              </div>
+            <TableCell className="text-sm font-medium">
+              {order.shipping_name || order.customer_email || "—"}
             </TableCell>
             <TableCell className="text-right font-semibold tabular-nums">
               {formatPrice((order.amount_total || 0) / 100, locale)}
