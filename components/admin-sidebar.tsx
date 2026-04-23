@@ -3,15 +3,8 @@
 import * as React from "react";
 import Link from "next/link";
 import { useLocale } from "next-intl";
-import {
-  ShoppingBagIcon,
-  LayoutDashboardIcon,
-  HomeIcon,
-  SettingsIcon,
-  HelpCircleIcon,
-} from "lucide-react";
+import { ShoppingBagIcon, LayoutDashboardIcon } from "lucide-react";
 import { NavMain } from "@/components/nav-main";
-import { NavSecondary } from "@/components/nav-secondary";
 import {
   Sidebar,
   SidebarContent,
@@ -42,24 +35,6 @@ export function AdminSidebar({
     },
   ];
 
-  const navSecondary = [
-    {
-      title: isFr ? "Retour au site" : "Back to site",
-      url: `${base}`,
-      icon: HomeIcon,
-    },
-    {
-      title: isFr ? "Paramètres" : "Settings",
-      url: "#",
-      icon: SettingsIcon,
-    },
-    {
-      title: isFr ? "Aide" : "Help",
-      url: "#",
-      icon: HelpCircleIcon,
-    },
-  ];
-
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -69,7 +44,7 @@ export function AdminSidebar({
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <Link href={base}>
+              <Link href={`${base}/admin/orders`}>
                 <ShoppingBagIcon className="h-5 w-5 text-blue-600" />
                 <span className="text-base font-semibold">Iconrev Admin</span>
               </Link>
@@ -79,7 +54,6 @@ export function AdminSidebar({
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={navMain} />
-        <NavSecondary items={navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter />
     </Sidebar>
