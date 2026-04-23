@@ -50,12 +50,11 @@ export function AdminOrdersTable({ orders, locale, isFr }: Props) {
       <TableHeader>
         <TableRow>
           <TableHead>{isFr ? "Date" : "Date"}</TableHead>
-          <TableHead>Email</TableHead>
-          <TableHead>{isFr ? "Produits" : "Items"}</TableHead>
-          <TableHead className="text-right">
-            {isFr ? "Montant" : "Amount"}
-          </TableHead>
-          <TableHead>{isFr ? "Statut" : "Status"}</TableHead>
+          <TableHead>{isFr ? "Client" : "Customer"}</TableHead>
+          <TableHead className="text-right">Total</TableHead>
+          <TableHead>{isFr ? "Statut du paiement" : "Payment status"}</TableHead>
+          <TableHead>{isFr ? "Statut de la commande" : "Order status"}</TableHead>
+          <TableHead>{isFr ? "Articles" : "Items"}</TableHead>
           <TableHead>{isFr ? "Pays" : "Country"}</TableHead>
         </TableRow>
       </TableHeader>
@@ -78,17 +77,8 @@ export function AdminOrdersTable({ orders, locale, isFr }: Props) {
                 }
               )}
             </TableCell>
-            <TableCell className="font-medium">
+            <TableCell className="text-sm">
               {order.customer_email || "—"}
-            </TableCell>
-            <TableCell>
-              <ul className="space-y-0.5">
-                {order.order_items?.map((item) => (
-                  <li key={item.id} className="text-xs text-muted-foreground">
-                    {item.quantity}× {item.product_name}
-                  </li>
-                ))}
-              </ul>
             </TableCell>
             <TableCell className="text-right font-semibold tabular-nums">
               {formatPrice((order.amount_total || 0) / 100, locale)}
@@ -102,8 +92,31 @@ export function AdminOrdersTable({ orders, locale, isFr }: Props) {
                 }
                 variant="outline"
               >
-                {order.payment_status}
+                {order.payment_status === "paid"
+                  ? isFr ? "Payé" : "Paid"
+                  : order.payment_status}
               </Badge>
+            </TableCell>
+            <TableCell>
+              <Badge
+                className="bg-blue-50 text-blue-700 hover:bg-blue-50 border-blue-200"
+                variant="outline"
+              >
+                {order.order_status === "pending"
+                  ? isFr ? "En attente" : "Pending"
+                  : order.order_status === "fulfilled"
+                  ? isFr ? "Traité" : "Fulfilled"
+                  : order.order_status || (isFr ? "Nouveau" : "New")}
+              </Badge>
+            </TableCell>
+            <TableCell>
+              <ul className="space-y-0.5">
+                {order.order_items?.map((item) => (
+                  <li key={item.id} className="text-xs text-muted-foreground">
+                    {item.quantity}× {item.product_name}
+                  </li>
+                ))}
+              </ul>
             </TableCell>
             <TableCell className="text-muted-foreground text-sm">
               {order.shipping_country || "—"}
