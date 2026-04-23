@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import { Trash2, Plus, Minus, ShoppingBag, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { GoogleBusinessLocation } from "@/components/google-business-location";
 import { useCartStore } from "@/store/cart-store";
 import { formatPrice } from "@/lib/utils";
 import { getBogoFreeQuantity, getPromoLabel } from "@/lib/promotions";
@@ -21,34 +20,17 @@ export default function CartPage() {
     updateQuantity,
     getTotal,
     clearCart,
-    establishment,
   } = useCartStore();
   const total = getTotal();
 
   const handleCheckout = async () => {
     if (items.length === 0) return;
 
-    if (!establishment.placeId && !establishment.useCustomName) {
-      alert(t("alert_no_business"));
-      return;
-    }
-
-    if (establishment.useCustomName && !establishment.businessName.trim()) {
-      alert(t("alert_no_name"));
-      return;
-    }
-
-    const businessInfo = {
-      placeId: establishment.placeId,
-      businessName: establishment.businessName,
-      address: establishment.address,
-    };
-
     try {
       const response = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items, businessInfo }),
+        body: JSON.stringify({ items }),
       });
 
       const data = await response.json();
@@ -64,10 +46,7 @@ export default function CartPage() {
     }
   };
 
-  const canPay =
-    items.length > 0 &&
-    (establishment.placeId || establishment.useCustomName) &&
-    (!establishment.useCustomName || establishment.businessName.trim());
+  const canPay = items.length > 0;
 
   if (items.length === 0) {
     return (
@@ -225,7 +204,6 @@ export default function CartPage() {
               ))}
             </div>
 
-            <GoogleBusinessLocation className="mt-6" />
           </div>
 
           <motion.div
