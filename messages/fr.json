@@ -1,7 +1,11 @@
 {
   "Layout": {
-    "banner_promo": "Offre limitée jusqu'à -40 %",
-    "banner_pack": "Pack 1 carte à partir de 29 €",
+    "banner_badge": "Offre limitée",
+    "banner_upto": "jusqu'à",
+    "banner_pct": "-40 %",
+    "banner_pack_prefix": "Pack 1 carte",
+    "banner_pack_from": "à partir de",
+    "banner_price": "29 €",
     "lang": "fr"
   },
   "Header": {
