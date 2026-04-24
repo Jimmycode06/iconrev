@@ -1,10 +1,7 @@
 {
   "Layout": {
-    "banner_badge": "Limited-time offer",
-    "banner_discount": "20% OFF",
-    "banner_code_text": "free shipping with code",
-    "banner_code": "LAUNCH20",
-    "banner_starter": "Starter pack from €29.00",
+    "banner_promo": "Limited offer: up to 40% off",
+    "banner_pack": "1-card pack from €29",
     "lang": "en"
   },
   "Header": {

@@ -20,16 +20,10 @@ export default async function SiteLayout({
     <>
       <StickyBanner hideOnScroll>
         <p className="text-xs sm:text-sm font-medium tracking-[0.01em] text-white/95">
-          <span className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-2 py-0.5 mr-2 text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.14em] text-white">
-            {t("banner_badge")}
-          </span>
-          <span className="font-semibold">{t("banner_discount")}</span>{" "}
-          {t("banner_code_text")}{" "}
-          <span className="inline-flex items-center rounded-md border border-white/30 bg-white/15 px-2 py-0.5 font-mono font-bold tracking-[0.08em] text-white">
-            {t("banner_code")}
-          </span>
-          <span className="hidden sm:inline">
-            {" "}&bull; {t("banner_starter")}
+          <span className="font-semibold">{t("banner_promo")}</span>
+          <span className="hidden sm:inline">{" "}&bull; </span>
+          <span className="block sm:inline mt-0.5 sm:mt-0 sm:font-medium">
+            {t("banner_pack")}
           </span>
         </p>
       </StickyBanner>
