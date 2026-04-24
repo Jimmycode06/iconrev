@@ -119,7 +119,7 @@ function ProductsContent() {
 
           <div className="pt-1">
             <Button
-              className="w-full bg-gradient-to-r from-sky-500 via-blue-500 to-cyan-500 hover:from-sky-500/95 hover:via-blue-500/95 hover:to-cyan-500/95 text-white h-14 px-5 flex flex-row items-center justify-between gap-3.5 text-left font-bold text-base shadow-[0_10px_24px_rgba(37,99,235,0.22)]"
+              className="w-full border border-white/10 bg-gradient-to-r from-slate-950 via-blue-950 to-slate-900 text-white h-14 px-5 flex flex-row items-center justify-between gap-3.5 text-left font-bold text-base shadow-[0_10px_30px_rgba(2,6,23,0.35)] hover:from-slate-900 hover:via-blue-900 hover:to-slate-800"
               onClick={handleAddToCart}
               disabled={!selected.inStock}
             >
