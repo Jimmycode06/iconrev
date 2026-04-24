@@ -10,9 +10,11 @@ export default function AdminLayout({
 }) {
   return (
     <div className={`${GeistSans.variable} ${GeistMono.variable} font-[family-name:var(--font-geist-sans)] antialiased`}>
-      <SidebarProvider>
+      <SidebarProvider className="has-[[data-variant=inset]]:!bg-white">
         <AdminSidebar variant="inset" />
-        <SidebarInset>{children}</SidebarInset>
+        <SidebarInset className="!bg-white md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:border md:peer-data-[variant=inset]:border-border/60">
+          {children}
+        </SidebarInset>
       </SidebarProvider>
     </div>
   );
