@@ -18,20 +18,12 @@ const PRODUCT_GALLERY_SECONDARY = "/carte-iconrev-avis-google.png";
 
 export const GALLERY_IN_STORE_COUNTER = "/gallery/iconrev-in-store-counter.png";
 
-const GALLERY_LIFESTYLE: string[] = [
-  "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?auto=format&fit=crop&w=900&q=80",
-];
-
 export const DEFAULT_PRODUCT_GALLERY = [
   PRODUCT_GALLERY_HERO,
   PRODUCT_GALLERY_HERO_STUDIO,
   PRODUCT_GALLERY_SLIDE_2,
   PRODUCT_GALLERY_SECONDARY,
   PRODUCT_GALLERY_SLIDE_4,
-  ...GALLERY_LIFESTYLE,
 ];
 
 const enProducts: Product[] = [
