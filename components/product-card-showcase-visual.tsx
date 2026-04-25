@@ -90,8 +90,8 @@ export function ProductCardShowcaseVisual({
           )}
         >
           {isFr
-            ? "Ce que vous recevez : pret a poser sur le comptoir ou au sol"
-            : "What you get: ready to place at the counter or on the floor"}
+            ? "Ce que vous recevez : prêt à poser sur le comptoir ou au mur"
+            : "What you get: ready to place on the counter or on the wall"}
         </p>
       )}
     </div>
