@@ -5,6 +5,8 @@ import { getLocale } from "next-intl/server";
 import "./globals.css";
 
 const googleTagId = process.env.NEXT_PUBLIC_GOOGLE_TAG_ID;
+const googleSiteVerification =
+  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -15,6 +17,9 @@ export const metadata: Metadata = {
   title: "Iconrev — Get more Google reviews with NFC & QR cards",
   description:
     "Turn happy customers into Google reviews with one tap. NFC + QR cards for local businesses.",
+  ...(googleSiteVerification
+    ? { verification: { google: googleSiteVerification } }
+    : {}),
 };
 
 export default async function RootLayout({
