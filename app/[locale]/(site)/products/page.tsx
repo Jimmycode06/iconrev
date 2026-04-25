@@ -114,6 +114,7 @@ function ProductsContent() {
             variant="select"
             selectedId={selectedId}
             onSelect={setSelectedId}
+            minimalPackLabels
           />
 
           <p className="text-sm text-muted-foreground leading-relaxed pt-0.5">

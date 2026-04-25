@@ -20,16 +20,23 @@ function PackRowInner({
   product,
   compact,
   reserveCornerBadge,
+  packTitle,
   packSubtitleText,
   bestDealText,
   locale,
+  showCategoryOutlineBadge = true,
+  showPackSubtitle = true,
 }: {
   product: Product;
   compact?: boolean;
   reserveCornerBadge?: boolean;
+  /** Main line (full product name, or e.g. category only when minimal) */
+  packTitle: string;
   packSubtitleText: string;
   bestDealText: string;
   locale: string;
+  showCategoryOutlineBadge?: boolean;
+  showPackSubtitle?: boolean;
 }) {
   const t = useTranslations("PackList");
 
@@ -47,7 +54,7 @@ function PackRowInner({
             compact ? "text-[10px]" : "text-[12px] sm:text-[13px]"
           )}
         >
-          {product.name}
+          {packTitle}
         </span>
         <div className="shrink-0 text-right">
           <span
@@ -69,7 +76,7 @@ function PackRowInner({
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-1.5">
-        {product.category && (
+        {showCategoryOutlineBadge && product.category && (
           <Badge
             variant="outline"
             className={cn(
@@ -103,14 +110,16 @@ function PackRowInner({
           </Badge>
         )}
       </div>
-      <p
-        className={cn(
-          "text-muted-foreground/90 leading-relaxed",
-          compact ? "text-[9px]" : "text-[10px] sm:text-[10px]"
-        )}
-      >
-        {packSubtitleText}
-      </p>
+      {showPackSubtitle ? (
+        <p
+          className={cn(
+            "text-muted-foreground/90 leading-relaxed",
+            compact ? "text-[9px]" : "text-[10px] sm:text-[10px]"
+          )}
+        >
+          {packSubtitleText}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -153,6 +162,8 @@ type SelectProps = {
   onSelect: (id: string) => void;
   radioName?: string;
   compact?: boolean;
+  /** e.g. product page: only "1 / 2 / 5 cartes" + price, no blurbs under each pack */
+  minimalPackLabels?: boolean;
 };
 
 type LinkProps = {
@@ -178,10 +189,15 @@ export function ProductPackList(props: ProductPackListProps) {
 
   if (props.variant === "select") {
     const { selectedId, onSelect, radioName = "pack" } = props;
+    const minimalPackLabels = Boolean(props.minimalPackLabels);
     const packSpacing = compact ? "space-y-1" : "space-y-2";
 
     const selectRows = products.map((product) => {
       const isSelected = product.id === selectedId;
+      const packTitle =
+        minimalPackLabels && product.category
+          ? product.category
+          : product.name;
       return (
         <label
           key={product.id}
@@ -210,6 +226,9 @@ export function ProductPackList(props: ProductPackListProps) {
               <PackRowInner
                 product={product}
                 compact
+                packTitle={packTitle}
+                showCategoryOutlineBadge={!minimalPackLabels}
+                showPackSubtitle={!minimalPackLabels}
                 packSubtitleText={getPackSubtitle(product.id)}
                 bestDealText={bestDealText}
                 locale={locale}
@@ -239,6 +258,9 @@ export function ProductPackList(props: ProductPackListProps) {
                 product={product}
                 compact={false}
                 reserveCornerBadge={product.bestValue}
+                packTitle={packTitle}
+                showCategoryOutlineBadge={!minimalPackLabels}
+                showPackSubtitle={!minimalPackLabels}
                 packSubtitleText={getPackSubtitle(product.id)}
                 bestDealText={bestDealText}
                 locale={locale}
@@ -296,6 +318,9 @@ export function ProductPackList(props: ProductPackListProps) {
               product={product}
               compact={compact}
               reserveCornerBadge={!compact && product.bestValue}
+              packTitle={product.name}
+              showCategoryOutlineBadge
+              showPackSubtitle
               packSubtitleText={getPackSubtitle(product.id)}
               bestDealText={bestDealText}
               locale={locale}
