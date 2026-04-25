@@ -21,11 +21,11 @@ export default async function ActivatePage({ searchParams }: PageProps) {
       <section className="min-h-[60vh] flex items-center justify-center px-4">
         <div className="text-center max-w-md space-y-3">
           <h1 className="text-2xl font-bold text-foreground">
-            ID carte manquant
+            ID plaque manquant
           </h1>
           <p className="text-muted-foreground">
             Veuillez scanner le QR code de votre plaque Iconrev pour l&apos;activer.
-            L&apos;URL doit contenir un identifiant de carte unique.
+            L&apos;URL doit contenir un identifiant de plaque unique.
           </p>
         </div>
       </section>

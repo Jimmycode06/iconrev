@@ -147,7 +147,6 @@
     "loading": "Chargement…",
     "gallery_prev": "Image précédente",
     "gallery_next": "Image suivante",
-    "gallery_counter": "Photo {current} / {total}",
     "gallery_region": "Galerie photos du produit"
   },
   "ProductFaq": {

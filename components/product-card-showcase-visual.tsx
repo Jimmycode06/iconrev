@@ -63,8 +63,8 @@ export function ProductCardShowcaseVisual({
           src={`${PRODUCT_CARD_IMAGE}?v=5`}
           alt={
             isFr
-              ? "Carte avis Iconrev : approchez en NFC ou scannez le QR pour laisser un avis Google"
-              : "Iconrev review card: tap NFC or scan QR to leave a Google review"
+              ? "Plaque avis Iconrev : approchez en NFC ou scannez le QR pour laisser un avis Google"
+              : "Iconrev review plate: tap NFC or scan QR to leave a Google review"
           }
           width={720}
           height={720}

@@ -33,7 +33,7 @@ const EN_PLACEMENT_IDEAS: PlacementIdea[] = [
       "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
     title: "Table or booth",
     caption:
-      "Cafés and restaurants: keep the card in sight for the whole visit.",
+      "Cafés and restaurants: keep the plate in sight for the whole visit.",
   },
 ];
 
@@ -59,7 +59,7 @@ const FR_PLACEMENT_IDEAS: PlacementIdea[] = [
       "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
     title: "Table ou banquette",
     caption:
-      "Cafés et restaurants : la carte reste visible pendant toute la visite.",
+      "Cafés et restaurants : la plaque reste visible pendant toute la visite.",
   },
 ];
 

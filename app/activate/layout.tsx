@@ -21,7 +21,7 @@ const frMessages = {
       "Conçu pour les commerces locaux qui veulent dominer Google Maps. Plus de 1 200 établissements utilisent Iconrev.",
     quick_links: "Liens rapides",
     home: "Accueil",
-    order_card: "Commander une carte",
+    order_card: "Commander une plaque",
     how_it_works: "Comment ça marche",
     contact_audit: "Contact & audit gratuit",
     legal: "Mentions légales",

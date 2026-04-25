@@ -205,7 +205,7 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
 
             <div className="rounded-lg bg-muted/40 px-4 py-3 text-sm text-muted-foreground space-y-1">
               <p>
-                <strong className="text-foreground">ID carte :</strong> {cardId}
+                <strong className="text-foreground">ID plaque :</strong> {cardId}
               </p>
               <p>
                 <strong className="text-foreground">Compte :</strong> {email}

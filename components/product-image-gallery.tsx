@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -135,40 +134,43 @@ export function ProductImageGallery({
 
           {canNavigate && (
             <>
-              <div className="pointer-events-none absolute bottom-2 left-0 right-0 flex justify-center">
-                <span
-                  className="pointer-events-none rounded-full bg-background/90 px-2.5 py-0.5 text-xs font-medium tabular-nums text-muted-foreground shadow-sm ring-1 ring-border/60 backdrop-blur-sm"
-                  aria-live="polite"
-                >
-                  {t("gallery_counter", {
-                    current: safeIndex + 1,
-                    total: list.length,
-                  })}
-                </span>
-              </div>
-              <div className="absolute inset-y-0 left-0 flex items-center pl-1 sm:pl-2 pointer-events-none">
-                <Button
+              <div className="absolute inset-y-0 left-0 z-[1] flex items-center pl-0.5 sm:pl-1 pointer-events-none">
+                <button
                   type="button"
-                  variant="secondary"
-                  size="icon"
                   onClick={goPrev}
-                  className="pointer-events-auto h-9 w-9 sm:h-10 sm:w-10 rounded-full border border-border/80 bg-background/90 shadow-md backdrop-blur-sm hover:bg-background"
                   aria-label={t("gallery_prev")}
+                  className={cn(
+                    "pointer-events-auto inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center",
+                    "rounded-full border-0 bg-transparent p-0 shadow-none",
+                    "text-foreground/50 hover:text-foreground/80 active:text-foreground",
+                    "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+                  )}
                 >
-                  <ChevronLeft className="h-5 w-5" />
-                </Button>
+                  <ChevronLeft
+                    className="h-7 w-7 sm:h-8 sm:w-8"
+                    strokeWidth={1.75}
+                    aria-hidden
+                  />
+                </button>
               </div>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-1 sm:pr-2 pointer-events-none">
-                <Button
+              <div className="absolute inset-y-0 right-0 z-[1] flex items-center pr-0.5 sm:pr-1 pointer-events-none">
+                <button
                   type="button"
-                  variant="secondary"
-                  size="icon"
                   onClick={goNext}
-                  className="pointer-events-auto h-9 w-9 sm:h-10 sm:w-10 rounded-full border border-border/80 bg-background/90 shadow-md backdrop-blur-sm hover:bg-background"
                   aria-label={t("gallery_next")}
+                  className={cn(
+                    "pointer-events-auto inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center",
+                    "rounded-full border-0 bg-transparent p-0 shadow-none",
+                    "text-foreground/50 hover:text-foreground/80 active:text-foreground",
+                    "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+                  )}
                 >
-                  <ChevronRight className="h-5 w-5" />
-                </Button>
+                  <ChevronRight
+                    className="h-7 w-7 sm:h-8 sm:w-8"
+                    strokeWidth={1.75}
+                    aria-hidden
+                  />
+                </button>
               </div>
             </>
           )}

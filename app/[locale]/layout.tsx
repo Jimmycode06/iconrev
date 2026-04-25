@@ -17,15 +17,15 @@ export async function generateMetadata({
   const { locale } = await params;
   if (locale === "fr") {
     return {
-      title: "Iconrev — Obtenez plus d'avis Google avec des cartes NFC & QR",
+      title: "Iconrev — Obtenez plus d'avis Google avec des plaques NFC & QR",
       description:
-        "Transformez vos clients satisfaits en avis Google en un scan. Cartes NFC + QR pour les commerces locaux.",
+        "Transformez vos clients satisfaits en avis Google en un scan. Plaques NFC + QR pour les commerces locaux.",
     };
   }
   return {
-    title: "Iconrev — Get more Google reviews with NFC & QR cards",
+    title: "Iconrev — Get more Google reviews with NFC & QR plates",
     description:
-      "Turn happy customers into Google reviews with one tap. NFC + QR review cards for local businesses.",
+      "Turn happy customers into Google reviews with one tap. NFC + QR review plates for local businesses.",
   };
 }
 

@@ -14,9 +14,9 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Iconrev — Get more Google reviews with NFC & QR cards",
+  title: "Iconrev — Get more Google reviews with NFC & QR plates",
   description:
-    "Turn happy customers into Google reviews with one tap. NFC + QR cards for local businesses.",
+    "Turn happy customers into Google reviews with one tap. NFC + QR review plates for local businesses.",
   ...(googleSiteVerification
     ? { verification: { google: googleSiteVerification } }
     : {}),

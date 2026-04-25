@@ -147,7 +147,6 @@
     "loading": "Loading…",
     "gallery_prev": "Previous image",
     "gallery_next": "Next image",
-    "gallery_counter": "Photo {current} / {total}",
     "gallery_region": "Product photo gallery"
   },
   "ProductFaq": {
