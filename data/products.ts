@@ -2,6 +2,9 @@ import { Product } from "@/types";
 
 export const PRODUCT_CARD_IMAGE = "/carte-iconrev-avis-google.png";
 
+/** Première image galerie page produit — plaque studio (QR + NFC). */
+export const PRODUCT_GALLERY_HERO = "/gallery/iconrev-plaque-hero.png";
+
 export const GALLERY_IN_STORE_COUNTER = "/gallery/iconrev-in-store-counter.png";
 
 const GALLERY_LIFESTYLE: string[] = [
@@ -13,6 +16,7 @@ const GALLERY_LIFESTYLE: string[] = [
 ];
 
 export const DEFAULT_PRODUCT_GALLERY = [
+  PRODUCT_GALLERY_HERO,
   PRODUCT_CARD_IMAGE,
   ...GALLERY_LIFESTYLE,
 ];
