@@ -8,6 +8,9 @@ export const PRODUCT_CARD_IMAGE = PRODUCT_GALLERY_HERO;
 /** 2e image galerie fiche produit — plaque (visuel FR). */
 export const PRODUCT_GALLERY_SLIDE_2 = "/gallery/iconrev-plaque-fr.png";
 
+/** 3e image galerie — fiche technique (dimensions, NFC, QR). */
+export const PRODUCT_GALLERY_SLIDE_3 = "/gallery/iconrev-plaque-specs.png";
+
 const PRODUCT_GALLERY_SECONDARY = "/carte-iconrev-avis-google.png";
 
 export const GALLERY_IN_STORE_COUNTER = "/gallery/iconrev-in-store-counter.png";
@@ -23,6 +26,7 @@ const GALLERY_LIFESTYLE: string[] = [
 export const DEFAULT_PRODUCT_GALLERY = [
   PRODUCT_GALLERY_HERO,
   PRODUCT_GALLERY_SLIDE_2,
+  PRODUCT_GALLERY_SLIDE_3,
   PRODUCT_GALLERY_SECONDARY,
   ...GALLERY_LIFESTYLE,
 ];
