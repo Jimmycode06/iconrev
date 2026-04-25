@@ -4,8 +4,13 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Timer } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
 
-export function HowItWorksSection() {
+type HowItWorksSectionProps = {
+  className?: string;
+};
+
+export function HowItWorksSection({ className }: HowItWorksSectionProps) {
   const t = useTranslations("HowItWorks");
 
   const steps = [
@@ -33,7 +38,12 @@ export function HowItWorksSection() {
   ];
 
   return (
-    <section className="pt-10 pb-20 md:pt-12 md:pb-24 bg-white">
+    <section
+      className={cn(
+        "pt-10 pb-20 md:pt-12 md:pb-24 bg-white",
+        className
+      )}
+    >
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 16 }}

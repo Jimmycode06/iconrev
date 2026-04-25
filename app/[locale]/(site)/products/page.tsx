@@ -10,6 +10,7 @@ import { GoogleBusinessLocation } from "@/components/google-business-location";
 import { ProductPackList } from "@/components/product-pack-list";
 import { ProductImageGallery } from "@/components/product-image-gallery";
 import { ProductAdvantages } from "@/components/product-advantages";
+import { HowItWorksSection } from "@/components/how-it-works-section";
 import { getPlacementIdeas } from "@/data/placement-inspiration";
 import { useCartStore } from "@/store/cart-store";
 import { useCartUI } from "@/store/cart-ui-store";
@@ -152,6 +153,8 @@ function ProductsContent() {
           </div>
         </motion.div>
       </div>
+
+      <HowItWorksSection className="mt-2 md:mt-4 -mx-4 px-4 sm:mx-0 sm:px-0 border-t border-border/70 pt-12 md:pt-16" />
 
       <motion.div
         initial={{ opacity: 0, y: 16 }}
