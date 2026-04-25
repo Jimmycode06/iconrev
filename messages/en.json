@@ -3,7 +3,7 @@
     "banner_badge": "Limited offer",
     "banner_upto": "up to",
     "banner_pct": "40% off",
-    "banner_pack_prefix": "1-card pack",
+    "banner_pack_prefix": "1-plate pack",
     "banner_pack_from": "from",
     "banner_price": "€29",
     "lang": "en"
@@ -24,7 +24,7 @@
     "tagline": "Built for local businesses that want to win on Google Maps. 1,200+ locations use Iconrev to collect reviews the easy way.",
     "quick_links": "Quick links",
     "home": "Home",
-    "order_card": "Order a card",
+    "order_card": "Order a plate",
     "how_it_works": "How it works",
     "contact_audit": "Contact & free audit",
     "legal": "Legal",
@@ -42,7 +42,7 @@
   "Hero": {
     "headline": "Your competitors are stacking Google reviews.",
     "highlight": "Are you?",
-    "subtext": "One physical card your customers actually see: NFC + QR, a clear ask, and a direct path to your Google review screen. Less friction — more five-star reviews."
+    "subtext": "One physical plate your customers actually see: NFC + QR, a clear ask, and a direct path to your Google review screen. Less friction — more five-star reviews."
   },
   "HowItWorks": {
     "title": "Setup Your Stand in 3 Easy Steps",
@@ -60,17 +60,17 @@
   "Features": {
     "label": "Why Iconrev",
     "title": "Everything you need to win local search on Google",
-    "subtitle": "No complicated software, no hidden subscription. One physical card working for you around the clock.",
+    "subtitle": "No complicated software, no hidden subscription. One physical plate working for you around the clock.",
     "f1_title": "3× more reviews on average",
     "f1_desc": "Most teams go from a handful of reviews to dozens in weeks. Each review moves you closer to the Google Maps top three — where most local clicks happen.",
     "f2_title": "Zero friction for customers",
     "f2_desc": "No app, no account, no hunting for your listing. One tap or scan lands them on your review screen. Many businesses see review conversion jump from ~2% to ~30%.",
-    "f3_title": "NFC + QR in one card",
+    "f3_title": "NFC + QR on one plate",
     "f3_desc": "Tap with a phone or scan the QR — both work. iPhone and Android. No customer left behind, no excuse not to leave a review.",
     "f4_title": "Pays for itself fast",
-    "f4_desc": "One new customer from better visibility can cover the card. Many teams see strong ROI in the first month.",
+    "f4_desc": "One new customer from better visibility can cover the plate. Many teams see strong ROI in the first month.",
     "f5_title": "Premium look customers trust",
-    "f5_desc": "No more homemade signs. A polished card matches your brand and makes leaving a review feel natural.",
+    "f5_desc": "No more homemade signs. A polished plate matches your brand and makes leaving a review feel natural.",
     "f6_title": "30-day money-back guarantee",
     "f6_desc": "Try it risk-free. If you are not seeing momentum in the first month, we refund you — no hassle."
   },
@@ -81,7 +81,7 @@
     "t1_name": "Thomas R.",
     "t1_role": "Restaurant owner",
     "t1_location": "Denver, CO",
-    "t1_quote": "Before Iconrev I had 12 reviews in three years. Six weeks with the card: 48 new ones. I went from 8th to 2nd on Google Maps. Revenue was up about 25% the next month.",
+    "t1_quote": "Before Iconrev I had 12 reviews in three years. Six weeks with the plate: 48 new ones. I went from 8th to 2nd on Google Maps. Revenue was up about 25% the next month.",
     "t1_metric": "+400% reviews",
     "t2_name": "Sophie L.",
     "t2_role": "Spa owner",
@@ -96,7 +96,7 @@
     "t4_name": "Julie M.",
     "t4_role": "Bakery owner",
     "t4_location": "Portland, OR",
-    "t4_quote": "The card has sat on the counter for four months: 112 Google reviews, highest rating in the neighborhood, and tourists who say they found us on Maps. Paid for itself in a week.",
+    "t4_quote": "The plate has sat on the counter for four months: 112 Google reviews, highest rating in the neighborhood, and tourists who say they found us on Maps. Paid for itself in a week.",
     "t4_metric": "112 in 4 months",
     "stat1_value": "4.9/5",
     "stat1_label": "Average rating",
@@ -110,7 +110,7 @@
   "CTA": {
     "badge": "Limited offer: 20% off with code LAUNCH20",
     "title": "While you read this, competitors are collecting reviews",
-    "subtitle": "Every day without fresh reviews is a day Google ranks you lower. Order today — cards ship in 2–3 business days and start working immediately.",
+    "subtitle": "Every day without fresh reviews is a day Google ranks you lower. Order today — plates ship in 2–3 business days and start working immediately.",
     "price_value": "€29.00",
     "price_label": "Starting at",
     "shipping_value": "2–3 days",
@@ -120,7 +120,7 @@
     "cta_button": "Order now — from €29.00"
   },
   "Home": {
-    "pack_label": "Our cards",
+    "pack_label": "Our plates",
     "pack_title": "Choose your pack",
     "pack_desc": "Same flow as the product page: pick a pack, then tell us which location it's for so we can prepare your order with the right Google profile.",
     "select_pack": "Select a pack",
@@ -128,10 +128,10 @@
     "added_to_cart": "Added to cart"
   },
   "Products": {
-    "label": "NFC + QR review cards",
+    "label": "NFC + QR review plates",
     "title": "Choose your pack",
-    "subtitle": "Pick a pack, then tell us which business it's for — we'll use that profile when we prepare your cards.",
-    "nfc_badge": "NFC + QR on every card",
+    "subtitle": "Pick a pack, then tell us which business it's for — we'll use that profile when we prepare your plates.",
+    "nfc_badge": "NFC + QR on every plate",
     "select_pack": "Select a pack",
     "add_to_cart": "Add to cart",
     "added_to_cart": "Added to cart",
@@ -176,12 +176,12 @@
     "a7_body": "Reach us by chat, email, or phone—we're happy to help and we reply quickly."
   },
   "PackList": {
-    "subtitle_1": "1 card — perfect to try",
-    "subtitle_2": "2 cards — counter + wall",
-    "subtitle_5": "5 cards — full location",
+    "subtitle_1": "1 Plate — perfect to try",
+    "subtitle_2": "2 Plates — counter + wall",
+    "subtitle_5": "5 Plates — full location",
     "popular": "Popular",
     "best_deal": "Best deal",
-    "aria_label": "Card packs"
+    "aria_label": "Pack options"
   },
   "ProductAdvantages": {
     "designed_for": "Designed for US businesses",
@@ -190,7 +190,7 @@
   },
   "GoogleBusinessLocation": {
     "title": "Your Google Business location",
-    "desc": "Tell us which Google Business Profile this order is for. We use it to link the correct review URL when we prepare your cards — setup is handled by our team after purchase, not in this form.",
+    "desc": "Tell us which Google Business Profile this order is for. We use it to link the correct review URL when we prepare your plates — setup is handled by our team after purchase, not in this form.",
     "placeholder": "Search your business on Google Maps...",
     "change": "Change",
     "custom_label": "Or enter a custom business name",
@@ -230,7 +230,7 @@
   "Checkout": {
     "redirecting": "Redirecting…",
     "title": "Confirm your business",
-    "subtitle": "We use this to attach the correct Google review link when we prepare your cards.",
+    "subtitle": "We use this to attach the correct Google review link when we prepare your plates.",
     "back": "Back to cart",
     "continue": "Continue to payment",
     "alert_no_business": "Please select your business on Google or enter a custom name.",
@@ -257,7 +257,7 @@
     "email_sent": "We sent a confirmation to",
     "next_steps_title": "What happens next",
     "next_step1": "You'll get an order confirmation email shortly",
-    "next_step2": "We prepare and ship your cards quickly",
+    "next_step2": "We prepare and ship your plates quickly",
     "next_step3": "Tracking details will be emailed when your order ships",
     "continue_shopping": "Continue shopping",
     "back_home": "Back to home"
@@ -268,7 +268,7 @@
     "story_title": "Our story",
     "story_p1": "In 2023, after years running a local restaurant, our founder saw the same pattern: guests loved the place, but only about 2% left a review. Why? The path was too long — open Maps, find the business, hunt for the review button. Most people give up.",
     "story_p1_strong": "guests loved the place, but only about 2% left a review",
-    "story_p2": "The fix was obvious: remove the friction. One card on the counter. Tap or scan. Land straight on the review screen. For many teams, that turned ~2% into ~28% completion.",
+    "story_p2": "The fix was obvious: remove the friction. One plate on the counter. Tap or scan. Land straight on the review screen. For many teams, that turned ~2% into ~28% completion.",
     "story_p2_strong": "remove the friction",
     "story_p3_prefix": "Today,",
     "story_p3_strong": "1,200+ businesses",
@@ -276,9 +276,9 @@
     "v1_title": "Own local visibility",
     "v1_desc": "Roughly three in four people never scroll past the top three on Maps. We help you get there.",
     "v2_title": "Zero friction, zero training",
-    "v2_desc": "No customer app, no staff workshop. If you can place a card on a counter, you can use Iconrev.",
+    "v2_desc": "No customer app, no staff workshop. If you can place a plate on a counter, you can use Iconrev.",
     "v3_title": "ROI that shows up fast",
-    "v3_desc": "One new customer from better visibility can pay for the card. Many teams see strong payback in the first month.",
+    "v3_desc": "One new customer from better visibility can pay for the plate. Many teams see strong payback in the first month.",
     "stats_title": "By the numbers",
     "stat1_value": "1,247+",
     "stat1_label": "Businesses equipped",
@@ -296,7 +296,7 @@
     "q1": "I didn't think reviews could move revenue this much.",
     "q2": "In six weeks I had more reviews than my competitor who's been there ten years.",
     "q3": "The hardest part was trying it once. After that it runs itself.",
-    "q4": "The card paid for itself in the first week.",
+    "q4": "The plate paid for itself in the first week.",
     "cta": "Join 1,247+ businesses"
   },
   "Contact": {
@@ -327,8 +327,8 @@
   "Chat": {
     "title": "Need help?",
     "reply_time": "We reply in < 2h",
-    "bot_welcome": "Hi! 👋 Questions about our NFC + QR review cards? I can help you get more Google reviews — or ask for a free profile audit.",
-    "bot_reply": "Thanks for reaching out! Our team replies within ~2 hours on business days. Meanwhile, many customers see 3× more Google reviews with Iconrev — cards start at €29.00, or email contact@iconrev.com anytime.",
+    "bot_welcome": "Hi! 👋 Questions about our NFC + QR review plates? I can help you get more Google reviews — or ask for a free profile audit.",
+    "bot_reply": "Thanks for reaching out! Our team replies within ~2 hours on business days. Meanwhile, many customers see 3× more Google reviews with Iconrev — plates start at €29.00, or email contact@iconrev.com anytime.",
     "placeholder": "Type your message..."
   },
   "ResetPassword": {

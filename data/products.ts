@@ -1,6 +1,6 @@
 import { Product } from "@/types";
 
-/** Photo principale (hero, cartes produit, panier) — plaque CTA avis Google (FR). */
+/** Photo principale (hero, fiche produit, panier) — plaque CTA avis Google (FR). */
 export const PRODUCT_GALLERY_HERO = "/gallery/iconrev-plaque-google-avis-fr.png";
 
 /** Ancien hero studio — 2e slide galerie. */
@@ -37,9 +37,9 @@ export const DEFAULT_PRODUCT_GALLERY = [
 const enProducts: Product[] = [
   {
     id: "1",
-    name: "1 card — QR + NFC",
+    name: "1 Plate — QR + NFC",
     description:
-      "Perfect to get started: place the card and start collecting reviews quickly. Many customers get 15+ new reviews in the first week. One card, ready to go.",
+      "Perfect to get started: place the plate and start collecting reviews quickly. Many customers get 15+ new reviews in the first week. One plate, ready to go.",
     price: 29,
     image: PRODUCT_CARD_IMAGE,
     images: [...DEFAULT_PRODUCT_GALLERY],
@@ -47,7 +47,7 @@ const enProducts: Product[] = [
     reviews: 127,
     advantages: [
       {
-        title: "NFC + QR on one card",
+        title: "NFC + QR on one plate",
         description:
           "Customers can scan or tap with any smartphone, no app needed.",
       },
@@ -63,11 +63,11 @@ const enProducts: Product[] = [
       },
     ],
     inStock: true,
-    category: "1 card",
+    category: "1 Plate",
   },
   {
     id: "2",
-    name: "2 cards — QR + NFC",
+    name: "2 Plates — QR + NFC",
     description: "",
     price: 49,
     image: PRODUCT_CARD_IMAGE,
@@ -83,7 +83,7 @@ const enProducts: Product[] = [
       {
         title: "Premium NFC + QR",
         description:
-          "Reliable NFC activation with QR backup on every card.",
+          "Reliable NFC activation with QR backup on every plate.",
       },
       {
         title: "Built for the field",
@@ -92,15 +92,15 @@ const enProducts: Product[] = [
       },
     ],
     inStock: true,
-    category: "2 cards",
+    category: "2 Plates",
     popular: true,
     bestValue: true,
   },
   {
     id: "3",
-    name: "5 cards — QR + NFC",
+    name: "5 Plates — QR + NFC",
     description:
-      "Equip your entire location. Five cards turn tables, counters and high-traffic zones into review collection points. Best value for multi-zone spaces.",
+      "Equip your entire location. Five plates turn tables, counters and high-traffic zones into review collection points. Best value for multi-zone spaces.",
     price: 89,
     image: PRODUCT_CARD_IMAGE,
     images: [...DEFAULT_PRODUCT_GALLERY],
@@ -110,10 +110,10 @@ const enProducts: Product[] = [
       {
         title: "Cover the whole location",
         description:
-          "Five cards for tables, counters and busy zones, with consistent review prompts everywhere.",
+          "Five plates for tables, counters and busy zones, with consistent review prompts everywhere.",
       },
       {
-        title: "Best price per card",
+        title: "Best price per plate",
         description:
           "The most cost-effective pack for businesses that want to cover all their zones.",
       },
@@ -124,16 +124,16 @@ const enProducts: Product[] = [
       },
     ],
     inStock: true,
-    category: "5 cards",
+    category: "5 Plates",
   },
 ];
 
 const frProducts: Product[] = [
   {
     id: "1",
-    name: "1 carte — QR + NFC",
+    name: "1 Plaque — QR + NFC",
     description:
-      "Parfait pour démarrer : posez la carte et commencez à collecter des avis rapidement. Beaucoup de clients obtiennent 15+ nouveaux avis la première semaine. Une carte, prête à l'emploi.",
+      "Parfait pour démarrer : posez la plaque et commencez à collecter des avis rapidement. Beaucoup de clients obtiennent 15+ nouveaux avis la première semaine. Une plaque, prête à l'emploi.",
     price: 29,
     image: PRODUCT_CARD_IMAGE,
     images: [...DEFAULT_PRODUCT_GALLERY],
@@ -141,7 +141,7 @@ const frProducts: Product[] = [
     reviews: 127,
     advantages: [
       {
-        title: "NFC + QR sur une seule carte",
+        title: "NFC + QR sur une seule plaque",
         description:
           "Les clients peuvent scanner ou approcher avec n'importe quel smartphone, sans application.",
       },
@@ -157,11 +157,11 @@ const frProducts: Product[] = [
       },
     ],
     inStock: true,
-    category: "1 carte",
+    category: "1 Plaque",
   },
   {
     id: "2",
-    name: "2 cartes — QR + NFC",
+    name: "2 Plaques — QR + NFC",
     description: "",
     price: 49,
     image: PRODUCT_CARD_IMAGE,
@@ -177,7 +177,7 @@ const frProducts: Product[] = [
       {
         title: "NFC + QR premium",
         description:
-          "Activation fiable par NFC avec QR en secours sur chaque carte.",
+          "Activation fiable par NFC avec QR en secours sur chaque plaque.",
       },
       {
         title: "Conçu pour le terrain",
@@ -186,15 +186,15 @@ const frProducts: Product[] = [
       },
     ],
     inStock: true,
-    category: "2 cartes",
+    category: "2 Plaques",
     popular: true,
     bestValue: true,
   },
   {
     id: "3",
-    name: "5 cartes — QR + NFC",
+    name: "5 Plaques — QR + NFC",
     description:
-      "Équipez tout votre établissement. Cinq cartes transforment tables, comptoirs et zones passantes en points de collecte d'avis. Le meilleur rapport valeur pour les espaces multi-zones.",
+      "Équipez tout votre établissement. Cinq plaques transforment tables, comptoirs et zones passantes en points de collecte d'avis. Le meilleur rapport valeur pour les espaces multi-zones.",
     price: 89,
     image: PRODUCT_CARD_IMAGE,
     images: [...DEFAULT_PRODUCT_GALLERY],
@@ -204,10 +204,10 @@ const frProducts: Product[] = [
       {
         title: "Couvrez tout l'établissement",
         description:
-          "Cinq cartes pour tables, comptoirs et zones fréquentées, avec une demande d'avis cohérente partout.",
+          "Cinq plaques pour tables, comptoirs et zones fréquentées, avec une demande d'avis cohérente partout.",
       },
       {
-        title: "Meilleur prix par carte",
+        title: "Meilleur prix par plaque",
         description:
           "Le pack le plus avantageux pour les commerces qui veulent couvrir toutes leurs zones.",
       },
@@ -218,7 +218,7 @@ const frProducts: Product[] = [
       },
     ],
     inStock: true,
-    category: "5 cartes",
+    category: "5 Plaques",
   },
 ];
 

@@ -80,7 +80,7 @@ function PackRowInner({
           <Badge
             variant="outline"
             className={cn(
-              "font-semibold uppercase tracking-wider border-border/80 bg-background/60 text-muted-foreground",
+              "font-semibold tracking-wide border-border/80 bg-background/60 text-muted-foreground",
               compact ? "text-[8px] px-1.5 py-0 h-[17px]" : "text-[9px] px-2 py-0 h-[17px]"
             )}
           >
@@ -162,7 +162,7 @@ type SelectProps = {
   onSelect: (id: string) => void;
   radioName?: string;
   compact?: boolean;
-  /** e.g. product page: only "1 / 2 / 5 cartes" + price, no blurbs under each pack */
+  /** e.g. product page: full title + quantity badges, no PackList subtitle blurbs */
   minimalPackLabels?: boolean;
 };
 
@@ -194,10 +194,6 @@ export function ProductPackList(props: ProductPackListProps) {
 
     const selectRows = products.map((product) => {
       const isSelected = product.id === selectedId;
-      const packTitle =
-        minimalPackLabels && product.category
-          ? product.category
-          : product.name;
       return (
         <label
           key={product.id}
@@ -226,8 +222,8 @@ export function ProductPackList(props: ProductPackListProps) {
               <PackRowInner
                 product={product}
                 compact
-                packTitle={packTitle}
-                showCategoryOutlineBadge={!minimalPackLabels}
+                packTitle={product.name}
+                showCategoryOutlineBadge
                 showPackSubtitle={!minimalPackLabels}
                 packSubtitleText={getPackSubtitle(product.id)}
                 bestDealText={bestDealText}
@@ -258,8 +254,8 @@ export function ProductPackList(props: ProductPackListProps) {
                 product={product}
                 compact={false}
                 reserveCornerBadge={product.bestValue}
-                packTitle={packTitle}
-                showCategoryOutlineBadge={!minimalPackLabels}
+                packTitle={product.name}
+                showCategoryOutlineBadge
                 showPackSubtitle={!minimalPackLabels}
                 packSubtitleText={getPackSubtitle(product.id)}
                 bestDealText={bestDealText}
