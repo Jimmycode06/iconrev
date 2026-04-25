@@ -24,6 +24,7 @@ function ProductsContent() {
   const locale = useLocale();
   const products = getProducts(locale);
   const placementIdeas = getPlacementIdeas(locale);
+  const [placementFeatured, ...placementMore] = placementIdeas;
 
   const searchParams = useSearchParams();
   const packParam = searchParams.get("pack");
@@ -191,38 +192,82 @@ function ProductsContent() {
         >
           {t("inspiration_title")}
         </h2>
-        <p className="text-muted-foreground text-base leading-relaxed mb-10 max-w-2xl">
+        <p className="text-muted-foreground text-base leading-relaxed mb-8 max-w-2xl">
           {t("inspiration_desc")}
         </p>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-7">
-          {placementIdeas.map((item, i) => (
-            <motion.article
-              key={item.id}
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-20px" }}
-              transition={{ duration: 0.35, delay: Math.min(i * 0.06, 0.35) }}
-              className="flex flex-col"
-            >
-              <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-border/80 bg-muted/20 shadow-sm ring-1 ring-black/[0.04]">
+        {placementFeatured ? (
+          <motion.article
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-24px" }}
+            transition={{ duration: 0.45 }}
+            className="mb-12 md:mb-14"
+          >
+            <p className="text-xs font-semibold uppercase tracking-wider text-blue-600 mb-2">
+              {t("inspiration_featured_eyebrow")}
+            </p>
+            <div className="relative w-full max-w-4xl mx-auto rounded-2xl overflow-hidden border border-border/80 bg-muted/20 shadow-[0_20px_60px_-15px_rgba(15,23,42,0.2)] ring-1 ring-black/[0.06]">
+              <div className="relative aspect-[4/3] md:aspect-[2/1] w-full">
                 <Image
-                  src={item.imageSrc}
-                  alt={`${item.title} — ${t("inspiration_img_alt")}`}
+                  src={placementFeatured.imageSrc}
+                  alt={`${placementFeatured.title} — ${t("inspiration_img_alt")}`}
                   fill
-                  className="object-cover transition-transform duration-300 hover:scale-[1.03]"
-                  sizes="(max-width: 768px) 44vw, 260px"
+                  className="object-cover object-center"
+                  sizes="(max-width: 768px) 100vw, min(896px, 90vw)"
+                  priority={false}
                 />
               </div>
-              <h3 className="mt-3 font-semibold text-sm md:text-base text-foreground leading-tight">
-                {item.title}
+            </div>
+            <div className="mt-5 max-w-2xl mx-auto text-center md:text-left">
+              <h3 className="text-xl md:text-2xl font-bold text-foreground text-balance">
+                {placementFeatured.title}
               </h3>
-              <p className="mt-1.5 text-xs md:text-sm text-muted-foreground leading-snug">
-                {item.caption}
+              <p className="mt-2 text-sm md:text-base text-muted-foreground leading-relaxed">
+                {placementFeatured.caption}
               </p>
-            </motion.article>
-          ))}
-        </div>
+            </div>
+          </motion.article>
+        ) : null}
+
+        {placementMore.length > 0 ? (
+          <>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground/90 mb-5">
+              {t("inspiration_more_title")}
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-7 max-w-3xl">
+              {placementMore.map((item, i) => (
+                <motion.article
+                  key={item.id}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-20px" }}
+                  transition={{
+                    duration: 0.35,
+                    delay: Math.min(i * 0.08, 0.2),
+                  }}
+                  className="flex flex-col"
+                >
+                  <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-border/80 bg-muted/20 shadow-sm ring-1 ring-black/[0.04]">
+                    <Image
+                      src={item.imageSrc}
+                      alt={`${item.title} — ${t("inspiration_img_alt")}`}
+                      fill
+                      className="object-cover transition-transform duration-300 hover:scale-[1.02]"
+                      sizes="(max-width: 640px) 100vw, 400px"
+                    />
+                  </div>
+                  <h4 className="mt-3 font-semibold text-sm md:text-base text-foreground leading-tight">
+                    {item.title}
+                  </h4>
+                  <p className="mt-1.5 text-xs md:text-sm text-muted-foreground leading-snug">
+                    {item.caption}
+                  </p>
+                </motion.article>
+              ))}
+            </div>
+          </>
+        ) : null}
 
         <p className="mt-10 text-sm text-muted-foreground max-w-2xl">
           {t("inspiration_note")}

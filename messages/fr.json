@@ -139,9 +139,11 @@
     "location_desc": "Cela nous permet d'associer le bon profil Google avant l'expédition. Vous pouvez le mettre à jour dans le panier si nécessaire.",
     "inspiration_label": "Inspirations",
     "inspiration_title": "Où placer votre support avis Google",
-    "inspiration_desc": "Quelques idées de placement — comptoir, bureau, table, etc. La première image montre notre carte dans un vrai contexte de caisse ; les autres suggèrent des endroits typiques (photos stock). Adaptez à votre configuration.",
+    "inspiration_desc": "D'abord une vraie mise en situation au comptoir, puis deux idées d'emplacement supplémentaires pour vous inspirer — sans en mettre partout : l'essentiel, c'est le bon endroit visible pour le client.",
+    "inspiration_featured_eyebrow": "Côté caisse",
+    "inspiration_more_title": "Deux autres emplacements fréquents",
     "inspiration_img_alt": "exemple de placement pour un support avis Google",
-    "inspiration_note": "Illustration uniquement là où indiqué — les autres photos sont des exemples d'ambiance, pas votre produit exact à cet endroit.",
+    "inspiration_note": "Grande image : scène réelle avec notre support. Les deux visuels ci-dessous sont des photos d'illustration d'ambiance, pas de votre établissement exact.",
     "loading": "Chargement…"
   },
   "ProductFaq": {

@@ -139,9 +139,11 @@
     "location_desc": "This lets us match the right Google profile before we ship. You can update it in the cart if needed.",
     "inspiration_label": "Inspiration",
     "inspiration_title": "Where to put your Google review stand",
-    "inspiration_desc": "A few placement ideas — counter, desk, table, and more. The first image shows our card in a real checkout context; the others suggest typical spots (stock photos). Adapt to your layout.",
+    "inspiration_desc": "We start with a real checkout moment with our stand, then two more common ideas—no clutter, just the spots that work when customers can actually see and use your stand.",
+    "inspiration_featured_eyebrow": "At checkout",
+    "inspiration_more_title": "Two more common spots",
     "inspiration_img_alt": "example placement for a Google review stand",
-    "inspiration_note": "Illustration only where noted — other photos are mood/context examples, not your exact product in that location.",
+    "inspiration_note": "The main photo is a real in-store scene with our stand. The two smaller images are stock mood photos for inspiration, not your exact business.",
     "loading": "Loading…"
   },
   "ProductFaq": {
