@@ -1,7 +1,10 @@
 import { Product } from "@/types";
 
-/** Photo principale (hero, cartes produit, panier) — plaque studio. */
-export const PRODUCT_GALLERY_HERO = "/gallery/iconrev-plaque-hero.png";
+/** Photo principale (hero, cartes produit, panier) — plaque CTA avis Google (FR). */
+export const PRODUCT_GALLERY_HERO = "/gallery/iconrev-plaque-google-avis-fr.png";
+
+/** Ancien hero studio — 2e slide galerie. */
+const PRODUCT_GALLERY_HERO_STUDIO = "/gallery/iconrev-plaque-hero.png";
 
 export const PRODUCT_CARD_IMAGE = PRODUCT_GALLERY_HERO;
 
@@ -27,6 +30,7 @@ const GALLERY_LIFESTYLE: string[] = [
 
 export const DEFAULT_PRODUCT_GALLERY = [
   PRODUCT_GALLERY_HERO,
+  PRODUCT_GALLERY_HERO_STUDIO,
   PRODUCT_GALLERY_SLIDE_2,
   PRODUCT_GALLERY_SLIDE_3,
   PRODUCT_GALLERY_SLIDE_4,

@@ -60,7 +60,7 @@ export function ProductCardShowcaseVisual({
         )}
       >
         <Image
-          src={`${PRODUCT_CARD_IMAGE}?v=4`}
+          src={`${PRODUCT_CARD_IMAGE}?v=5`}
           alt={
             isFr
               ? "Carte avis Iconrev : approchez en NFC ou scannez le QR pour laisser un avis Google"
