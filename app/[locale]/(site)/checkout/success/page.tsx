@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCartStore } from "@/store/cart-store";
 import { useTranslations, useLocale } from "next-intl";
+import { GoogleAdsPurchaseConversion } from "@/components/google-ads-purchase-conversion";
 
 interface CheckoutLineItem {
   description: string;
@@ -131,6 +132,14 @@ function CheckoutSuccessContent() {
 
   return (
     <div className="container mx-auto px-4 py-12">
+      {session.payment_status === "paid" && (session.amount_total ?? 0) > 0 ? (
+        <GoogleAdsPurchaseConversion
+          amountTotalCents={session.amount_total}
+          currency="EUR"
+          transactionId={session.id}
+          enabled
+        />
+      ) : null}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
