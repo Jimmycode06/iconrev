@@ -144,7 +144,11 @@
     "inspiration_more_title": "Deux autres emplacements fréquents",
     "inspiration_img_alt": "exemple de placement pour un support avis Google",
     "inspiration_note": "Grande image : scène réelle avec notre support. Les deux visuels ci-dessous sont des photos d'illustration d'ambiance, pas de votre établissement exact.",
-    "loading": "Chargement…"
+    "loading": "Chargement…",
+    "gallery_prev": "Image précédente",
+    "gallery_next": "Image suivante",
+    "gallery_counter": "Photo {current} / {total}",
+    "gallery_region": "Galerie photos du produit"
   },
   "ProductFaq": {
     "title": "Questions fréquentes",

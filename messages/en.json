@@ -144,7 +144,11 @@
     "inspiration_more_title": "Two more common spots",
     "inspiration_img_alt": "example placement for a Google review stand",
     "inspiration_note": "The main photo is a real in-store scene with our stand. The two smaller images are stock mood photos for inspiration, not your exact business.",
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "gallery_prev": "Previous image",
+    "gallery_next": "Next image",
+    "gallery_counter": "Photo {current} / {total}",
+    "gallery_region": "Product photo gallery"
   },
   "ProductFaq": {
     "title": "Frequently asked questions",
