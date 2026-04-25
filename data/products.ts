@@ -11,10 +11,7 @@ export const PRODUCT_CARD_IMAGE = PRODUCT_GALLERY_HERO;
 /** 2e image galerie fiche produit — plaque (visuel FR). */
 export const PRODUCT_GALLERY_SLIDE_2 = "/gallery/iconrev-plaque-fr.png";
 
-/** 3e image galerie — fiche technique (dimensions, NFC, QR). */
-export const PRODUCT_GALLERY_SLIDE_3 = "/gallery/iconrev-plaque-specs.png";
-
-/** 4e image galerie — infographie avis Google (FR). */
+/** 5e image galerie — infographie avis Google (FR). */
 export const PRODUCT_GALLERY_SLIDE_4 = "/gallery/iconrev-marketing-google-avis.png";
 
 const PRODUCT_GALLERY_SECONDARY = "/carte-iconrev-avis-google.png";
@@ -32,9 +29,8 @@ export const DEFAULT_PRODUCT_GALLERY = [
   PRODUCT_GALLERY_HERO,
   PRODUCT_GALLERY_HERO_STUDIO,
   PRODUCT_GALLERY_SLIDE_2,
-  PRODUCT_GALLERY_SLIDE_3,
-  PRODUCT_GALLERY_SLIDE_4,
   PRODUCT_GALLERY_SECONDARY,
+  PRODUCT_GALLERY_SLIDE_4,
   ...GALLERY_LIFESTYLE,
 ];
 
