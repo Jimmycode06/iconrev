@@ -2,10 +2,7 @@
   "Layout": {
     "banner_badge": "Offre limitée",
     "banner_upto": "jusqu'à",
-    "banner_pct": "-40 %",
-    "banner_pack_prefix": "Pack 1 plaque",
-    "banner_pack_from": "à partir de",
-    "banner_price": "29 €",
+    "banner_pct": "40 %",
     "lang": "fr"
   },
   "Header": {

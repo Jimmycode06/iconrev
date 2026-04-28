@@ -2,10 +2,7 @@
   "Layout": {
     "banner_badge": "Limited offer",
     "banner_upto": "up to",
-    "banner_pct": "40% off",
-    "banner_pack_prefix": "1-plate pack",
-    "banner_pack_from": "from",
-    "banner_price": "€29",
+    "banner_pct": "40 %",
     "lang": "en"
   },
   "Header": {
