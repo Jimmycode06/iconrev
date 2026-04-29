@@ -21,22 +21,17 @@ function PackRowInner({
   compact,
   reserveCornerBadge,
   packTitle,
-  packSubtitleText,
   bestDealText,
   locale,
   showCategoryOutlineBadge = true,
-  showPackSubtitle = true,
 }: {
   product: Product;
   compact?: boolean;
   reserveCornerBadge?: boolean;
-  /** Main line (full product name, or e.g. category only when minimal) */
   packTitle: string;
-  packSubtitleText: string;
   bestDealText: string;
   locale: string;
   showCategoryOutlineBadge?: boolean;
-  showPackSubtitle?: boolean;
 }) {
   const t = useTranslations("PackList");
 
@@ -110,16 +105,6 @@ function PackRowInner({
           </Badge>
         )}
       </div>
-      {showPackSubtitle ? (
-        <p
-          className={cn(
-            "text-muted-foreground/90 leading-relaxed",
-            compact ? "text-[9px]" : "text-[10px] sm:text-[10px]"
-          )}
-        >
-          {packSubtitleText}
-        </p>
-      ) : null}
     </div>
   );
 }
@@ -162,8 +147,6 @@ type SelectProps = {
   onSelect: (id: string) => void;
   radioName?: string;
   compact?: boolean;
-  /** e.g. product page: full title + quantity badges, no PackList subtitle blurbs */
-  minimalPackLabels?: boolean;
 };
 
 type LinkProps = {
@@ -179,17 +162,10 @@ export function ProductPackList(props: ProductPackListProps) {
   const products = getProducts(locale);
   const compact = "compact" in props ? Boolean(props.compact) : false;
 
-  const getPackSubtitle = (id: string) => {
-    if (id === "1") return t("subtitle_1");
-    if (id === "2") return t("subtitle_2");
-    return t("subtitle_5");
-  };
-
   const bestDealText = t("best_deal");
 
   if (props.variant === "select") {
     const { selectedId, onSelect, radioName = "pack" } = props;
-    const minimalPackLabels = Boolean(props.minimalPackLabels);
     const packSpacing = compact ? "space-y-1" : "space-y-2";
 
     const selectRows = products.map((product) => {
@@ -224,8 +200,6 @@ export function ProductPackList(props: ProductPackListProps) {
                 compact
                 packTitle={product.name}
                 showCategoryOutlineBadge
-                showPackSubtitle={!minimalPackLabels}
-                packSubtitleText={getPackSubtitle(product.id)}
                 bestDealText={bestDealText}
                 locale={locale}
               />
@@ -256,8 +230,6 @@ export function ProductPackList(props: ProductPackListProps) {
                 reserveCornerBadge={product.bestValue}
                 packTitle={product.name}
                 showCategoryOutlineBadge
-                showPackSubtitle={!minimalPackLabels}
-                packSubtitleText={getPackSubtitle(product.id)}
                 bestDealText={bestDealText}
                 locale={locale}
               />
@@ -316,8 +288,6 @@ export function ProductPackList(props: ProductPackListProps) {
               reserveCornerBadge={!compact && product.bestValue}
               packTitle={product.name}
               showCategoryOutlineBadge
-              showPackSubtitle
-              packSubtitleText={getPackSubtitle(product.id)}
               bestDealText={bestDealText}
               locale={locale}
             />

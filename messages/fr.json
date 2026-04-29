@@ -176,9 +176,6 @@
     "a7_body": "Contactez-nous directement via le chat, l'email ou le téléphone. Notre équipe répond rapidement et avec plaisir !"
   },
   "PackList": {
-    "subtitle_1": "1 Plaque — parfait pour essayer",
-    "subtitle_2": "2 Plaques — comptoir + mur",
-    "subtitle_5": "5 Plaques — établissement complet",
     "popular": "Populaire",
     "best_deal": "Meilleure offre",
     "aria_label": "Packs de plaques"
@@ -323,6 +320,30 @@
     "badge2": "Sans engagement",
     "badge3": "Audit 100 % gratuit",
     "alert_success": "Merci ! Nous vous répondrons dans les 2 heures ouvrées."
+  },
+  "Returns": {
+    "title": "Retours et remboursements",
+    "subtitle": "Politique applicable aux commandes Iconrev (plaques NFC + QR).",
+    "updated": "Dernière mise à jour : avril 2026",
+    "intro": "Nous voulons que vous soyez satisfait de votre commande. Cette page résume comment fonctionnent les retours, les échanges et les remboursements.",
+    "s1_title": "Délai et droit de rétractation",
+    "s1_p1": "Pour les consommateurs dans l’Union européenne, vous disposez en principe d’un délai de quatorze (14) jours à compter de la réception pour vous rétracter d’un achat à distance, sans avoir à motiver votre décision.",
+    "s1_p2": "Toutefois, les biens confectionnés selon vos spécifications ou nettement personnalisés peuvent être exclus de ce droit lorsque la production ou la personnalisation a déjà été engagée conformément à la réglementation applicable. Vos plaques sont préparées avec les informations de votre fiche Google Business : si la fabrication ou la configuration personnalisée a commencé à votre demande avant la fin du délai, le droit de rétractation peut ne plus s’appliquer. En cas de doute, écrivez-nous avant toute fabrication.",
+    "s2_title": "Produit endommagé, défectueux ou erreur d’expédition",
+    "s2_p1": "Si votre colis arrive abîmé, si un article est défectueux ou si nous avons commis une erreur (référence, quantité, gravure/URL manifestement incorrecte par rapport à ce qui a été validé), contactez-nous sous quarante-huit (48) heures avec une brève description et des photos. Nous corrigeons la situation : remplacement, réexpédition ou remboursement selon le cas.",
+    "s3_title": "Comment demander un retour ou un remboursement",
+    "s3_li1": "Envoyez un email à contact@iconrev.com avec votre numéro de commande et la raison de la demande.",
+    "s3_li2": "Joignez des photos si le colis ou le produit est endommagé, ou si vous signalez une non-conformité.",
+    "s3_li3": "Nous vous répondons en général sous deux heures ouvrées avec la marche à suivre (étiquette retour si applicable, adresse d’envoi, délai).",
+    "s4_title": "État des produits retournés",
+    "s4_p1": "Les articles retournés doivent être dans leur emballage d’origine lorsque c’est possible, non salis et non endommagés par une utilisation au-delà de ce qui est nécessaire pour vérifier leur conformité. À défaut, un débit partiel peut être appliqué pour refléter la dépréciation.",
+    "s5_title": "Délais de remboursement",
+    "s5_p1": "Une fois le retour reçu et contrôlé (ou, pour une rétractation acceptée, dès notification selon le cas), le remboursement est traité sur le moyen de paiement utilisé lors de la commande, dans un délai raisonnable en pratique de cinq à dix jours ouvrés après validation, sous réserve des délais bancaires.",
+    "s6_title": "Frais de retour",
+    "s6_p1": "En cas de rétractation, sauf indication contraire ou offre promotionnelle, les frais de retour peuvent être à votre charge. Si l’erreur est imputable à Iconrev ou si le produit est non conforme, nous vous indiquerons si nous prenons en charge ou non l’étiquette retour.",
+    "s7_title": "Besoin d’aide ?",
+    "s7_p1": "Pour toute question sur une commande en cours ou une demande de retour, utilisez notre page contact — nous préférons résoudre les situations au cas par cas.",
+    "contact_link": "Aller à la page Contact"
   },
   "Chat": {
     "title": "Besoin d'aide ?",

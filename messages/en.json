@@ -176,9 +176,6 @@
     "a7_body": "Reach us by chat, email, or phone—we're happy to help and we reply quickly."
   },
   "PackList": {
-    "subtitle_1": "1 Plate — perfect to try",
-    "subtitle_2": "2 Plates — counter + wall",
-    "subtitle_5": "5 Plates — full location",
     "popular": "Popular",
     "best_deal": "Best deal",
     "aria_label": "Pack options"
@@ -323,6 +320,30 @@
     "badge2": "No commitment",
     "badge3": "100% free audit",
     "alert_success": "Thanks! We'll get back to you within 2 business hours."
+  },
+  "Returns": {
+    "title": "Returns and refunds",
+    "subtitle": "Policy for Iconrev orders (NFC + QR plates).",
+    "updated": "Last updated: April 2026",
+    "intro": "We want you to be happy with your order. This page summarizes how returns, exchanges, and refunds work.",
+    "s1_title": "Cooling-off period and right of withdrawal",
+    "s1_p1": "If you are a consumer, local consumer laws (for example, in the EU, a 14-day withdrawal period from delivery for distance sales) may apply. You may cancel without giving a reason within that period where the law requires it.",
+    "s1_p2": "However, goods made to your specifications or clearly personalized may be excluded once production or customization has begun, as allowed by applicable rules. Your plates are prepared using your Google Business Profile information—if manufacturing or setup has started at your request before the period ends, withdrawal may no longer apply. Contact us before production if you are unsure.",
+    "s2_title": "Damaged, defective, or shipping mistakes",
+    "s2_p1": "If your package arrives damaged, an item is defective, or we made a mistake (wrong item, quantity, or clearly incorrect engraving/URL vs. what you approved), contact us within 48 hours with a short description and photos. We'll make it right: replacement, reshipment, or refund as appropriate.",
+    "s3_title": "How to request a return or refund",
+    "s3_li1": "Email contact@iconrev.com with your order number and the reason for your request.",
+    "s3_li2": "Attach photos if the package or product is damaged, or if you report a non-conformity.",
+    "s3_li3": "We usually reply within 2 business hours with next steps (return label if applicable, ship-to address, timeline).",
+    "s4_title": "Condition of returned items",
+    "s4_p1": "Returned items should be in original packaging when possible, unused except as needed to inspect them, and undamaged. Otherwise, a partial deduction may apply to reflect any loss in value.",
+    "s5_title": "Refund timing",
+    "s5_p1": "After we receive and inspect the return (or, for an accepted withdrawal, upon notice as required by law), refunds are processed to your original payment method, typically within about 5–10 business days after approval, subject to bank processing times.",
+    "s6_title": "Return shipping costs",
+    "s6_p1": "For a withdrawal where you change your mind, return shipping may be your responsibility unless we state otherwise or a promotion applies. If the issue is our fault or the product is non-conforming, we'll tell you whether we cover a return label.",
+    "s7_title": "Need help?",
+    "s7_p1": "For questions about an open order or a return request, use our contact page—we prefer to resolve situations case by case.",
+    "contact_link": "Go to Contact"
   },
   "Chat": {
     "title": "Need help?",
