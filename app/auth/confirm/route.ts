@@ -6,10 +6,11 @@ import type { EmailOtpType } from "@supabase/supabase-js";
 /**
  * Password recovery & email confirmations (Supabase SSR pattern).
  *
- * For cross-device / mobile-mail → desktop-browser flows, PKCE codes from the
- * default magic link often lack a local code_verifier, so the client cannot
- * exchange them. Fix: put token_hash + type on this route (and in the
- * "Reset password" email template — see comment at bottom of file).
+ * For cross-device / mobile-mail -> desktop-browser flows, PKCE codes from the
+ * default magic link often lack a local code_verifier. The robust fix is to put
+ * token_hash + type on this route (see comment at bottom of file). If Supabase
+ * redirects here with a PKCE `code`, keep the exchange in the browser where the
+ * original verifier cookie/local storage was created.
  */
 function safeConfirmNext(next: string | null): string {
   if (
@@ -83,11 +84,9 @@ export async function GET(request: Request) {
   }
 
   if (code) {
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
-    if (error) {
-      return redirectWithError();
-    }
-    return NextResponse.redirect(new URL(next, requestUrl.origin));
+    const dest = new URL(next, requestUrl.origin);
+    dest.searchParams.set("code", code);
+    return NextResponse.redirect(dest);
   }
 
   return redirectWithError();
