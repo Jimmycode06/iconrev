@@ -32,6 +32,12 @@ export async function middleware(request: NextRequest) {
     return handleSupabase(request);
   }
 
+  // Root-level dashboard (not under [locale]) — avoid rewriting to /en/dashboard (404)
+  if (pathname.startsWith("/dashboard")) {
+    if (!isSupabaseConfigured) return NextResponse.next();
+    return handleSupabase(request);
+  }
+
   // Run next-intl locale middleware first
   const intlResponse = intlMiddleware(request);
 
