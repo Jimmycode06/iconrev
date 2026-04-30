@@ -178,10 +178,15 @@
   },
   "AdminLogin": {
     "title": "Iconrev admin",
-    "subtitle": "Sign in with your authorized Google account.",
+    "subtitle": "Sign in with your authorized email (Supabase password).",
+    "email_label": "Email",
+    "email_placeholder": "you@example.com",
+    "password_label": "Password",
+    "password_placeholder": "Your password",
+    "submit": "Sign in",
     "google": "Continue with Google",
-    "error_oauth": "Sign-in failed. Please try again or contact support.",
-    "hint_env": "On the server, set ADMIN_EMAILS to your exact Google address. Enable the Google provider and add /auth/callback in Supabase.",
+    "error_oauth": "Sign-in failed. Please try again.",
+    "hint_supabase": "On the server: ADMIN_EMAILS must list the same email as your account.\n\nIn Supabase: Authentication → Providers → ensure Email is enabled. Create your user under Authentication → Users (Add user) with this email and password, or sign up once and confirm email if confirmations are on.",
     "back_site": "Back to site"
   },
   "PackList": {

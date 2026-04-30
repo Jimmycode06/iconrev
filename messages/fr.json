@@ -178,10 +178,15 @@
   },
   "AdminLogin": {
     "title": "Espace admin Iconrev",
-    "subtitle": "Connectez-vous avec le compte Google autorisé.",
+    "subtitle": "Connexion avec l’adresse e-mail autorisée (mot de passe Supabase).",
+    "email_label": "E-mail",
+    "email_placeholder": "vous@exemple.com",
+    "password_label": "Mot de passe",
+    "password_placeholder": "Votre mot de passe",
+    "submit": "Se connecter",
     "google": "Continuer avec Google",
-    "error_oauth": "La connexion a échoué. Réessayez ou contactez le support.",
-    "hint_env": "Sur le serveur, définissez ADMIN_EMAILS avec votre adresse Google exacte (ex. vous@gmail.com). Activez le fournisseur Google et ajoutez l’URL /auth/callback dans Supabase.",
+    "error_oauth": "La connexion a échoué. Réessayez.",
+    "hint_supabase": "Sur le serveur : ADMIN_EMAILS doit contenir exactement la même adresse e-mail que ton compte.\n\nDans Supabase : Authentication → Providers → assure-toi que « Email » est activé. Crée ton utilisateur dans Authentication → Users (Add user) avec cet e-mail et un mot de passe, ou inscris-toi une fois puis confirme l’e-mail si la confirmation est activée dans les paramètres Auth.",
     "back_site": "Retour au site"
   },
   "PackList": {
