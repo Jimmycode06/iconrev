@@ -67,6 +67,13 @@ function uniqueCount(values: Array<string | null>) {
   return new Set(values.filter(Boolean)).size;
 }
 
+function uniqueSessions(events: AnalyticsEvent[]) {
+  const keys = events.map(
+    (event) => event.session_id ?? event.anonymous_id ?? `event:${event.created_at}`
+  );
+  return new Set(keys).size;
+}
+
 export default async function AdminAnalyticsPage({
   params,
   searchParams,
@@ -140,10 +147,11 @@ export default async function AdminAnalyticsPage({
     inRange(order.created_at, previousStart, currentStart)
   );
 
-  const visits = currentEvents.length;
-  const previousVisits = previousEvents.length;
+  const pageViews = currentEvents.length;
+  const previousPageViews = previousEvents.length;
+  const visits = uniqueSessions(currentEvents);
+  const previousVisits = uniqueSessions(previousEvents);
   const visitors = uniqueCount(currentEvents.map((event) => event.anonymous_id));
-  const sessions = uniqueCount(currentEvents.map((event) => event.session_id));
   const paidOrders = currentOrders.length;
   const previousPaidOrders = previousOrders.length;
   const revenueCents = currentOrders.reduce(
@@ -167,13 +175,15 @@ export default async function AdminAnalyticsPage({
   });
 
   const daily = dayKeys.map((key) => {
-    const dayVisits = currentEvents.filter((event) =>
+    const dayEvents = currentEvents.filter((event) =>
       event.created_at.startsWith(key)
-    ).length;
+    );
+    const dayVisits = uniqueSessions(dayEvents);
+    const dayPageViews = dayEvents.length;
     const dayOrders = currentOrders.filter((order) =>
       order.created_at.startsWith(key)
     ).length;
-    return { key, visits: dayVisits, orders: dayOrders };
+    return { key, visits: dayVisits, pageViews: dayPageViews, orders: dayOrders };
   });
   const maxDailyVisits = Math.max(1, ...daily.map((day) => day.visits));
 
@@ -212,8 +222,8 @@ export default async function AdminAnalyticsPage({
             </h2>
             <p className="text-sm text-muted-foreground">
               {isFr
-                ? "Visites, commandes et conversion calculées depuis les événements Iconrev."
-                : "Visits, orders and conversion calculated from Iconrev events."}
+                ? "Visites uniques, pages vues, commandes et conversion calculées depuis les événements Iconrev."
+                : "Unique visits, page views, orders and conversion calculated from Iconrev events."}
             </p>
           </div>
           <div className="flex gap-2">
@@ -253,25 +263,29 @@ export default async function AdminAnalyticsPage({
             title={isFr ? "Visites" : "Visits"}
             value={visits.toLocaleString(isFr ? "fr-FR" : "en-US")}
             delta={metricDelta(visits, previousVisits)}
-            icon={<BarChart3Icon className="h-5 w-5 text-blue-600" />}
+            icon={<MousePointerClickIcon className="h-5 w-5 text-blue-600" />}
+            isFr={isFr}
           />
           <MetricCard
-            title={isFr ? "Visiteurs" : "Visitors"}
+            title={isFr ? "Visiteurs uniques" : "Unique visitors"}
             value={visitors.toLocaleString(isFr ? "fr-FR" : "en-US")}
             delta={metricDelta(visitors, uniqueCount(previousEvents.map((e) => e.anonymous_id)))}
             icon={<UsersIcon className="h-5 w-5 text-cyan-600" />}
+            isFr={isFr}
           />
           <MetricCard
             title={isFr ? "Taux de conversion" : "Conversion rate"}
             value={percent(conversionRate)}
             delta={metricDelta(conversionRate, previousConversionRate)}
             icon={<TrendingUpIcon className="h-5 w-5 text-emerald-600" />}
+            isFr={isFr}
           />
           <MetricCard
             title={isFr ? "Chiffre d'affaires" : "Revenue"}
             value={formatPrice(revenueCents / 100, locale)}
             delta={metricDelta(revenueCents, previousRevenueCents)}
             icon={<EuroIcon className="h-5 w-5 text-amber-600" />}
+            isFr={isFr}
           />
         </div>
 
@@ -281,18 +295,21 @@ export default async function AdminAnalyticsPage({
             value={paidOrders.toLocaleString(isFr ? "fr-FR" : "en-US")}
             delta={metricDelta(paidOrders, previousPaidOrders)}
             icon={<ShoppingBagIcon className="h-5 w-5 text-violet-600" />}
+            isFr={isFr}
           />
           <MetricCard
             title={isFr ? "Panier moyen" : "Average order"}
             value={formatPrice(averageOrderCents / 100, locale)}
             delta={null}
             icon={<EuroIcon className="h-5 w-5 text-green-600" />}
+            isFr={isFr}
           />
           <MetricCard
-            title={isFr ? "Sessions" : "Sessions"}
-            value={sessions.toLocaleString(isFr ? "fr-FR" : "en-US")}
-            delta={null}
-            icon={<MousePointerClickIcon className="h-5 w-5 text-slate-600" />}
+            title={isFr ? "Pages vues" : "Page views"}
+            value={pageViews.toLocaleString(isFr ? "fr-FR" : "en-US")}
+            delta={metricDelta(pageViews, previousPageViews)}
+            icon={<BarChart3Icon className="h-5 w-5 text-slate-600" />}
+            isFr={isFr}
           />
         </div>
 
@@ -324,7 +341,7 @@ export default async function AdminAnalyticsPage({
                             (day.visits / maxDailyVisits) * 210
                           )}px`,
                         }}
-                        title={`${day.key}: ${day.visits} visits, ${day.orders} orders`}
+                        title={`${day.key}: ${day.visits} visits, ${day.pageViews} page views, ${day.orders} orders`}
                       />
                     </div>
                     {days <= 30 ? (
@@ -365,7 +382,7 @@ export default async function AdminAnalyticsPage({
                       <div
                         className="h-2 rounded-full bg-blue-500"
                         style={{
-                          width: `${Math.max(8, (count / visits) * 100)}%`,
+                          width: `${Math.max(8, (count / Math.max(1, pageViews)) * 100)}%`,
                         }}
                       />
                     </div>
@@ -385,11 +402,13 @@ function MetricCard({
   value,
   delta,
   icon,
+  isFr,
 }: {
   title: string;
   value: string;
   delta: string | null;
   icon: ReactNode;
+  isFr: boolean;
 }) {
   return (
     <Card>
@@ -410,10 +429,12 @@ function MetricCard({
             >
               {delta}
             </span>{" "}
-            vs période précédente
+            {isFr ? "vs période précédente" : "vs previous period"}
           </p>
         ) : (
-          <p className="text-xs text-muted-foreground">Période sélectionnée</p>
+          <p className="text-xs text-muted-foreground">
+            {isFr ? "Période sélectionnée" : "Selected period"}
+          </p>
         )}
       </CardContent>
     </Card>
