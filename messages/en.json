@@ -124,7 +124,8 @@
     "pack_desc": "Choose how many plates you need. After delivery, scan the QR code to activate each plate and link it to your Google business.",
     "select_pack": "Select a pack",
     "add_to_cart": "Add to cart",
-    "added_to_cart": "Added to cart"
+    "added_to_cart": "Added to cart",
+    "shipping_note": "Ships in 48-72 hours from France"
   },
   "Products": {
     "label": "NFC + QR review plates",
@@ -134,6 +135,7 @@
     "select_pack": "Select a pack",
     "add_to_cart": "Add to cart",
     "added_to_cart": "Added to cart",
+    "shipping_note": "Ships in 48-72 hours from France",
     "location_title": "Where is your business?",
     "location_desc": "You'll choose your business after delivery by scanning the QR code on your plate.",
     "inspiration_label": "Inspiration",

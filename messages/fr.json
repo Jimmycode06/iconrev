@@ -124,7 +124,8 @@
     "pack_desc": "Choisissez le nombre de plaques dont vous avez besoin. Après réception, scannez le QR code pour activer chaque plaque et la lier à votre établissement Google.",
     "select_pack": "Sélectionnez un pack",
     "add_to_cart": "Ajouter au panier",
-    "added_to_cart": "Ajouté au panier"
+    "added_to_cart": "Ajouté au panier",
+    "shipping_note": "Livraison en 48–72 heures depuis la France"
   },
   "Products": {
     "label": "Plaques d'avis NFC + QR",
@@ -134,6 +135,7 @@
     "select_pack": "Sélectionnez un pack",
     "add_to_cart": "Ajouter au panier",
     "added_to_cart": "Ajouté au panier",
+    "shipping_note": "Livraison en 48–72 heures depuis la France",
     "location_title": "Où se trouve votre établissement ?",
     "location_desc": "Vous choisirez votre établissement après réception, en scannant le QR code de votre plaque.",
     "inspiration_label": "Inspirations",

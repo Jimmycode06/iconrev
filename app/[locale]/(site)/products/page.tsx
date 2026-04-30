@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { ShoppingCart, Check, CheckCircle } from "lucide-react";
+import { ShoppingCart, Check, CheckCircle, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductPackList } from "@/components/product-pack-list";
 import { ProductImageGallery } from "@/components/product-image-gallery";
@@ -151,6 +151,10 @@ function ProductsContent() {
                 </>
               )}
             </Button>
+            <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-800 flex items-center gap-2">
+              <Truck className="h-4 w-4 shrink-0" />
+              <span>{t("shipping_note")}</span>
+            </div>
           </div>
         </motion.div>
       </div>
