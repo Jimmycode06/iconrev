@@ -26,14 +26,19 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Skip locale routing for /activate (French-only, root-level page)
-  if (pathname.startsWith("/activate")) {
-    if (!isSupabaseConfigured) return NextResponse.next();
-    return handleSupabase(request);
+  /** Ancienne URL « dashboard » : la vraie UI shadcn (commandes) est /fr/admin/orders */
+  if (pathname === "/dashboard" || pathname.startsWith("/dashboard/")) {
+    const url = request.nextUrl.clone();
+    if (isLocalhost(request)) {
+      url.pathname = "/fr/admin/orders";
+      return NextResponse.redirect(url);
+    }
+    url.pathname = "/fr";
+    return NextResponse.redirect(url);
   }
 
-  // Root-level dashboard (not under [locale]) — avoid rewriting to /en/dashboard (404)
-  if (pathname.startsWith("/dashboard")) {
+  // Skip locale routing for /activate (French-only, root-level page)
+  if (pathname.startsWith("/activate")) {
     if (!isSupabaseConfigured) return NextResponse.next();
     return handleSupabase(request);
   }
