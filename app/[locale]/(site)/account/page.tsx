@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { AccountAuthCard } from "@/components/account-auth-card";
+import { AccountReviewReplyAssistant } from "@/components/account-review-reply-assistant";
 import { AccountSignOutButton } from "@/components/account-sign-out-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -143,6 +144,8 @@ export default async function AccountPage({
             </CardHeader>
           </Card>
         </div>
+
+        <AccountReviewReplyAssistant />
 
         {error ? (
           <Card className="border-red-100 bg-red-50">

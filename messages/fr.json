@@ -407,6 +407,22 @@
     "no_address": "Adresse non renseignée",
     "card_id": "ID plaque :",
     "test_link": "Tester le lien Google",
-    "support": "Contacter le support"
+    "support": "Contacter le support",
+    "assistant_lang": "fr",
+    "assistant_title": "Assistant IA pour répondre aux avis",
+    "assistant_desc": "Copiez-collez un avis Google et obtenez une suggestion de réponse prête à publier.",
+    "assistant_business_label": "Nom affiché en signature",
+    "assistant_business_placeholder": "Ex: L'équipe Iconrev",
+    "assistant_tone_label": "Ton de la réponse",
+    "assistant_tone_warm": "Chaleureux",
+    "assistant_tone_pro": "Professionnel",
+    "assistant_input_label": "Avis client reçu",
+    "assistant_input_placeholder": "Collez ici l'avis du client...",
+    "assistant_generate": "Générer une réponse",
+    "assistant_note": "Mode design (sans API) pour l'instant.",
+    "assistant_output_label": "Réponse suggérée",
+    "assistant_output_placeholder": "La réponse générée apparaîtra ici.",
+    "assistant_copy": "Copier",
+    "assistant_copied": "Copié"
   }
 }

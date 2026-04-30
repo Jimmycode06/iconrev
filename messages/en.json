@@ -407,6 +407,22 @@
     "no_address": "Address not provided",
     "card_id": "Plate ID:",
     "test_link": "Test Google link",
-    "support": "Contact support"
+    "support": "Contact support",
+    "assistant_lang": "en",
+    "assistant_title": "AI review reply assistant",
+    "assistant_desc": "Paste a Google review and get a ready-to-post response suggestion.",
+    "assistant_business_label": "Signature display name",
+    "assistant_business_placeholder": "Ex: The Iconrev Team",
+    "assistant_tone_label": "Reply tone",
+    "assistant_tone_warm": "Warm",
+    "assistant_tone_pro": "Professional",
+    "assistant_input_label": "Customer review text",
+    "assistant_input_placeholder": "Paste the customer review here...",
+    "assistant_generate": "Generate reply",
+    "assistant_note": "Design mode for now (no API connected yet).",
+    "assistant_output_label": "Suggested reply",
+    "assistant_output_placeholder": "The generated reply will appear here.",
+    "assistant_copy": "Copy",
+    "assistant_copied": "Copied"
   }
 }
