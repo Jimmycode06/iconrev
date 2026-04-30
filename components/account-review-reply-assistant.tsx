@@ -5,7 +5,6 @@ import { Bot, Copy, Loader2, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 
 type Tone = "warm" | "pro";
 
@@ -63,7 +62,6 @@ function buildReply({
 
 export function AccountReviewReplyAssistant() {
   const t = useTranslations("Account");
-  const [businessName, setBusinessName] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [tone, setTone] = useState<Tone>("warm");
   const [loading, setLoading] = useState(false);
@@ -83,7 +81,7 @@ export function AccountReviewReplyAssistant() {
       buildReply({
         reviewText,
         tone,
-        businessName: businessName.trim() || (isFr ? "L'équipe" : "The team"),
+        businessName: isFr ? "L'équipe" : "The team",
         isFr,
       })
     );
@@ -102,48 +100,38 @@ export function AccountReviewReplyAssistant() {
   }
 
   return (
-    <Card className="mb-8 border-blue-100">
-      <CardHeader>
+    <Card className="mb-8 border-blue-200/80 bg-gradient-to-br from-blue-50/70 via-white to-cyan-50/60 shadow-sm">
+      <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-2">
-          <Bot className="h-5 w-5 text-blue-600" />
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-blue-600/10">
+            <Bot className="h-4 w-4 text-blue-600" />
+          </span>
           {t("assistant_title")}
         </CardTitle>
         <CardDescription>{t("assistant_desc")}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium text-foreground">
-              {t("assistant_business_label")}
-            </label>
-            <Input
-              value={businessName}
-              onChange={(e) => setBusinessName(e.target.value)}
-              placeholder={t("assistant_business_placeholder")}
-            />
-          </div>
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium text-foreground">
-              {t("assistant_tone_label")}
-            </label>
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                size="sm"
-                variant={tone === "warm" ? "default" : "outline"}
-                onClick={() => setTone("warm")}
-              >
-                {t("assistant_tone_warm")}
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                variant={tone === "pro" ? "default" : "outline"}
-                onClick={() => setTone("pro")}
-              >
-                {t("assistant_tone_pro")}
-              </Button>
-            </div>
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-foreground">
+            {t("assistant_tone_label")}
+          </label>
+          <div className="flex gap-2">
+            <Button
+              type="button"
+              size="sm"
+              variant={tone === "warm" ? "default" : "outline"}
+              onClick={() => setTone("warm")}
+            >
+              {t("assistant_tone_warm")}
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant={tone === "pro" ? "default" : "outline"}
+              onClick={() => setTone("pro")}
+            >
+              {t("assistant_tone_pro")}
+            </Button>
           </div>
         </div>
 
@@ -167,7 +155,7 @@ export function AccountReviewReplyAssistant() {
           <span className="text-xs text-muted-foreground">{t("assistant_note")}</span>
         </div>
 
-        <div className="rounded-xl border bg-muted/20 p-4">
+        <div className="rounded-xl border border-blue-100 bg-white/90 p-4">
           <div className="mb-2 flex items-center justify-between gap-2">
             <p className="text-sm font-medium text-foreground">{t("assistant_output_label")}</p>
             <Button type="button" size="sm" variant="outline" onClick={handleCopy} disabled={!reply}>
