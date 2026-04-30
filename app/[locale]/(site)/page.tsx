@@ -18,6 +18,12 @@ import { formatPrice } from "@/lib/utils";
 import { useTranslations, useLocale } from "next-intl";
 import { getProducts } from "@/data/products";
 
+function oldPackPrice(productId: string): number {
+  if (productId === "1") return 39;
+  if (productId === "2") return 69;
+  return 129;
+}
+
 export default function Home() {
   const t = useTranslations("Home");
   const locale = useLocale();
@@ -131,6 +137,9 @@ export default function Home() {
                         </span>
                       </span>
                       <span className="tabular-nums text-base sm:text-lg font-bold shrink-0">
+                        <span className="mr-2 text-white/65 line-through text-sm sm:text-base font-semibold">
+                          {formatPrice(oldPackPrice(selected.id), locale)}
+                        </span>
                         {formatPrice(selected.price, locale)}
                       </span>
                     </>
