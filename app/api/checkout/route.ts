@@ -16,6 +16,24 @@ function productImageAbsolute(request: NextRequest, productId: string): string {
   return new URL(path, request.nextUrl.origin).href;
 }
 
+/** Stripe refuse une description vide : on ne l'envoie que si du texte existe. */
+function stripeProductData(
+  name: string,
+  description: unknown,
+  images: string[]
+): Stripe.Checkout.SessionCreateParams.LineItem.PriceData.ProductData {
+  const trimmed = String(description ?? "").trim();
+  const base: Stripe.Checkout.SessionCreateParams.LineItem.PriceData.ProductData =
+    {
+      name,
+      images,
+    };
+  if (trimmed.length > 0) {
+    base.description = trimmed.slice(0, 500);
+  }
+  return base;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -43,6 +61,8 @@ export async function POST(request: NextRequest) {
       const promo = item.product?.promotion;
       const imgUrl = productImageAbsolute(request, productId);
 
+      const productName = String(item.product?.name ?? `Pack ${productId}`);
+
       const paidLineItem = (qty: number) =>
         qty > 0
           ? [
@@ -50,13 +70,11 @@ export async function POST(request: NextRequest) {
                 price_data: {
                   currency: "eur",
                   unit_amount: unitAmount,
-                  product_data: {
-                    name: String(item.product?.name ?? `Pack ${productId}`),
-                    description: String(
-                      item.product?.description ?? ""
-                    ).slice(0, 500),
-                    images: [imgUrl],
-                  },
+                  product_data: stripeProductData(
+                    productName,
+                    item.product?.description,
+                    [imgUrl]
+                  ),
                 },
                 quantity: qty,
               },
@@ -73,11 +91,11 @@ export async function POST(request: NextRequest) {
                 {
                   price_data: {
                     currency: "eur",
-                    product_data: {
-                      name: `${item.product.name} (offert)`,
-                      description: item.product.description?.slice(0, 500),
-                      images: [imgUrl],
-                    },
+                    product_data: stripeProductData(
+                      `${item.product.name} (offert)`,
+                      item.product.description,
+                      [imgUrl]
+                    ),
                     unit_amount: 0,
                   },
                   quantity: freeQty,
