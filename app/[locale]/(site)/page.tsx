@@ -53,7 +53,7 @@ export default function Home() {
 
       <HowItWorksSection />
 
-      <section className="py-20 md:py-24 bg-white">
+      <section className="pt-10 pb-20 md:pt-12 md:pb-24 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
