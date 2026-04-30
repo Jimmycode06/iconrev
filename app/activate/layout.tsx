@@ -14,6 +14,7 @@ const frMessages = {
     about_desc: "Notre mission et comment Iconrev fonctionne",
     contact: "Contact",
     contact_desc: "Parler à notre équipe",
+    account: "Mon compte",
     open_cart: "Ouvrir le panier",
     open_menu: "Ouvrir le menu",
     close_menu: "Fermer le menu",

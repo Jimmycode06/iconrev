@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { ShoppingCart, Mail, Info, Menu, X } from "lucide-react";
+import { ShoppingCart, Mail, Info, Menu, X, UserRound } from "lucide-react";
 import { IconrevLogo } from "@/components/iconrev-logo";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/cart-store";
@@ -79,6 +79,15 @@ export function Header() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <Link href="/account">{t("account")}</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
                 <NavigationMenuTrigger>{t("company")}</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[300px] gap-3 p-4">
@@ -150,6 +159,16 @@ export function Header() {
               onClick={() => setMobileOpen(false)}
             >
               {t("products")}
+            </Link>
+            <Link
+              href="/account"
+              className="rounded-md px-3 py-2 text-sm font-medium hover:bg-accent"
+              onClick={() => setMobileOpen(false)}
+            >
+              <span className="inline-flex items-center gap-2">
+                <UserRound className="h-4 w-4" />
+                {t("account")}
+              </span>
             </Link>
             <div className="mt-1 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
               {t("company")}

@@ -15,6 +15,7 @@
     "contact_desc": "Talk to our team",
     "admin": "Dashboard",
     "admin_desc": "Manage orders and payments",
+    "account": "My account",
     "open_cart": "Open cart",
     "open_menu": "Open menu",
     "close_menu": "Close menu"
@@ -381,5 +382,29 @@
     "error_short": "Password must be at least 6 characters.",
     "error_exchange": "Invalid or expired link. Request a new email from “Forgot password”.",
     "checking_link": "Checking your link…"
+  },
+  "Account": {
+    "eyebrow": "Customer account",
+    "title": "My Iconrev plates",
+    "desc": "Review the plates linked to your account, their Google business, and the active review link.",
+    "login_title": "Sign in to your account",
+    "login_desc": "Use the email address you used to activate your plate.",
+    "setup_title": "Setup required",
+    "setup_desc": "Supabase must be configured to display your customer account.",
+    "sign_out": "Sign out",
+    "total_cards": "Linked plates",
+    "active_cards": "Active plates",
+    "account_email": "Account",
+    "load_error": "Unable to load your plates",
+    "empty_title": "No plates linked to this account",
+    "empty_desc": "After you activate a plate, it will automatically appear here.",
+    "empty_cta": "View plates",
+    "unknown_business": "Business not provided",
+    "status_active": "Active",
+    "status_pending": "Not activated",
+    "no_address": "Address not provided",
+    "card_id": "Plate ID:",
+    "test_link": "Test Google link",
+    "support": "Contact support"
   }
 }

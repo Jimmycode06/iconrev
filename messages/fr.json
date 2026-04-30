@@ -15,6 +15,7 @@
     "contact_desc": "Parler à notre équipe",
     "admin": "Dashboard",
     "admin_desc": "Gerer les commandes et paiements",
+    "account": "Mon compte",
     "open_cart": "Ouvrir le panier",
     "open_menu": "Ouvrir le menu",
     "close_menu": "Fermer le menu"
@@ -381,5 +382,29 @@
     "error_short": "Le mot de passe doit contenir au moins 6 caractères.",
     "error_exchange": "Lien invalide ou expiré. Redemandez un e-mail depuis « Mot de passe oublié ».",
     "checking_link": "Vérification du lien…"
+  },
+  "Account": {
+    "eyebrow": "Espace client",
+    "title": "Mes plaques Iconrev",
+    "desc": "Retrouvez les plaques liées à votre compte, leur établissement Google et le lien d'avis actif.",
+    "login_title": "Connectez-vous à votre compte",
+    "login_desc": "Utilisez l'e-mail qui a servi à activer votre plaque.",
+    "setup_title": "Configuration requise",
+    "setup_desc": "Supabase doit être configuré pour afficher votre espace client.",
+    "sign_out": "Se déconnecter",
+    "total_cards": "Plaques liées",
+    "active_cards": "Plaques actives",
+    "account_email": "Compte",
+    "load_error": "Impossible de charger vos plaques",
+    "empty_title": "Aucune plaque liée à ce compte",
+    "empty_desc": "Après activation d'une plaque, elle apparaîtra automatiquement ici.",
+    "empty_cta": "Voir les plaques",
+    "unknown_business": "Établissement non renseigné",
+    "status_active": "Activée",
+    "status_pending": "Non activée",
+    "no_address": "Adresse non renseignée",
+    "card_id": "ID plaque :",
+    "test_link": "Tester le lien Google",
+    "support": "Contacter le support"
   }
 }
