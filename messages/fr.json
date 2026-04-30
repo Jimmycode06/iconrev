@@ -368,6 +368,18 @@
   },
   "ResetPassword": {
     "title": "Réinitialiser le mot de passe — Iconrev",
-    "desc": "Choisissez un nouveau mot de passe pour votre compte Iconrev."
+    "desc": "Choisissez un nouveau mot de passe pour votre compte Iconrev.",
+    "waiting_link": "Ouvrez cette page depuis le lien reçu par e-mail. Si le lien a expiré, redemandez une réinitialisation.",
+    "new_password": "Nouveau mot de passe",
+    "confirm_password": "Confirmer le mot de passe",
+    "placeholder_new": "Au moins 6 caractères",
+    "placeholder_confirm": "Saisissez à nouveau",
+    "submit": "Enregistrer le mot de passe",
+    "success_title": "Mot de passe mis à jour",
+    "success_desc": "Redirection vers l’accueil…",
+    "error_mismatch": "Les mots de passe ne correspondent pas.",
+    "error_short": "Le mot de passe doit contenir au moins 6 caractères.",
+    "error_exchange": "Lien invalide ou expiré. Redemandez un e-mail depuis « Mot de passe oublié ».",
+    "checking_link": "Vérification du lien…"
   }
 }
