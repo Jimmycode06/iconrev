@@ -54,7 +54,7 @@ const enProducts: Product[] = [
       {
         title: "Ready in under 30 seconds",
         description:
-          "Place it on the counter; we link it to your business when we prepare your order.",
+          "Scan the QR code after delivery to activate it and choose your business.",
       },
     ],
     inStock: true,
@@ -151,7 +151,7 @@ const frProducts: Product[] = [
       {
         title: "Prête en moins de 30 secondes",
         description:
-          "Posez-la sur le comptoir ; nous la lions à votre établissement lors de la commande.",
+          "Scannez le QR code après réception pour l'activer et choisir votre établissement.",
       },
     ],
     inStock: true,

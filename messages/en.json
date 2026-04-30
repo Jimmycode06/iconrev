@@ -121,7 +121,7 @@
   "Home": {
     "pack_label": "Our plates",
     "pack_title": "Choose your pack",
-    "pack_desc": "Same flow as the product page: pick a pack, then tell us which location it's for so we can prepare your order with the right Google profile.",
+    "pack_desc": "Choose how many plates you need. After delivery, scan the QR code to activate each plate and link it to your Google business.",
     "select_pack": "Select a pack",
     "add_to_cart": "Add to cart",
     "added_to_cart": "Added to cart"
@@ -129,13 +129,13 @@
   "Products": {
     "label": "NFC + QR review plates",
     "title": "Choose your pack",
-    "subtitle": "Pick a pack, then tell us which business it's for — we'll use that profile when we prepare your plates.",
+    "subtitle": "Order your plates today. After delivery, scan the QR code to activate them and choose your Google business.",
     "nfc_badge": "NFC + QR on every plate",
     "select_pack": "Select a pack",
     "add_to_cart": "Add to cart",
     "added_to_cart": "Added to cart",
     "location_title": "Where is your business?",
-    "location_desc": "This lets us match the right Google profile before we ship. You can update it in the cart if needed.",
+    "location_desc": "You'll choose your business after delivery by scanning the QR code on your plate.",
     "inspiration_label": "Inspiration",
     "inspiration_title": "Where to put your Google review stand",
     "inspiration_desc": "We start with a real checkout moment with our stand, then two more common ideas—no clutter, just the spots that work when customers can actually see and use your stand.",
@@ -202,7 +202,7 @@
   },
   "GoogleBusinessLocation": {
     "title": "Your Google Business location",
-    "desc": "Tell us which Google Business Profile this order is for. We use it to link the correct review URL when we prepare your plates — setup is handled by our team after purchase, not in this form.",
+    "desc": "This step is no longer needed before purchase: you'll choose your business during plate activation after delivery.",
     "placeholder": "Search your business on Google Maps...",
     "change": "Change",
     "custom_label": "Or enter a custom business name",
@@ -241,8 +241,8 @@
   },
   "Checkout": {
     "redirecting": "Redirecting…",
-    "title": "Confirm your business",
-    "subtitle": "We use this to attach the correct Google review link when we prepare your plates.",
+    "title": "Complete your order",
+    "subtitle": "After delivery, scan the QR code on your plate to activate it and choose your Google business.",
     "back": "Back to cart",
     "continue": "Continue to payment",
     "alert_no_business": "Please select your business on Google or enter a custom name.",

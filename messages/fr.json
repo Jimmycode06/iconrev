@@ -121,7 +121,7 @@
   "Home": {
     "pack_label": "Nos plaques",
     "pack_title": "Choisissez votre pack",
-    "pack_desc": "Même parcours que la page produit : choisissez un pack, puis indiquez-nous pour quel établissement afin de préparer votre commande avec le bon profil Google.",
+    "pack_desc": "Choisissez le nombre de plaques dont vous avez besoin. Après réception, scannez le QR code pour activer chaque plaque et la lier à votre établissement Google.",
     "select_pack": "Sélectionnez un pack",
     "add_to_cart": "Ajouter au panier",
     "added_to_cart": "Ajouté au panier"
@@ -129,13 +129,13 @@
   "Products": {
     "label": "Plaques d'avis NFC + QR",
     "title": "Choisissez votre pack",
-    "subtitle": "Choisissez un pack, puis indiquez-nous pour quel établissement — nous utiliserons ce profil lors de la préparation de vos plaques.",
+    "subtitle": "Commandez vos plaques aujourd'hui. Vous les activerez après réception en scannant le QR code, puis en choisissant votre établissement Google.",
     "nfc_badge": "NFC + QR sur chaque plaque",
     "select_pack": "Sélectionnez un pack",
     "add_to_cart": "Ajouter au panier",
     "added_to_cart": "Ajouté au panier",
     "location_title": "Où se trouve votre établissement ?",
-    "location_desc": "Cela nous permet d'associer le bon profil Google avant l'expédition. Vous pouvez le mettre à jour dans le panier si nécessaire.",
+    "location_desc": "Vous choisirez votre établissement après réception, en scannant le QR code de votre plaque.",
     "inspiration_label": "Inspirations",
     "inspiration_title": "Où placer votre support avis Google",
     "inspiration_desc": "D'abord une vraie mise en situation au comptoir, puis deux idées d'emplacement supplémentaires pour vous inspirer — sans en mettre partout : l'essentiel, c'est le bon endroit visible pour le client.",
@@ -202,7 +202,7 @@
   },
   "GoogleBusinessLocation": {
     "title": "Votre établissement Google Business",
-    "desc": "Indiquez-nous pour quelle fiche Google Business cet ordre est destiné. Nous l'utilisons pour associer l'URL d'avis correcte lors de la préparation de vos plaques — la configuration est effectuée par notre équipe après l'achat, pas dans ce formulaire.",
+    "desc": "Cette étape n'est plus nécessaire avant l'achat : vous choisirez votre établissement lors de l'activation de la plaque, après réception.",
     "placeholder": "Recherchez votre établissement sur Google Maps...",
     "change": "Modifier",
     "custom_label": "Ou saisir un nom d'établissement personnalisé",
@@ -241,8 +241,8 @@
   },
   "Checkout": {
     "redirecting": "Redirection...",
-    "title": "Confirmez votre établissement",
-    "subtitle": "Nous utilisons cette information pour associer le bon lien d'avis Google lors de la préparation de vos plaques.",
+    "title": "Finalisez votre commande",
+    "subtitle": "Après réception, scannez le QR code de votre plaque pour l'activer et choisir votre établissement Google.",
     "back": "Retour au panier",
     "continue": "Continuer vers le paiement",
     "alert_no_business": "Veuillez sélectionner votre établissement sur Google ou saisir un nom personnalisé.",

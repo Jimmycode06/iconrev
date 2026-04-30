@@ -6,7 +6,6 @@ import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { ShoppingCart, Check, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { GoogleBusinessLocation } from "@/components/google-business-location";
 import { ProductPackList } from "@/components/product-pack-list";
 import { ProductImageGallery } from "@/components/product-image-gallery";
 import { ProductAdvantages } from "@/components/product-advantages";
@@ -159,21 +158,6 @@ function ProductsContent() {
       <HowItWorksSection className="mt-2 md:mt-4 -mx-4 px-4 sm:mx-0 sm:px-0 border-t border-border/70 pt-12 md:pt-16" />
 
       <ProductFaqSection className="-mx-4 px-4 sm:mx-0 sm:px-0" />
-
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.25 }}
-        className="max-w-3xl mx-auto"
-      >
-        <h2 className="text-xl font-bold mb-3 text-center md:text-left">
-          {t("location_title")}
-        </h2>
-        <p className="text-sm text-muted-foreground mb-4 text-center md:text-left">
-          {t("location_desc")}
-        </p>
-        <GoogleBusinessLocation />
-      </motion.div>
 
       <motion.section
         initial={{ opacity: 0, y: 24 }}
