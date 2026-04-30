@@ -52,6 +52,17 @@ export function ResetPasswordForm() {
     }
   }, []);
 
+  /** Server /auth/confirm redirect on failure */
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("recovery_error") === "1") {
+      setError(t("error_exchange"));
+      url.searchParams.delete("recovery_error");
+      window.history.replaceState(null, "", url.pathname + url.search);
+    }
+  }, [t]);
+
   useEffect(() => {
     let cancelled = false;
     const client = createClient();
@@ -72,19 +83,14 @@ export function ResetPasswordForm() {
         url.searchParams.get("token_hash") ?? url.searchParams.get("token");
 
       try {
-        if (code) {
-          const { error: exchangeError } =
-            await client.auth.exchangeCodeForSession(code);
-          if (exchangeError) {
-            if (!cancelled) {
-              setError(
-                formatAuthError(exchangeError.message, locale) ||
-                  t("error_exchange")
-              );
-            }
-            setBootstrapLoading(false);
-            return;
-          }
+        // Finish client init (parses PKCE URL when code_verifier exists in cookies)
+        await client.auth.getSession();
+
+        let {
+          data: { session },
+        } = await client.auth.getSession();
+
+        if (session) {
           if (!cancelled) {
             setRecoveryReady(true);
             stripRecoveryParams();
@@ -102,6 +108,27 @@ export function ResetPasswordForm() {
             if (!cancelled) {
               setError(
                 formatAuthError(otpError.message, locale) ||
+                  t("error_exchange")
+              );
+            }
+            setBootstrapLoading(false);
+            return;
+          }
+          if (!cancelled) {
+            setRecoveryReady(true);
+            stripRecoveryParams();
+          }
+          setBootstrapLoading(false);
+          return;
+        }
+
+        if (code) {
+          const { error: exchangeError } =
+            await client.auth.exchangeCodeForSession(code);
+          if (exchangeError) {
+            if (!cancelled) {
+              setError(
+                formatAuthError(exchangeError.message, locale) ||
                   t("error_exchange")
               );
             }
@@ -145,8 +172,10 @@ export function ResetPasswordForm() {
           }
         }
 
-        const { data } = await client.auth.getSession();
-        if (!cancelled && data.session) {
+        ({
+          data: { session },
+        } = await client.auth.getSession());
+        if (!cancelled && session) {
           setRecoveryReady(true);
         }
       } catch {

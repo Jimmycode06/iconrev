@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useLocale } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
+import { routing } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -24,6 +26,7 @@ interface AuthFormProps {
 }
 
 export function AuthForm({ onAuthenticated }: AuthFormProps) {
+  const locale = useLocale();
   const [view, setView] = useState<View>("auth");
   const [tab, setTab] = useState<Tab>("register");
   const [businessName, setBusinessName] = useState("");
@@ -84,9 +87,13 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
     setLoading(true);
 
     try {
+      const resetPath =
+        locale === routing.defaultLocale
+          ? "/reset-password"
+          : `/${locale}/reset-password`;
       const redirectTo =
         typeof window !== "undefined"
-          ? `${window.location.origin}/fr/reset-password`
+          ? `${window.location.origin}/auth/confirm?next=${encodeURIComponent(resetPath)}`
           : undefined;
 
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(
