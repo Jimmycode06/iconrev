@@ -227,7 +227,7 @@ This project is licensed under the MIT License.
 
 ## Support
 
-For questions or support, contact us at contact@plaquesavisgoogle.com
+For questions or support, contact us at contact@iconrev.com
 
 ---
 
