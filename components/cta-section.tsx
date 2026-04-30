@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Gift, Zap } from "lucide-react";
+import { ArrowRight, Zap } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export function CTASection() {
@@ -35,19 +35,6 @@ export function CTASection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6"
-          >
-            <Gift className="h-4 w-4 text-amber-300" />
-            <span className="text-sm font-semibold text-white">
-              {t("badge")}
-            </span>
-          </motion.div>
-
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

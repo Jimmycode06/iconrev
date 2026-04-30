@@ -208,7 +208,7 @@ function ProductsContent() {
               {t("inspiration_featured_eyebrow")}
             </p>
             <div className="relative w-full max-w-4xl mx-auto rounded-2xl overflow-hidden border border-border/80 bg-muted/20 shadow-[0_20px_60px_-15px_rgba(15,23,42,0.2)] ring-1 ring-black/[0.06]">
-              <div className="relative aspect-[4/3] md:aspect-[2/1] w-full">
+              <div className="relative aspect-[4/3] md:aspect-[3/2] w-full">
                 <Image
                   src={placementFeatured.imageSrc}
                   alt={`${placementFeatured.title} — ${t("inspiration_img_alt")}`}

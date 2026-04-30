@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Activez votre plaque — Iconrev",
   description:
-    "Scannez le QR code de votre plaque Iconrev et suivez les etapes pour la lier a votre fiche Google Business.",
+    "Scannez le QR code de votre plaque Iconrev et suivez les étapes pour la lier à votre fiche Google Business.",
 };
 
 interface PageProps {
@@ -40,9 +40,9 @@ export default async function ActivatePage({ searchParams }: PageProps) {
             Configuration requise
           </h1>
           <p className="text-muted-foreground">
-            Supabase n&apos;est pas encore configure. Ajoutez votre URL et vos
-            cles dans <code className="text-xs bg-muted px-1.5 py-0.5 rounded">.env.local</code>, puis
-            redemarrez le serveur.
+            Supabase n&apos;est pas encore configuré. Ajoutez votre URL et vos
+            clés dans <code className="text-xs bg-muted px-1.5 py-0.5 rounded">.env.local</code>, puis
+            redémarrez le serveur.
           </p>
         </div>
       </section>
@@ -69,7 +69,7 @@ export default async function ActivatePage({ searchParams }: PageProps) {
             Activez votre plaque
           </h1>
           <p className="text-muted-foreground max-w-md mx-auto">
-            Suivez les etapes ci-dessous pour lier votre plaque Iconrev a votre
+            Suivez les étapes ci-dessous pour lier votre plaque Iconrev à votre
             fiche Google Business.
           </p>
         </div>

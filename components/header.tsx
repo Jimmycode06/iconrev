@@ -109,7 +109,7 @@ export function Header() {
             size="icon"
             className="md:hidden"
             onClick={() => setMobileOpen((v) => !v)}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-label={mobileOpen ? t("close_menu") : t("open_menu")}
           >
             {mobileOpen ? (
               <X className="h-5 w-5" />

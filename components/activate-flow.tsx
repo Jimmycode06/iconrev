@@ -25,7 +25,7 @@ interface ActivateFlowProps {
 
 const STEPS: { key: Step; label: string; icon: React.ElementType }[] = [
   { key: "auth", label: "Compte", icon: UserPlus },
-  { key: "search", label: "Trouver l'etablissement", icon: Search },
+  { key: "search", label: "Trouver l'établissement", icon: Search },
   { key: "confirm", label: "Activer", icon: CheckCircle2 },
 ];
 
@@ -83,14 +83,14 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Echec de l'activation. Veuillez reessayer.");
+        setError(data.error || "Échec de l'activation. Veuillez réessayer.");
         return;
       }
 
       setReviewUrl(data.reviewUrl);
       setStep("done");
     } catch {
-      setError("Erreur reseau. Verifiez votre connexion puis reessayez.");
+      setError("Erreur réseau. Vérifiez votre connexion puis réessayez.");
     } finally {
       setActivating(false);
     }
@@ -153,10 +153,10 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
         {step === "auth" && (
           <div>
             <h2 className="text-xl font-bold text-foreground mb-1">
-              Creez votre compte
+              Créez votre compte
             </h2>
             <p className="text-sm text-muted-foreground mb-5">
-              Inscrivez-vous pour activer votre plaque Iconrev et commencer a
+              Inscrivez-vous pour activer votre plaque Iconrev et commencer à
               collecter des avis Google.
             </p>
             <AuthForm onAuthenticated={handleAuthenticated} />
@@ -166,10 +166,10 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
         {step === "search" && (
           <div>
             <h2 className="text-xl font-bold text-foreground mb-1">
-              Trouvez votre etablissement
+              Trouvez votre établissement
             </h2>
             <p className="text-sm text-muted-foreground mb-5">
-              Recherchez votre etablissement sur Google pour lier votre plaque.
+              Recherchez votre établissement sur Google pour lier votre plaque.
             </p>
             <PlacesSearch onSelect={handlePlaceSelected} />
           </div>
@@ -182,7 +182,7 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
                 Confirmer l&apos;activation
               </h2>
               <p className="text-sm text-muted-foreground">
-                Verifiez qu&apos;il s&apos;agit du bon etablissement avant d&apos;activer.
+                Vérifiez qu&apos;il s&apos;agit du bon établissement avant d&apos;activer.
               </p>
             </div>
 
@@ -228,7 +228,7 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
                 }}
                 className="flex-1"
               >
-                Changer d&apos;etablissement
+                Changer d&apos;établissement
               </Button>
               <Button
                 onClick={handleActivate}
@@ -251,7 +251,7 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
               <PartyPopper className="h-7 w-7 text-emerald-600" />
             </div>
             <h2 className="text-2xl font-bold text-foreground">
-              Tout est pret !
+              Tout est prêt !
             </h2>
             <p className="text-muted-foreground max-w-sm mx-auto">
               Votre plaque est maintenant active. Quand les clients la

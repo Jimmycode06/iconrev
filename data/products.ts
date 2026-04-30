@@ -14,8 +14,6 @@ export const PRODUCT_GALLERY_SLIDE_2 = "/gallery/iconrev-plaque-fr.png";
 /** 5e image galerie — infographie avis Google (FR). */
 export const PRODUCT_GALLERY_SLIDE_4 = "/gallery/iconrev-marketing-google-avis.png";
 
-const PRODUCT_GALLERY_SECONDARY = "/carte-iconrev-avis-google.png";
-
 export const GALLERY_IN_STORE_COUNTER = "/gallery/iconrev-in-store-counter.png";
 
 /** Vignette liste des packs — pack 2 plaques (visuel produit deux unités). */
@@ -28,7 +26,6 @@ export const DEFAULT_PRODUCT_GALLERY = [
   PRODUCT_GALLERY_HERO,
   PRODUCT_GALLERY_HERO_STUDIO,
   PRODUCT_GALLERY_SLIDE_2,
-  PRODUCT_GALLERY_SECONDARY,
   PRODUCT_GALLERY_SLIDE_4,
 ];
 

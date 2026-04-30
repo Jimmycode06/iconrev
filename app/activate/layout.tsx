@@ -15,6 +15,8 @@ const frMessages = {
     contact: "Contact",
     contact_desc: "Parler à notre équipe",
     open_cart: "Ouvrir le panier",
+    open_menu: "Ouvrir le menu",
+    close_menu: "Fermer le menu",
   },
   Footer: {
     tagline:

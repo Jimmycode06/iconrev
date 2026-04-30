@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { translateAuthErrorMessageToFr } from "@/lib/auth-error-fr";
 import {
   Loader2,
   Mail,
@@ -50,7 +51,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
         });
 
         if (signUpError) {
-          setError(signUpError.message);
+          setError(translateAuthErrorMessageToFr(signUpError.message));
           return;
         }
 
@@ -66,7 +67,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
         });
 
         if (signInError) {
-          setError(signInError.message);
+          setError(translateAuthErrorMessageToFr(signInError.message));
           return;
         }
 
@@ -94,7 +95,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
       );
 
       if (resetError) {
-        setError(resetError.message);
+        setError(translateAuthErrorMessageToFr(resetError.message));
         return;
       }
 
@@ -111,10 +112,10 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
           <Mail className="h-6 w-6 text-blue-600" />
         </div>
         <h3 className="text-lg font-semibold text-foreground">
-          Verifiez votre email
+          Vérifiez votre e-mail
         </h3>
         <p className="text-sm text-muted-foreground max-w-xs mx-auto">
-          Nous avons envoye un lien de confirmation a <strong>{email}</strong>.
+          Nous avons envoyé un lien de confirmation à <strong>{email}</strong>.
           Cliquez sur le lien pour activer votre compte, puis revenez ici.
         </p>
         <Button
@@ -125,7 +126,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
             setTab("login");
           }}
         >
-          J&apos;ai confirme mon email — Se connecter
+          J&apos;ai confirmé mon e-mail — me connecter
         </Button>
       </div>
     );
@@ -138,11 +139,11 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
           <Mail className="h-6 w-6 text-blue-600" />
         </div>
         <h3 className="text-lg font-semibold text-foreground">
-          Verifiez votre email
+          Vérifiez votre e-mail
         </h3>
         <p className="text-sm text-muted-foreground max-w-xs mx-auto">
-          Si <strong>{email}</strong> correspond a un compte, nous avons envoye
-          un lien pour reinitialiser votre mot de passe.
+          Si <strong>{email}</strong> correspond à un compte, nous avons envoyé
+          un lien pour réinitialiser votre mot de passe.
         </p>
         <Button
           variant="outline"
@@ -153,7 +154,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
             setError(null);
           }}
         >
-          Retour a la connexion
+          Retour à la connexion
         </Button>
       </div>
     );
@@ -171,15 +172,15 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
           className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
-          Retour a la connexion
+          Retour à la connexion
         </button>
 
         <div>
           <h3 className="text-lg font-semibold text-foreground">
-            Reinitialiser votre mot de passe
+            Réinitialiser votre mot de passe
           </h3>
           <p className="text-sm text-muted-foreground mt-1">
-            Entrez votre email et nous vous enverrons un lien pour definir un
+            Entrez votre e-mail et nous vous enverrons un lien pour définir un
             nouveau mot de passe.
           </p>
         </div>
@@ -220,7 +221,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
             {loading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              "Envoyer le lien de reinitialisation"
+              "Envoyer le lien de réinitialisation"
             )}
           </Button>
         </form>
@@ -249,7 +250,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
             {t === "register" ? (
               <>
                 <UserPlus className="h-3.5 w-3.5" />
-                Creer un compte
+                Créer un compte
               </>
             ) : (
               <>
@@ -268,7 +269,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
               htmlFor="auth-business"
               className="text-sm font-medium text-foreground"
             >
-              Nom de l&apos;etablissement
+              Nom de l&apos;établissement
             </label>
             <div className="relative">
               <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -323,7 +324,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
                 }}
                 className="text-xs font-medium text-blue-600 hover:text-blue-700 transition-colors"
               >
-                Mot de passe oublie ?
+                Mot de passe oublié ?
               </button>
             )}
           </div>
@@ -334,7 +335,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
               type="password"
               placeholder={
                 tab === "register"
-                  ? "Au moins 6 caracteres"
+                  ? "Au moins 6 caractères"
                   : "Votre mot de passe"
               }
               value={password}
@@ -360,7 +361,7 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
           {loading ? (
             <Loader2 className="h-4 w-4 animate-spin" />
           ) : tab === "register" ? (
-            "Creer mon compte"
+            "Créer mon compte"
           ) : (
             "Se connecter"
           )}

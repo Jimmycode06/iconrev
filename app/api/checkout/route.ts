@@ -1,48 +1,71 @@
 import { NextRequest, NextResponse } from "next/server";
+import type Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { getBogoFreeQuantity } from "@/lib/promotions";
+import { packImageUrlForProductId } from "@/lib/pack-display-image";
 
-// Option B: Use Stripe Price IDs created in dashboard
-const STRIPE_PRICE_ID_BY_PRODUCT_ID: Record<string, string> = {
-  "1": "price_1TPQBbE05eLsiJ8gbZDqVkGW", // 29 EUR (test)
-  "2": "price_1TPQBqE05eLsiJ8gaYBKef9y", // 49 EUR (test)
-  "3": "price_1TPQC7E05eLsiJ8gdRGzgG9x", // 89 EUR (test)
+/** Montants serveur (centimes EUR) — doivent correspondre aux prix catalogue. */
+const UNIT_AMOUNT_EUR_CENTS: Record<string, number> = {
+  "1": 2900,
+  "2": 4900,
+  "3": 8900,
 };
+
+function productImageAbsolute(request: NextRequest, productId: string): string {
+  const path = packImageUrlForProductId(productId);
+  return new URL(path, request.nextUrl.origin).href;
+}
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { items, businessInfo } = body;
+    const { items, businessInfo, locale: localeParam } = body;
+
+    const localeStripe =
+      localeParam === "fr" ? "fr" : localeParam === "en" ? "en" : "auto";
+
+    const prefix = localeParam === "fr" ? "/fr" : "";
 
     if (!items || items.length === 0) {
       return NextResponse.json(
-        { error: "Your cart is empty" },
+        { error: "Panier vide" },
         { status: 400 }
       );
     }
 
     const lineItems = items.flatMap((item: any) => {
       const productId = String(item?.product?.id ?? "");
-      const stripePriceId = STRIPE_PRICE_ID_BY_PRODUCT_ID[productId];
-      if (!stripePriceId) {
-        throw new Error(`Missing Stripe price for product id: ${productId}`);
+      const unitAmount = UNIT_AMOUNT_EUR_CENTS[productId];
+      if (unitAmount === undefined) {
+        throw new Error(`Produit inconnu : ${productId}`);
       }
 
       const promo = item.product?.promotion;
+      const imgUrl = productImageAbsolute(request, productId);
+
+      const paidLineItem = (qty: number) =>
+        qty > 0
+          ? [
+              {
+                price_data: {
+                  currency: "eur",
+                  unit_amount: unitAmount,
+                  product_data: {
+                    name: String(item.product?.name ?? `Pack ${productId}`),
+                    description: String(
+                      item.product?.description ?? ""
+                    ).slice(0, 500),
+                    images: [imgUrl],
+                  },
+                },
+                quantity: qty,
+              },
+            ]
+          : [];
 
       if (promo?.type === "bogo") {
         const freeQty = getBogoFreeQuantity(item.quantity, promo);
         const paidQty = Math.max(0, item.quantity - freeQty);
-
-        const paidLine =
-          paidQty > 0
-            ? [
-                {
-                  price: stripePriceId,
-                  quantity: paidQty,
-                },
-              ]
-            : [];
 
         const freeLine =
           freeQty > 0
@@ -51,9 +74,9 @@ export async function POST(request: NextRequest) {
                   price_data: {
                     currency: "eur",
                     product_data: {
+                      name: `${item.product.name} (offert)`,
                       description: item.product.description?.slice(0, 500),
-                      images: item.product.images || [item.product.image],
-                      name: `${item.product.name} (FREE)`,
+                      images: [imgUrl],
                     },
                     unit_amount: 0,
                   },
@@ -62,22 +85,17 @@ export async function POST(request: NextRequest) {
               ]
             : [];
 
-        return [...paidLine, ...freeLine];
+        return [...paidLineItem(paidQty), ...freeLine];
       }
 
-      return [
-        {
-          price: stripePriceId,
-          quantity: item.quantity,
-        },
-      ];
+      return paidLineItem(item.quantity);
     });
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      locale: "en",
+      locale: localeStripe as Stripe.Checkout.SessionCreateParams.Locale,
       shipping_address_collection: {
         allowed_countries: [
           "US",
@@ -92,8 +110,8 @@ export async function POST(request: NextRequest) {
           "CH",
         ],
       },
-      success_url: `${request.nextUrl.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${request.nextUrl.origin}/cart`,
+      success_url: `${request.nextUrl.origin}${prefix}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${request.nextUrl.origin}${prefix}/cart`,
       metadata: {
         business_name: businessInfo?.businessName || "",
         business_place_id: businessInfo?.placeId || "",
@@ -105,7 +123,7 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error("Stripe checkout session error:", error);
     return NextResponse.json(
-      { error: error.message || "Payment error" },
+      { error: error.message || "Erreur de paiement" },
       { status: 500 }
     );
   }

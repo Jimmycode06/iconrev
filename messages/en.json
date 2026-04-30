@@ -15,7 +15,9 @@
     "contact_desc": "Talk to our team",
     "admin": "Dashboard",
     "admin_desc": "Manage orders and payments",
-    "open_cart": "Open cart"
+    "open_cart": "Open cart",
+    "open_menu": "Open menu",
+    "close_menu": "Close menu"
   },
   "Footer": {
     "tagline": "Built for local businesses that want to win on Google Maps. 1,200+ locations use Iconrev to collect reviews the easy way.",
@@ -105,7 +107,6 @@
     "stat4_label": "Customer satisfaction"
   },
   "CTA": {
-    "badge": "Limited offer: 20% off with code LAUNCH20",
     "title": "While you read this, competitors are collecting reviews",
     "subtitle": "Every day without fresh reviews is a day Google ranks you lower. Order today — plates ship in 2–3 business days and start working immediately.",
     "price_value": "€29.00",

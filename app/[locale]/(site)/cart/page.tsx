@@ -7,6 +7,7 @@ import { Trash2, Plus, Minus, ShoppingBag, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCartStore } from "@/store/cart-store";
+import { getPackDisplayImage } from "@/lib/pack-display-image";
 import { formatPrice } from "@/lib/utils";
 import { getBogoFreeQuantity, getPromoLabel } from "@/lib/promotions";
 import { useTranslations, useLocale } from "next-intl";
@@ -30,7 +31,7 @@ export default function CartPage() {
       const response = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items }),
+        body: JSON.stringify({ items, locale }),
       });
 
       const data = await response.json();
@@ -96,7 +97,7 @@ export default function CartPage() {
                       <div className="flex gap-6">
                         <div className="relative h-32 w-32 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
                           <Image
-                            src={item.product.image}
+                            src={getPackDisplayImage(item.product)}
                             alt={item.product.name}
                             fill
                             className="object-contain p-2"

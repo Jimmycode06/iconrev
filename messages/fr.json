@@ -15,7 +15,9 @@
     "contact_desc": "Parler à notre équipe",
     "admin": "Dashboard",
     "admin_desc": "Gerer les commandes et paiements",
-    "open_cart": "Ouvrir le panier"
+    "open_cart": "Ouvrir le panier",
+    "open_menu": "Ouvrir le menu",
+    "close_menu": "Fermer le menu"
   },
   "Footer": {
     "tagline": "Conçu pour les commerces locaux qui veulent dominer Google Maps. Plus de 1 200 établissements utilisent Iconrev pour collecter des avis facilement.",
@@ -105,7 +107,6 @@
     "stat4_label": "Satisfaction client"
   },
   "CTA": {
-    "badge": "Offre limitée : -20 % avec le code LAUNCH20",
     "title": "Pendant que vous lisez ceci, vos concurrents collectent des avis",
     "subtitle": "Chaque jour sans avis récents est un jour où Google vous déclasse. Commandez aujourd'hui — livraison en 2–3 jours ouvrés, efficace immédiatement.",
     "price_value": "29,00 €",
