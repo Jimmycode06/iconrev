@@ -11,6 +11,7 @@ import { getPackDisplayImage } from "@/lib/pack-display-image";
 import { formatPrice } from "@/lib/utils";
 import { getBogoFreeQuantity, getPromoLabel } from "@/lib/promotions";
 import { useTranslations, useLocale } from "next-intl";
+import { trackAnalyticsEvent } from "@/lib/analytics/client";
 
 export default function CartPage() {
   const t = useTranslations("Cart");
@@ -28,6 +29,12 @@ export default function CartPage() {
     if (items.length === 0) return;
 
     try {
+      trackAnalyticsEvent("checkout_started", {
+        source: "cart_page",
+        itemCount: items.reduce((sum, item) => sum + item.quantity, 0),
+        value: total,
+      });
+
       const response = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

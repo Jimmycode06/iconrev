@@ -150,3 +150,28 @@ select setval(
 create unique index if not exists idx_orders_order_number
   on public.orders (order_number)
   where order_number is not null;
+
+-- 10. Analytics events (site visits and funnel events)
+create table if not exists public.analytics_events (
+  id uuid primary key default gen_random_uuid(),
+  event_type text not null,
+  path text,
+  referrer text,
+  anonymous_id text,
+  session_id text,
+  user_agent text,
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+alter table public.analytics_events enable row level security;
+
+-- No public policies: events are written/read by server routes using the service role.
+create index if not exists idx_analytics_events_created_at
+  on public.analytics_events (created_at desc);
+create index if not exists idx_analytics_events_event_type_created_at
+  on public.analytics_events (event_type, created_at desc);
+create index if not exists idx_analytics_events_anonymous_id
+  on public.analytics_events (anonymous_id);
+create index if not exists idx_analytics_events_session_id
+  on public.analytics_events (session_id);

@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useLocale } from "next-intl";
-import { ShoppingBagIcon, LayoutDashboardIcon } from "lucide-react";
+import { BarChart3Icon, ShoppingBagIcon, LayoutDashboardIcon } from "lucide-react";
 import { NavMain } from "@/components/nav-main";
 import {
   Sidebar,
@@ -32,6 +32,11 @@ export function AdminSidebar({
       title: isFr ? "Commandes" : "Orders",
       url: `${base}/admin/orders`,
       icon: ShoppingBagIcon,
+    },
+    {
+      title: isFr ? "Analyse de données" : "Analytics",
+      url: `${base}/admin/analytics`,
+      icon: BarChart3Icon,
     },
   ];
 
