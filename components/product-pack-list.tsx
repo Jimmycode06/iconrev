@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -34,76 +35,95 @@ function PackRowInner({
   showCategoryOutlineBadge?: boolean;
 }) {
   const t = useTranslations("PackList");
+  const thumb = product.packListThumb;
 
   return (
-    <div className="flex-1 min-w-0 flex flex-col gap-1">
-      <div
-        className={cn(
-          "flex flex-wrap items-start justify-between gap-x-3 gap-y-1",
-          reserveCornerBadge && !compact && "pr-9"
-        )}
-      >
-        <span
+    <div className="flex-1 min-w-0 flex gap-2.5 sm:gap-3 items-start">
+      {thumb ? (
+        <div
           className={cn(
-            "font-semibold text-foreground leading-snug tracking-tight text-balance",
-            compact ? "text-[10px]" : "text-[12px] sm:text-[13px]"
+            "relative shrink-0 overflow-hidden rounded-[10px] border border-border/55 bg-muted/25 shadow-[0_1px_3px_rgba(15,23,42,0.06)]",
+            compact ? "h-9 w-9 sm:h-10 sm:w-10" : "h-12 w-12 sm:h-[3.75rem] sm:w-[3.75rem]"
           )}
         >
-          {packTitle}
-        </span>
-        <div className="shrink-0 text-right">
-          <span
-            className={cn(
-              "block font-bold tabular-nums tracking-tight text-blue-950",
-              compact ? "text-[11px]" : "text-[14px] sm:text-[15px]"
-            )}
-          >
-            {formatPrice(product.price, locale)}
-          </span>
-          <span
-            className={cn(
-              "block tabular-nums text-muted-foreground/80 line-through",
-              compact ? "text-[10px]" : "text-[12px]"
-            )}
-          >
-            {formatPrice(oldPackPrice(product), locale)}
-          </span>
+          <Image
+            src={thumb}
+            alt=""
+            fill
+            className="object-cover"
+            sizes={compact ? "40px" : "64px"}
+          />
         </div>
-      </div>
-      <div className="flex flex-wrap items-center gap-1.5">
-        {showCategoryOutlineBadge && product.category && (
-          <Badge
-            variant="outline"
+      ) : null}
+      <div className="flex-1 min-w-0 flex flex-col gap-1">
+        <div
+          className={cn(
+            "flex flex-wrap items-start justify-between gap-x-3 gap-y-1",
+            reserveCornerBadge && !compact && "pr-9"
+          )}
+        >
+          <span
             className={cn(
-              "font-semibold tracking-wide border-border/80 bg-background/60 text-muted-foreground",
-              compact ? "text-[8px] px-1.5 py-0 h-[17px]" : "text-[9px] px-2 py-0 h-[17px]"
+              "font-semibold text-foreground leading-snug tracking-tight text-balance",
+              compact ? "text-[10px]" : "text-[12px] sm:text-[13px]"
             )}
           >
-            {product.category}
-          </Badge>
-        )}
-        {product.popular && (
-          <Badge
-            variant="outline"
-            className={cn(
-              "font-semibold uppercase tracking-wider border-emerald-200/90 bg-emerald-50/90 text-emerald-800 shadow-none",
-              compact ? "text-[8px] px-1.5 py-0 h-[17px]" : "text-[9px] px-2 py-0 h-[17px]"
-            )}
-          >
-            {t("popular")}
-          </Badge>
-        )}
-        {product.promotion && (
-          <Badge
-            variant="outline"
-            className={cn(
-              "font-semibold uppercase tracking-wider border-emerald-200/90 bg-emerald-50/90 text-emerald-800",
-              compact ? "text-[8px] px-1.5 py-0 h-[17px]" : "text-[9px] px-2 py-0 h-[17px]"
-            )}
-          >
-            {getPromoLabel(product.promotion)}
-          </Badge>
-        )}
+            {packTitle}
+          </span>
+          <div className="shrink-0 text-right">
+            <span
+              className={cn(
+                "block font-bold tabular-nums tracking-tight text-blue-950",
+                compact ? "text-[11px]" : "text-[14px] sm:text-[15px]"
+              )}
+            >
+              {formatPrice(product.price, locale)}
+            </span>
+            <span
+              className={cn(
+                "block tabular-nums text-muted-foreground/80 line-through",
+                compact ? "text-[10px]" : "text-[12px]"
+              )}
+            >
+              {formatPrice(oldPackPrice(product), locale)}
+            </span>
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center gap-1.5">
+          {showCategoryOutlineBadge && product.category && (
+            <Badge
+              variant="outline"
+              className={cn(
+                "font-semibold tracking-wide border-border/80 bg-background/60 text-muted-foreground",
+                compact ? "text-[8px] px-1.5 py-0 h-[17px]" : "text-[9px] px-2 py-0 h-[17px]"
+              )}
+            >
+              {product.category}
+            </Badge>
+          )}
+          {product.popular && (
+            <Badge
+              variant="outline"
+              className={cn(
+                "font-semibold uppercase tracking-wider border-emerald-200/90 bg-emerald-50/90 text-emerald-800 shadow-none",
+                compact ? "text-[8px] px-1.5 py-0 h-[17px]" : "text-[9px] px-2 py-0 h-[17px]"
+              )}
+            >
+              {t("popular")}
+            </Badge>
+          )}
+          {product.promotion && (
+            <Badge
+              variant="outline"
+              className={cn(
+                "font-semibold uppercase tracking-wider border-emerald-200/90 bg-emerald-50/90 text-emerald-800",
+                compact ? "text-[8px] px-1.5 py-0 h-[17px]" : "text-[9px] px-2 py-0 h-[17px]"
+              )}
+            >
+              {getPromoLabel(product.promotion)}
+            </Badge>
+          )}
+        </div>
       </div>
     </div>
   );

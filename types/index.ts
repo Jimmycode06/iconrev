@@ -10,6 +10,8 @@ export interface Product {
   price: number;
   image: string;
   images?: string[];
+  /** Vignette optionnelle à gauche du libellé dans la liste des packs (hero / fiche) */
+  packListThumb?: string;
   rating?: number;
   reviews?: number;
   /** Short benefit bullets (title + body) for product page */

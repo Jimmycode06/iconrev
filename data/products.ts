@@ -18,6 +18,12 @@ const PRODUCT_GALLERY_SECONDARY = "/carte-iconrev-avis-google.png";
 
 export const GALLERY_IN_STORE_COUNTER = "/gallery/iconrev-in-store-counter.png";
 
+/** Vignette liste des packs — pack 2 plaques (visuel produit deux unités). */
+export const PRODUCT_PACK_2_LIST_THUMB = "/gallery/iconrev-pack-2-plaques.png";
+
+/** Vignette liste des packs — pack 5 plaques (visuel produit cinq unités). */
+export const PRODUCT_PACK_5_LIST_THUMB = "/gallery/iconrev-pack-5-plaques.png";
+
 export const DEFAULT_PRODUCT_GALLERY = [
   PRODUCT_GALLERY_HERO,
   PRODUCT_GALLERY_HERO_STUDIO,
@@ -56,6 +62,7 @@ const enProducts: Product[] = [
     ],
     inStock: true,
     category: "1 Plate",
+    packListThumb: DEFAULT_PRODUCT_GALLERY[0],
   },
   {
     id: "2",
@@ -87,6 +94,7 @@ const enProducts: Product[] = [
     category: "2 Plates",
     popular: true,
     bestValue: true,
+    packListThumb: PRODUCT_PACK_2_LIST_THUMB,
   },
   {
     id: "3",
@@ -117,6 +125,7 @@ const enProducts: Product[] = [
     ],
     inStock: true,
     category: "5 Plates",
+    packListThumb: PRODUCT_PACK_5_LIST_THUMB,
   },
 ];
 
@@ -150,6 +159,7 @@ const frProducts: Product[] = [
     ],
     inStock: true,
     category: "1 Plaque",
+    packListThumb: DEFAULT_PRODUCT_GALLERY[0],
   },
   {
     id: "2",
@@ -181,6 +191,7 @@ const frProducts: Product[] = [
     category: "2 Plaques",
     popular: true,
     bestValue: true,
+    packListThumb: PRODUCT_PACK_2_LIST_THUMB,
   },
   {
     id: "3",
@@ -211,6 +222,7 @@ const frProducts: Product[] = [
     ],
     inStock: true,
     category: "5 Plaques",
+    packListThumb: PRODUCT_PACK_5_LIST_THUMB,
   },
 ];
 
