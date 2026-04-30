@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useLocale } from "next-intl";
+import { createClient as createSupabaseJsClient } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
 import { routing } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
@@ -87,19 +88,30 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
     setLoading(true);
 
     try {
-      const resetPath =
-        locale === routing.defaultLocale
-          ? "/reset-password"
-          : `/${locale}/reset-password`;
       const redirectTo =
         typeof window !== "undefined"
-          ? `${window.location.origin}/auth/confirm?next=${encodeURIComponent(resetPath)}`
+          ? `${window.location.origin}${
+              locale === routing.defaultLocale
+                ? "/reset-password"
+                : `/${locale}/reset-password`
+            }`
           : undefined;
 
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
-        email,
-        { redirectTo }
+      const resetClient = createSupabaseJsClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        {
+          auth: {
+            flowType: "implicit",
+            persistSession: false,
+            autoRefreshToken: false,
+            detectSessionInUrl: false,
+          },
+        }
       );
+
+      const { error: resetError } =
+        await resetClient.auth.resetPasswordForEmail(email, { redirectTo });
 
       if (resetError) {
         setError(translateAuthErrorMessageToFr(resetError.message));
