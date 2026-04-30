@@ -176,6 +176,14 @@
     "a7_lead": "Aucune réponse ne correspond à votre besoin ?",
     "a7_body": "Contactez-nous directement via le chat, l'email ou le téléphone. Notre équipe répond rapidement et avec plaisir !"
   },
+  "AdminLogin": {
+    "title": "Espace admin Iconrev",
+    "subtitle": "Connectez-vous avec le compte Google autorisé.",
+    "google": "Continuer avec Google",
+    "error_oauth": "La connexion a échoué. Réessayez ou contactez le support.",
+    "hint_env": "Sur le serveur, définissez ADMIN_EMAILS avec votre adresse Google exacte (ex. vous@gmail.com). Activez le fournisseur Google et ajoutez l’URL /auth/callback dans Supabase.",
+    "back_site": "Retour au site"
+  },
   "PackList": {
     "popular": "Populaire",
     "best_deal": "Meilleure offre",

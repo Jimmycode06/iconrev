@@ -176,6 +176,14 @@
     "a7_lead": "Can't find what you need?",
     "a7_body": "Reach us by chat, email, or phone—we're happy to help and we reply quickly."
   },
+  "AdminLogin": {
+    "title": "Iconrev admin",
+    "subtitle": "Sign in with your authorized Google account.",
+    "google": "Continue with Google",
+    "error_oauth": "Sign-in failed. Please try again or contact support.",
+    "hint_env": "On the server, set ADMIN_EMAILS to your exact Google address. Enable the Google provider and add /auth/callback in Supabase.",
+    "back_site": "Back to site"
+  },
   "PackList": {
     "popular": "Popular",
     "best_deal": "Best deal",
