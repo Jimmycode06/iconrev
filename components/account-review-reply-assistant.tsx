@@ -5,12 +5,11 @@ import { Bot, Copy, Loader2, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 
 type Tone = "warm" | "pro";
-
-function escapeRegExp(value: string) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
 
 function buildReply({
   reviewText,
@@ -100,72 +99,95 @@ export function AccountReviewReplyAssistant() {
   }
 
   return (
-    <Card className="mb-8 border-blue-200/80 bg-gradient-to-br from-blue-50/70 via-white to-cyan-50/60 shadow-sm">
-      <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-blue-600/10">
-            <Bot className="h-4 w-4 text-blue-600" />
-          </span>
-          {t("assistant_title")}
-        </CardTitle>
-        <CardDescription>{t("assistant_desc")}</CardDescription>
+    <Card className="mb-8 border border-blue-100/80 bg-gradient-to-br from-blue-50/70 via-white to-cyan-50/50 shadow-sm">
+      <CardHeader className="pb-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <CardTitle className="flex items-center gap-2">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-blue-600/10">
+              <Bot className="h-4 w-4 text-blue-600" />
+            </span>
+            {t("assistant_title")}
+          </CardTitle>
+          <Badge variant="outline" className="border-blue-200 bg-blue-50 text-blue-700">
+            {t("assistant_note")}
+          </Badge>
+        </div>
+        <CardDescription className="pt-1">{t("assistant_desc")}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="space-y-1.5">
-          <label className="text-sm font-medium text-foreground">
-            {t("assistant_tone_label")}
-          </label>
-          <div className="flex gap-2">
-            <Button
-              type="button"
-              size="sm"
-              variant={tone === "warm" ? "default" : "outline"}
-              onClick={() => setTone("warm")}
-            >
-              {t("assistant_tone_warm")}
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              variant={tone === "pro" ? "default" : "outline"}
-              onClick={() => setTone("pro")}
-            >
-              {t("assistant_tone_pro")}
-            </Button>
+        <div className="rounded-lg border bg-white/90 p-3">
+          <div className="space-y-1.5">
+            <label className="text-sm font-medium text-foreground">
+              {t("assistant_tone_label")}
+            </label>
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                size="sm"
+                variant={tone === "warm" ? "default" : "outline"}
+                onClick={() => setTone("warm")}
+              >
+                {t("assistant_tone_warm")}
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant={tone === "pro" ? "default" : "outline"}
+                onClick={() => setTone("pro")}
+              >
+                {t("assistant_tone_pro")}
+              </Button>
+            </div>
           </div>
         </div>
 
-        <div className="space-y-1.5">
-          <label className="text-sm font-medium text-foreground">
-            {t("assistant_input_label")}
-          </label>
-          <textarea
-            className="w-full min-h-[120px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            value={reviewText}
-            onChange={(e) => setReviewText(e.target.value)}
-            placeholder={t("assistant_input_placeholder")}
-          />
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          <Button type="button" onClick={handleGenerate} disabled={!canGenerate || loading}>
-            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
-            {t("assistant_generate")}
-          </Button>
-          <span className="text-xs text-muted-foreground">{t("assistant_note")}</span>
-        </div>
-
-        <div className="rounded-xl border border-blue-100 bg-white/90 p-4">
-          <div className="mb-2 flex items-center justify-between gap-2">
-            <p className="text-sm font-medium text-foreground">{t("assistant_output_label")}</p>
-            <Button type="button" size="sm" variant="outline" onClick={handleCopy} disabled={!reply}>
-              <Copy className="mr-1.5 h-3.5 w-3.5" />
-              {copied ? t("assistant_copied") : t("assistant_copy")}
-            </Button>
+        <div className="grid gap-4 lg:grid-cols-2">
+          <div className="rounded-xl border bg-white p-4">
+            <label className="mb-2 block text-sm font-medium text-foreground">
+              {t("assistant_input_label")}
+            </label>
+            <Textarea
+              className="min-h-[170px]"
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+              placeholder={t("assistant_input_placeholder")}
+            />
+            <div className="mt-3 flex items-center justify-between gap-2">
+              <p className="text-xs text-muted-foreground">
+                {reviewText.trim().length}/500
+              </p>
+              <Button type="button" onClick={handleGenerate} disabled={!canGenerate || loading}>
+                {loading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Sparkles className="mr-2 h-4 w-4" />
+                )}
+                {t("assistant_generate")}
+              </Button>
+            </div>
           </div>
-          <p className="whitespace-pre-wrap text-sm text-muted-foreground">
-            {reply || t("assistant_output_placeholder")}
-          </p>
+
+          <div className="rounded-xl border border-blue-100 bg-white p-4">
+            <div className="mb-2 flex items-center justify-between gap-2">
+              <p className="text-sm font-medium text-foreground">
+                {t("assistant_output_label")}
+              </p>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={handleCopy}
+                disabled={!reply}
+              >
+                <Copy className="mr-1.5 h-3.5 w-3.5" />
+                {copied ? t("assistant_copied") : t("assistant_copy")}
+              </Button>
+            </div>
+            <Separator className="mb-3" />
+            <p className="min-h-[170px] whitespace-pre-wrap text-sm text-muted-foreground leading-relaxed">
+              {reply || t("assistant_output_placeholder")}
+            </p>
+          </div>
         </div>
       </CardContent>
     </Card>

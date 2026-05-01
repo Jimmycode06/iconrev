@@ -1,9 +1,12 @@
 import Link from "next/link";
 import {
+  ArrowUpRight,
   CalendarDays,
   ExternalLink,
   HelpCircle,
+  LayoutGrid,
   MapPin,
+  Mail,
   ShieldCheck,
   SquareStack,
 } from "lucide-react";
@@ -49,6 +52,7 @@ export default async function AccountPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const isFr = locale === "fr";
   const t = await getTranslations({ locale, namespace: "Account" });
   const supabase = createClient();
 
@@ -97,31 +101,45 @@ export default async function AccountPage({
 
   const cards = (data ?? []) as CardRow[];
   const activeCount = cards.filter((card) => card.review_url).length;
+  const pendingCount = cards.length - activeCount;
+  const latestCard = cards[0];
+  const sectionTitle = isFr ? "Vos plaques" : "Your plates";
+  const sectionDesc = isFr
+    ? "Consultez l'état de chaque plaque et ouvrez rapidement son lien d'avis."
+    : "Review each plate status and quickly open its review link.";
 
   return (
-    <section className="py-12 md:py-20 px-4">
+    <section className="py-10 md:py-14 px-4 bg-gradient-to-b from-slate-50/50 to-white">
       <div className="container mx-auto max-w-5xl">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-8">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600 mb-2">
-              {t("eyebrow")}
-            </p>
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
-              {t("title")}
-            </h1>
-            <p className="mt-2 text-muted-foreground max-w-2xl">
-              {t("desc")}
-            </p>
-          </div>
-          <AccountSignOutButton label={t("sign_out")} />
-        </div>
+        <Card className="mb-6 overflow-hidden border border-blue-100/70 bg-gradient-to-br from-white via-blue-50/40 to-cyan-50/40">
+          <CardHeader className="gap-4 md:flex-row md:items-start md:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-600 mb-2">
+                {t("eyebrow")}
+              </p>
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+                {t("title")}
+              </h1>
+              <p className="mt-2 text-muted-foreground max-w-2xl">
+                {t("desc")}
+              </p>
+            </div>
+            <div className="space-y-3 md:text-right">
+              <AccountSignOutButton label={t("sign_out")} />
+              <p className="text-xs text-muted-foreground inline-flex items-center gap-1.5">
+                <Mail className="h-3.5 w-3.5" />
+                {user.email ?? "—"}
+              </p>
+            </div>
+          </CardHeader>
+        </Card>
 
-        <div className="grid gap-4 md:grid-cols-3 mb-8">
-          <Card>
+        <div className="grid gap-4 md:grid-cols-4 mb-8">
+          <Card className="md:col-span-2">
             <CardHeader className="pb-3">
               <CardDescription>{t("total_cards")}</CardDescription>
               <CardTitle className="flex items-center gap-2 text-3xl">
-                <SquareStack className="h-6 w-6 text-blue-600" />
+                <LayoutGrid className="h-6 w-6 text-blue-600" />
                 {cards.length}
               </CardTitle>
             </CardHeader>
@@ -137,13 +155,39 @@ export default async function AccountPage({
           </Card>
           <Card>
             <CardHeader className="pb-3">
-              <CardDescription>{t("account_email")}</CardDescription>
-              <CardTitle className="truncate text-base">
-                {user.email ?? "—"}
+              <CardDescription>{isFr ? "En attente" : "Pending"}</CardDescription>
+              <CardTitle className="flex items-center gap-2 text-3xl">
+                <SquareStack className="h-6 w-6 text-amber-600" />
+                {pendingCount}
               </CardTitle>
             </CardHeader>
           </Card>
         </div>
+
+        {latestCard ? (
+          <Card className="mb-8 border-dashed">
+            <CardHeader className="pb-4">
+              <CardDescription>{isFr ? "Dernière plaque activée" : "Latest activated plate"}</CardDescription>
+              <CardTitle className="text-lg">
+                {latestCard.business_name || t("unknown_business")}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm text-muted-foreground inline-flex items-center gap-2">
+                <CalendarDays className="h-4 w-4" />
+                {formatDate(latestCard.activated_at, locale)}
+              </p>
+              {latestCard.review_url ? (
+                <Button asChild size="sm" className="sm:self-auto self-start">
+                  <a href={latestCard.review_url} target="_blank" rel="noopener noreferrer">
+                    {isFr ? "Ouvrir le lien d'avis" : "Open review link"}
+                    <ArrowUpRight className="ml-1.5 h-4 w-4" />
+                  </a>
+                </Button>
+              ) : null}
+            </CardContent>
+          </Card>
+        ) : null}
 
         <AccountReviewReplyAssistant />
 
@@ -171,73 +215,77 @@ export default async function AccountPage({
             </CardContent>
           </Card>
         ) : (
-          <div className="space-y-4">
-            {cards.map((card) => {
-              const isActive = Boolean(card.review_url);
+          <Card className="overflow-hidden">
+            <CardHeader className="border-b bg-muted/20">
+              <CardTitle className="text-xl">{sectionTitle}</CardTitle>
+              <CardDescription>{sectionDesc}</CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="divide-y">
+                {cards.map((card) => {
+                  const isActive = Boolean(card.review_url);
 
-              return (
-                <Card key={card.id} className="overflow-hidden">
-                  <CardHeader className="gap-4 md:flex-row md:items-start md:justify-between">
-                    <div>
-                      <div className="flex flex-wrap items-center gap-2 mb-2">
-                        <CardTitle className="text-xl">
-                          {card.business_name || t("unknown_business")}
-                        </CardTitle>
-                        <Badge
-                          className={
-                            isActive
-                              ? "border-emerald-200 bg-emerald-50 text-emerald-700"
-                              : "border-amber-200 bg-amber-50 text-amber-700"
-                          }
-                          variant="outline"
-                        >
-                          {isActive ? t("status_active") : t("status_pending")}
-                        </Badge>
+                  return (
+                    <div key={card.id} className="p-4 md:p-5">
+                      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <h3 className="font-semibold text-lg text-foreground">
+                              {card.business_name || t("unknown_business")}
+                            </h3>
+                            <Badge
+                              className={
+                                isActive
+                                  ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                                  : "border-amber-200 bg-amber-50 text-amber-700"
+                              }
+                              variant="outline"
+                            >
+                              {isActive ? t("status_active") : t("status_pending")}
+                            </Badge>
+                          </div>
+                          <p className="text-sm text-muted-foreground flex items-start gap-2">
+                            <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
+                            <span>{card.business_address || t("no_address")}</span>
+                          </p>
+                          <p className="mt-2 text-xs text-muted-foreground">
+                            {t("card_id")}{" "}
+                            <span className="font-medium text-foreground">{card.id}</span>
+                          </p>
+                        </div>
+                        <div className="flex flex-col gap-2 sm:flex-row md:flex-col md:items-end">
+                          <p className="text-sm text-muted-foreground inline-flex items-center gap-2">
+                            <CalendarDays className="h-4 w-4" />
+                            {formatDate(card.activated_at, locale)}
+                          </p>
+                          <div className="flex gap-2">
+                            {card.review_url ? (
+                              <Button asChild size="sm">
+                                <a
+                                  href={card.review_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {t("test_link")}
+                                  <ExternalLink className="ml-1.5 h-4 w-4" />
+                                </a>
+                              </Button>
+                            ) : null}
+                            <Button asChild variant="outline" size="sm">
+                              <Link href={locale === "fr" ? "/fr/contact" : "/contact"}>
+                                {t("support")}
+                                <HelpCircle className="ml-1.5 h-4 w-4" />
+                              </Link>
+                            </Button>
+                          </div>
+                        </div>
                       </div>
-                      <CardDescription className="flex items-start gap-2">
-                        <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
-                        <span>{card.business_address || t("no_address")}</span>
-                      </CardDescription>
                     </div>
-                    <div className="text-sm text-muted-foreground md:text-right">
-                      <div className="inline-flex items-center gap-2">
-                        <CalendarDays className="h-4 w-4" />
-                        {formatDate(card.activated_at, locale)}
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="flex flex-col gap-4 border-t bg-muted/20 pt-4 md:flex-row md:items-center md:justify-between">
-                    <div className="text-sm">
-                      <span className="text-muted-foreground">{t("card_id")}</span>{" "}
-                      <span className="font-medium text-foreground">
-                        {card.id}
-                      </span>
-                    </div>
-                    <div className="flex flex-col gap-2 sm:flex-row">
-                      {card.review_url ? (
-                        <Button asChild>
-                          <a
-                            href={card.review_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {t("test_link")}
-                            <ExternalLink className="ml-2 h-4 w-4" />
-                          </a>
-                        </Button>
-                      ) : null}
-                      <Button asChild variant="outline">
-                        <Link href={locale === "fr" ? "/fr/contact" : "/contact"}>
-                          {t("support")}
-                          <HelpCircle className="ml-2 h-4 w-4" />
-                        </Link>
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
         )}
       </div>
     </section>
