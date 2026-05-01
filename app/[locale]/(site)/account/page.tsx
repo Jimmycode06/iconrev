@@ -209,7 +209,7 @@ export default async function AccountPage({
                   <CardHeader className="pb-3">
                     <CardDescription>{t("total_cards")}</CardDescription>
                     <CardTitle className="flex items-center gap-2 text-3xl">
-                      <LayoutGrid className="h-6 w-6 text-blue-600" />
+                      <LayoutGrid className="h-6 w-6 text-foreground" />
                       {cards.length}
                     </CardTitle>
                   </CardHeader>
@@ -227,7 +227,7 @@ export default async function AccountPage({
                   <CardHeader className="pb-3">
                     <CardDescription>{isFr ? "En attente" : "Pending"}</CardDescription>
                     <CardTitle className="flex items-center gap-2 text-3xl">
-                      <SquareStack className="h-6 w-6 text-amber-600" />
+                      <SquareStack className="h-6 w-6 text-foreground" />
                       {pendingCount}
                     </CardTitle>
                   </CardHeader>
