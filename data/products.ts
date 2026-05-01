@@ -3,8 +3,8 @@ import { Product } from "@/types";
 /** Photo principale (hero, fiche produit, panier) — plaque CTA avis Google (FR). */
 export const PRODUCT_GALLERY_HERO = "/gallery/iconrev-plaque-google-avis-fr.png";
 
-/** Ancien hero studio — 2e slide galerie. */
-const PRODUCT_GALLERY_HERO_STUDIO = "/gallery/iconrev-plaque-hero.png";
+/** 2e slide galerie — fiche specs NFC + QR fournie. */
+const PRODUCT_GALLERY_HERO_STUDIO = "/gallery/iconrev-plaque-specs-v2.png";
 
 export const PRODUCT_CARD_IMAGE = PRODUCT_GALLERY_HERO;
 
