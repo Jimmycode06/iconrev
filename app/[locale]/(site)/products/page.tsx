@@ -66,7 +66,7 @@ function ProductsContent() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-8 md:mb-10"
       >
-        <p className="text-sm font-semibold uppercase tracking-wider text-blue-600 mb-3">
+        <p className="text-sm font-semibold uppercase tracking-wider text-foreground mb-3">
           {t("label")}
         </p>
         <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-foreground text-balance">
