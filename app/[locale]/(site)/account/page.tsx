@@ -129,7 +129,11 @@ export default async function AccountPage({
     <section className="py-6 px-4">
       <div className="container mx-auto max-w-6xl">
         <SidebarProvider className="has-[[data-variant=inset]]:!bg-transparent">
-          <Sidebar variant="inset" collapsible="offcanvas">
+          <Sidebar
+            variant="inset"
+            collapsible="offcanvas"
+            className="top-28 h-[calc(100svh-7rem)]"
+          >
             <SidebarHeader>
               <SidebarMenu>
                 <SidebarMenuItem>
