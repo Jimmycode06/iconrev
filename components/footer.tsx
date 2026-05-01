@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import { IconrevLogo } from "@/components/iconrev-logo";
 import { useLocale, useTranslations } from "next-intl";
@@ -6,9 +9,15 @@ import { useLocale, useTranslations } from "next-intl";
 export function Footer() {
   const t = useTranslations("Footer");
   const locale = useLocale();
+  const pathname = usePathname();
   const isFr = locale === "fr";
   const phone = isFr ? "+33 4 22 00 62 00" : "+1 (512) 555-0142";
   const location = isFr ? "Nice 06200, France" : "Austin, TX";
+  const accountPath = isFr ? "/fr/account" : "/account";
+
+  if (pathname === accountPath) {
+    return null;
+  }
 
   return (
     <footer className="border-t bg-gray-50">
