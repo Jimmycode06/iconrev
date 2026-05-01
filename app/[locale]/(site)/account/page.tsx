@@ -24,21 +24,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarInset,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
-import { Separator } from "@/components/ui/separator";
 import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -128,61 +113,35 @@ export default async function AccountPage({
   return (
     <section className="py-6 px-4">
       <div className="container mx-auto max-w-6xl">
-        <SidebarProvider className="has-[[data-variant=inset]]:!bg-transparent">
-          <Sidebar
-            variant="inset"
-            collapsible="offcanvas"
-            className="top-28 h-[calc(100svh-7rem)]"
-          >
-            <SidebarHeader>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
-                    <Link href={baseAccountPath}>
-                      <LayoutGrid className="h-5 w-5 text-blue-600" />
-                      <span className="text-base font-semibold">{isFr ? "Iconrev Compte" : "Iconrev Account"}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarHeader>
-            <SidebarContent>
-              <SidebarGroup>
-                <SidebarGroupLabel>{isFr ? "Navigation" : "Navigation"}</SidebarGroupLabel>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton asChild>
-                        <a href={`${baseAccountPath}#overview`}>
-                          <LayoutGrid className="h-4 w-4" />
-                          <span>{isFr ? "Vue d'ensemble" : "Overview"}</span>
-                        </a>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton asChild>
-                        <a href={`${baseAccountPath}#ai-agent`}>
-                          <Bot className="h-4 w-4" />
-                          <span>{isFr ? "Agent IA" : "AI Agent"}</span>
-                        </a>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </SidebarGroup>
-            </SidebarContent>
-          </Sidebar>
+        <div className="grid gap-4 md:gap-6 md:grid-cols-[220px_minmax(0,1fr)]">
+          <aside className="hidden md:block self-start sticky top-28">
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <LayoutGrid className="h-4 w-4 text-blue-600" />
+                  {isFr ? "Iconrev Compte" : "Iconrev Account"}
+                </CardTitle>
+                <CardDescription>{isFr ? "Navigation" : "Navigation"}</CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0 space-y-1">
+                <Button asChild variant="ghost" className="w-full justify-start">
+                  <a href={`${baseAccountPath}#overview`}>
+                    <LayoutGrid className="mr-2 h-4 w-4" />
+                    {isFr ? "Vue d'ensemble" : "Overview"}
+                  </a>
+                </Button>
+                <Button asChild variant="ghost" className="w-full justify-start">
+                  <a href={`${baseAccountPath}#ai-agent`}>
+                    <Bot className="mr-2 h-4 w-4" />
+                    {isFr ? "Agent IA" : "AI Agent"}
+                  </a>
+                </Button>
+              </CardContent>
+            </Card>
+          </aside>
 
-          <SidebarInset className="!bg-transparent md:peer-data-[variant=inset]:border md:peer-data-[variant=inset]:border-border/60 md:peer-data-[variant=inset]:shadow-sm">
-            <header className="flex h-12 shrink-0 items-center gap-2 border-b">
-              <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
-                <SidebarTrigger className="-ml-1" />
-                <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
-                <h1 className="text-base font-medium">{t("title")}</h1>
-              </div>
-            </header>
-
-            <div id="overview" className="flex flex-1 flex-col gap-6 p-4 md:p-6">
+          <div className="flex flex-1 flex-col gap-6">
+            <div id="overview" className="flex flex-col gap-6">
               <Card className="overflow-hidden border border-blue-100/70 bg-gradient-to-br from-white via-blue-50/40 to-cyan-50/40">
                 <CardHeader className="gap-4 md:flex-row md:items-start md:justify-between">
                   <div>
@@ -360,8 +319,8 @@ export default async function AccountPage({
                 </Card>
               )}
             </div>
-          </SidebarInset>
-        </SidebarProvider>
+          </div>
+        </div>
       </div>
     </section>
   );
