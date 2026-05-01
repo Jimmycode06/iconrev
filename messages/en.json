@@ -200,7 +200,21 @@
   "ProductAdvantages": {
     "designed_for": "Designed for US businesses",
     "reviews_suffix": "+ reviews",
-    "top_rated": "Top rated"
+    "top_rated": "Top rated",
+    "bullets": [
+      {
+        "title": "NFC + QR on every plate",
+        "description": "Works with any smartphone, no app needed."
+      },
+      {
+        "title": "Ready in under 30 seconds",
+        "description": "Scan the QR after delivery to link the plate to your business."
+      },
+      {
+        "title": "Direct link to your Google reviews",
+        "description": "Opens your Google Business review screen in one tap."
+      }
+    ]
   },
   "GoogleBusinessLocation": {
     "title": "Your Google Business location",

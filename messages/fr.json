@@ -200,7 +200,21 @@
   "ProductAdvantages": {
     "designed_for": "Conçu pour les commerces francophones",
     "reviews_suffix": "+ avis",
-    "top_rated": "Très bien noté"
+    "top_rated": "Très bien noté",
+    "bullets": [
+      {
+        "title": "NFC + QR sur chaque plaque",
+        "description": "Compatibles avec tous les smartphones, sans application à installer."
+      },
+      {
+        "title": "Activation en moins de 30 secondes",
+        "description": "Scannez le QR code après réception et associez la plaque à votre établissement."
+      },
+      {
+        "title": "Lien direct vers vos avis Google",
+        "description": "Ouvre l'écran d'avis de votre fiche Google en un seul geste."
+      }
+    ]
   },
   "GoogleBusinessLocation": {
     "title": "Votre établissement Google Business",

@@ -14,7 +14,14 @@ export function ProductAdvantages({ product, className }: Props) {
   const t = useTranslations("ProductAdvantages");
   const locale = useLocale();
 
-  const items = (product.advantages ?? []).slice(0, 3);
+  const rawBullets = t.raw("bullets") as
+    | Array<{ title: string; description: string }>
+    | undefined;
+  const items = (
+    Array.isArray(rawBullets) && rawBullets.length > 0
+      ? rawBullets
+      : (product.advantages ?? [])
+  ).slice(0, 3);
   if (items.length === 0) return null;
 
   const rating = Math.min(5, Math.max(0, product.rating ?? 5));
