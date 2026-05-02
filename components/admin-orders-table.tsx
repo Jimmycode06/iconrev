@@ -166,14 +166,6 @@ export function AdminOrdersTable({ orders, locale, isFr }: Props) {
                       order.customer_email ||
                       (isFr ? "Client" : "Customer")}
                   </div>
-                  {order.shipping_city ? (
-                    <div className="text-xs text-muted-foreground mt-0.5">
-                      {order.shipping_city}
-                      {order.shipping_country
-                        ? `, ${order.shipping_country}`
-                        : ""}
-                    </div>
-                  ) : null}
                 </TableCell>
 
                 {/* Total */}
