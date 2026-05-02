@@ -1,18 +1,15 @@
-import { TrendingUpIcon, TrendingDownIcon, EuroIcon, ShoppingBagIcon, UsersIcon } from "lucide-react";
+import { ClipboardListIcon, PackageCheckIcon, ShoppingBagIcon } from "lucide-react";
 import { AdminOrdersTable } from "@/components/admin-orders-table";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { formatPrice } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -37,9 +34,19 @@ type Order = {
   shipping_name: string | null;
   shipping_city: string | null;
   shipping_country: string | null;
+  tracking_number: string | null;
+  shipping_carrier: string | null;
+  tracking_url: string | null;
+  fulfilled_at: string | null;
   created_at: string;
   order_items: OrderItem[];
 };
+
+function startOfTodayISO(): string {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  return d.toISOString();
+}
 
 export default async function AdminOrdersPage({
   params,
@@ -70,7 +77,7 @@ export default async function AdminOrdersPage({
   const { data: ordersData, error } = await supabase
     .from("orders")
     .select(
-      "id,order_number,stripe_session_id,customer_email,amount_total,currency,payment_status,order_status,business_name,shipping_name,shipping_city,shipping_country,created_at,order_items(id,product_name,quantity,amount_total,currency)"
+      "id,order_number,stripe_session_id,customer_email,amount_total,currency,payment_status,order_status,business_name,shipping_name,shipping_city,shipping_country,tracking_number,shipping_carrier,tracking_url,fulfilled_at,created_at,order_items(id,product_name,quantity,amount_total,currency)"
     )
     .order("created_at", { ascending: false })
     .limit(100);
@@ -93,11 +100,12 @@ export default async function AdminOrdersPage({
   }
 
   const orders = (ordersData || []) as unknown as Order[];
-  const paidOrders = orders.filter((o) => o.payment_status === "paid");
-  const revenueCents = paidOrders.reduce((s, o) => s + (o.amount_total || 0), 0);
-  const avgCents =
-    paidOrders.length > 0 ? Math.round(revenueCents / paidOrders.length) : 0;
-  const uniqueEmails = new Set(paidOrders.map((o) => o.customer_email).filter(Boolean)).size;
+
+  const todayStart = startOfTodayISO();
+  const todayOrders = orders.filter((o) => o.created_at >= todayStart);
+  const todayFulfilled = todayOrders.filter(
+    (o) => o.order_status === "fulfilled"
+  );
 
   return (
     <>
@@ -120,100 +128,45 @@ export default async function AdminOrdersPage({
         <div className="@container/main flex flex-1 flex-col gap-2">
           <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
 
-            {/* KPI Cards */}
-            <div className="*:data-[slot=card]:shadow-xs @xl/main:grid-cols-3 grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card lg:px-6">
-              <Card className="@container/card">
-                <CardHeader className="relative">
-                  <CardDescription>
-                    {isFr ? "Chiffre d'affaires" : "Revenue"}
-                  </CardDescription>
-                  <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-                    {formatPrice(revenueCents / 100, locale)}
-                  </CardTitle>
-                  <div className="absolute right-4 top-4">
-                    <Badge
-                      variant="outline"
-                      className="flex gap-1 rounded-lg text-xs"
-                    >
-                      <EuroIcon className="size-3" />
-                      EUR
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardFooter className="flex-col items-start gap-1 text-sm">
-                  <div className="line-clamp-1 flex gap-2 font-medium">
-                    {isFr ? "Total paiements Stripe" : "Total Stripe payments"}
-                    <TrendingUpIcon className="size-4" />
-                  </div>
-                  <div className="text-muted-foreground">
+            {/* KPI Cards (today only) */}
+            <div className="px-4 lg:px-6">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Card className="@container/card">
+                  <CardHeader className="pb-2">
+                    <CardDescription className="flex items-center gap-1.5 text-xs uppercase tracking-wide">
+                      <ClipboardListIcon className="h-3.5 w-3.5" />
+                      {isFr ? "Commandes (aujourd'hui)" : "Orders (today)"}
+                    </CardDescription>
+                    <CardTitle className="text-3xl font-semibold tabular-nums">
+                      {todayOrders.length}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-xs text-muted-foreground">
                     {isFr
-                      ? `Basé sur ${paidOrders.length} commandes payées`
-                      : `Based on ${paidOrders.length} paid orders`}
-                  </div>
-                </CardFooter>
-              </Card>
+                      ? "Toutes commandes reçues depuis 00:00"
+                      : "All orders received since midnight"}
+                  </CardContent>
+                </Card>
 
-              <Card className="@container/card">
-                <CardHeader className="relative">
-                  <CardDescription>
-                    {isFr ? "Commandes payées" : "Paid orders"}
-                  </CardDescription>
-                  <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-                    {paidOrders.length}
-                  </CardTitle>
-                  <div className="absolute right-4 top-4">
-                    <Badge
-                      variant="outline"
-                      className="flex gap-1 rounded-lg text-xs"
-                    >
-                      <ShoppingBagIcon className="size-3" />
-                      {isFr ? "Total" : "Total"}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardFooter className="flex-col items-start gap-1 text-sm">
-                  <div className="line-clamp-1 flex gap-2 font-medium">
-                    {isFr ? "Panier moyen" : "Average order"}
-                    {avgCents > 0 ? (
-                      <TrendingUpIcon className="size-4" />
-                    ) : (
-                      <TrendingDownIcon className="size-4" />
-                    )}
-                  </div>
-                  <div className="text-muted-foreground">
-                    {formatPrice(avgCents / 100, locale)}{" "}
-                    {isFr ? "par commande" : "per order"}
-                  </div>
-                </CardFooter>
-              </Card>
-
-              <Card className="@container/card">
-                <CardHeader className="relative">
-                  <CardDescription>
-                    {isFr ? "Clients uniques" : "Unique customers"}
-                  </CardDescription>
-                  <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-                    {uniqueEmails}
-                  </CardTitle>
-                  <div className="absolute right-4 top-4">
-                    <Badge
-                      variant="outline"
-                      className="flex gap-1 rounded-lg text-xs"
-                    >
-                      <UsersIcon className="size-3" />
-                      {isFr ? "Emails" : "Emails"}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardFooter className="flex-col items-start gap-1 text-sm">
-                  <div className="line-clamp-1 flex gap-2 font-medium">
-                    {isFr ? "Adresses email distinctes" : "Distinct email addresses"}
-                  </div>
-                  <div className="text-muted-foreground">
-                    {isFr ? "Sur les 100 dernières commandes" : "From last 100 orders"}
-                  </div>
-                </CardFooter>
-              </Card>
+                <Card className="@container/card">
+                  <CardHeader className="pb-2">
+                    <CardDescription className="flex items-center gap-1.5 text-xs uppercase tracking-wide">
+                      <PackageCheckIcon className="h-3.5 w-3.5" />
+                      {isFr
+                        ? "Commandes traitées (aujourd'hui)"
+                        : "Fulfilled orders (today)"}
+                    </CardDescription>
+                    <CardTitle className="text-3xl font-semibold tabular-nums">
+                      {todayFulfilled.length}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-xs text-muted-foreground">
+                    {isFr
+                      ? "Commandes marquées comme traitées aujourd'hui"
+                      : "Orders marked as fulfilled today"}
+                  </CardContent>
+                </Card>
+              </div>
             </div>
 
             {/* Orders table */}
@@ -221,7 +174,7 @@ export default async function AdminOrdersPage({
               <Card>
                 <CardHeader>
                   <CardTitle>
-                    {isFr ? "Dernières commandes" : "Latest orders"}
+                    {isFr ? "Toutes les commandes" : "All orders"}
                   </CardTitle>
                   <CardDescription>
                     {orders.length === 0

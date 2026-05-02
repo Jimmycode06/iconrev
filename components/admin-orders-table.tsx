@@ -33,6 +33,10 @@ type Order = {
   shipping_name: string | null;
   shipping_city: string | null;
   shipping_country: string | null;
+  tracking_number: string | null;
+  shipping_carrier: string | null;
+  tracking_url: string | null;
+  fulfilled_at: string | null;
   created_at: string;
   order_items: OrderItem[];
 };
@@ -43,93 +47,212 @@ type Props = {
   isFr: boolean;
 };
 
+function formatDate(date: string, isFr: boolean): string {
+  const d = new Date(date);
+  const now = new Date();
+  const diffMs = now.getTime() - d.getTime();
+  const diffMin = Math.floor(diffMs / 60000);
+  const diffH = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+  const sameDay =
+    d.toDateString() === now.toDateString();
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+  const isYesterday = d.toDateString() === yesterday.toDateString();
+
+  if (sameDay) {
+    if (diffMin < 1) return isFr ? "À l'instant" : "Just now";
+    if (diffMin < 60)
+      return isFr ? `Il y a ${diffMin} min` : `${diffMin} min ago`;
+    return isFr ? `Il y a ${diffH} h` : `${diffH} h ago`;
+  }
+  if (isYesterday) {
+    const time = d.toLocaleTimeString(isFr ? "fr-FR" : "en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    return isFr ? `Hier à ${time}` : `Yesterday at ${time}`;
+  }
+  if (diffDays < 7) {
+    return d.toLocaleDateString(isFr ? "fr-FR" : "en-US", {
+      weekday: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+  return d.toLocaleDateString(isFr ? "fr-FR" : "en-US", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+function StatusDot({ color }: { color: string }) {
+  return (
+    <span
+      className={`inline-block h-1.5 w-1.5 rounded-full ${color}`}
+      aria-hidden
+    />
+  );
+}
+
 export function AdminOrdersTable({ orders, locale, isFr }: Props) {
   const router = useRouter();
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>{isFr ? "Date" : "Date"}</TableHead>
-          <TableHead>{isFr ? "Client" : "Customer"}</TableHead>
-          <TableHead className="text-right">Total</TableHead>
-          <TableHead>{isFr ? "Statut du paiement" : "Payment status"}</TableHead>
-          <TableHead>{isFr ? "Statut de la commande" : "Order status"}</TableHead>
-          <TableHead>{isFr ? "Articles" : "Items"}</TableHead>
-          <TableHead>{isFr ? "Pays" : "Country"}</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {orders.map((order) => (
-          <TableRow
-            key={order.id}
-            className="cursor-pointer hover:bg-muted/50 transition-colors"
-            onClick={() => router.push(`/${locale}/admin/orders/${order.id}`)}
-          >
-            <TableCell className="whitespace-nowrap text-sm font-medium font-mono">
-              {order.order_number != null
-                ? `#${order.order_number}`
-                : "—"}
-            </TableCell>
-            <TableCell className="whitespace-nowrap text-muted-foreground text-xs">
-              {new Date(order.created_at).toLocaleString(
-                isFr ? "fr-FR" : "en-US",
-                {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                }
-              )}
-            </TableCell>
-            <TableCell className="text-sm font-medium">
-              {order.shipping_name || order.customer_email || "—"}
-            </TableCell>
-            <TableCell className="text-right font-semibold tabular-nums">
-              {formatPrice((order.amount_total || 0) / 100, locale)}
-            </TableCell>
-            <TableCell>
-              <Badge
-                className={
-                  order.payment_status === "paid"
-                    ? "bg-green-100 text-green-800 hover:bg-green-100 border-green-200"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-100"
-                }
-                variant="outline"
-              >
-                {order.payment_status === "paid"
-                  ? isFr ? "Payé" : "Paid"
-                  : order.payment_status}
-              </Badge>
-            </TableCell>
-            <TableCell>
-              <Badge
-                className="bg-blue-50 text-blue-700 hover:bg-blue-50 border-blue-200"
-                variant="outline"
-              >
-                {order.order_status === "pending"
-                  ? isFr ? "En attente" : "Pending"
-                  : order.order_status === "fulfilled"
-                  ? isFr ? "Traité" : "Fulfilled"
-                  : order.order_status || (isFr ? "Nouveau" : "New")}
-              </Badge>
-            </TableCell>
-            <TableCell>
-              <ul className="space-y-0.5">
-                {order.order_items?.map((item) => (
-                  <li key={item.id} className="text-xs text-muted-foreground">
-                    {item.quantity}× {item.product_name}
-                  </li>
-                ))}
-              </ul>
-            </TableCell>
-            <TableCell className="text-muted-foreground text-sm">
-              {order.shipping_country || "—"}
-            </TableCell>
+    <div className="overflow-x-auto">
+      <Table className="min-w-[960px]">
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[110px]">
+              {isFr ? "Commande" : "Order"}
+            </TableHead>
+            <TableHead className="w-[150px]">{isFr ? "Date" : "Date"}</TableHead>
+            <TableHead>{isFr ? "Client" : "Customer"}</TableHead>
+            <TableHead className="text-right">Total</TableHead>
+            <TableHead>{isFr ? "Statut du paiement" : "Payment status"}</TableHead>
+            <TableHead>
+              {isFr
+                ? "Statut du traitement de la commande"
+                : "Fulfillment status"}
+            </TableHead>
+            <TableHead className="text-right">
+              {isFr ? "Articles" : "Items"}
+            </TableHead>
+            <TableHead>
+              {isFr ? "Statut de la livraison" : "Delivery status"}
+            </TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {orders.map((order) => {
+            const itemCount = (order.order_items ?? []).reduce(
+              (sum, item) => sum + (item.quantity || 0),
+              0
+            );
+            const isPaid = order.payment_status === "paid";
+            const isFulfilled = order.order_status === "fulfilled";
+            const hasTracking =
+              !!order.tracking_number && !!order.tracking_url;
+
+            return (
+              <TableRow
+                key={order.id}
+                className="cursor-pointer hover:bg-muted/40 transition-colors"
+                onClick={() =>
+                  router.push(`/${locale}/admin/orders/${order.id}`)
+                }
+              >
+                {/* Commande */}
+                <TableCell className="whitespace-nowrap text-sm font-semibold font-mono">
+                  {order.order_number != null
+                    ? `#${order.order_number}`
+                    : "—"}
+                </TableCell>
+
+                {/* Date */}
+                <TableCell className="whitespace-nowrap text-sm text-muted-foreground">
+                  {formatDate(order.created_at, isFr)}
+                </TableCell>
+
+                {/* Client */}
+                <TableCell className="text-sm">
+                  <div className="font-medium leading-tight">
+                    {order.shipping_name ||
+                      order.customer_email ||
+                      (isFr ? "Client" : "Customer")}
+                  </div>
+                  {order.shipping_city ? (
+                    <div className="text-xs text-muted-foreground mt-0.5">
+                      {order.shipping_city}
+                      {order.shipping_country
+                        ? `, ${order.shipping_country}`
+                        : ""}
+                    </div>
+                  ) : null}
+                </TableCell>
+
+                {/* Total */}
+                <TableCell className="text-right font-semibold tabular-nums whitespace-nowrap">
+                  {formatPrice((order.amount_total || 0) / 100, locale)}
+                </TableCell>
+
+                {/* Payment status */}
+                <TableCell>
+                  <Badge
+                    variant="outline"
+                    className={
+                      isPaid
+                        ? "bg-green-100 text-green-800 hover:bg-green-100 border-green-200 gap-1.5"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-100 border-gray-200 gap-1.5"
+                    }
+                  >
+                    <StatusDot
+                      color={isPaid ? "bg-green-500" : "bg-gray-500"}
+                    />
+                    {isPaid
+                      ? isFr
+                        ? "Payée"
+                        : "Paid"
+                      : order.payment_status}
+                  </Badge>
+                </TableCell>
+
+                {/* Fulfillment status */}
+                <TableCell>
+                  {isFulfilled ? (
+                    <Badge
+                      variant="outline"
+                      className="bg-green-100 text-green-800 hover:bg-green-100 border-green-200 gap-1.5"
+                    >
+                      <StatusDot color="bg-green-500" />
+                      {isFr ? "Traité" : "Fulfilled"}
+                    </Badge>
+                  ) : (
+                    <Badge
+                      variant="outline"
+                      className="bg-amber-100 text-amber-800 hover:bg-amber-100 border-amber-200 gap-1.5"
+                    >
+                      <StatusDot color="bg-amber-500" />
+                      {isFr ? "Non traité" : "Unfulfilled"}
+                    </Badge>
+                  )}
+                </TableCell>
+
+                {/* Items count */}
+                <TableCell className="text-right text-sm whitespace-nowrap">
+                  {itemCount > 0
+                    ? `${itemCount} ${
+                        isFr
+                          ? itemCount > 1
+                            ? "articles"
+                            : "article"
+                          : itemCount > 1
+                          ? "items"
+                          : "item"
+                      }`
+                    : "—"}
+                </TableCell>
+
+                {/* Delivery status */}
+                <TableCell>
+                  {isFulfilled && hasTracking ? (
+                    <Badge
+                      variant="outline"
+                      className="bg-blue-50 text-blue-700 hover:bg-blue-50 border-blue-200 gap-1.5"
+                    >
+                      <StatusDot color="bg-blue-500" />
+                      {isFr ? "Suivi ajouté" : "Tracking added"}
+                    </Badge>
+                  ) : (
+                    <span className="text-xs text-muted-foreground">—</span>
+                  )}
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </div>
   );
 }
