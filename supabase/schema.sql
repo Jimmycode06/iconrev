@@ -66,10 +66,25 @@ create table if not exists public.orders (
   shipping_state text,
   shipping_postal_code text,
   shipping_country text,
+  tracking_number text,
+  shipping_carrier text,
+  tracking_url text,
+  fulfilled_at timestamptz,
   raw_checkout_session jsonb,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+-- Backfill columns when running the schema on an existing database
+alter table public.orders
+  add column if not exists tracking_number text,
+  add column if not exists shipping_carrier text,
+  add column if not exists tracking_url text,
+  add column if not exists fulfilled_at timestamptz;
+
+create index if not exists idx_orders_fulfilled_at
+  on public.orders (fulfilled_at desc)
+  where fulfilled_at is not null;
 
 -- 6. Order items table
 create table if not exists public.order_items (

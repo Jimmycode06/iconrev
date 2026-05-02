@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeftIcon } from "lucide-react";
+import { AdminOrderFulfillment } from "@/components/admin-order-fulfillment";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -37,6 +38,10 @@ type Order = {
   shipping_state: string | null;
   shipping_postal_code: string | null;
   shipping_country: string | null;
+  tracking_number: string | null;
+  shipping_carrier: string | null;
+  tracking_url: string | null;
+  fulfilled_at: string | null;
   created_at: string;
   order_items: OrderItem[];
 };
@@ -55,7 +60,7 @@ export default async function OrderDetailPage({
   const { data, error } = await supabase
     .from("orders")
     .select(
-      "id,order_number,stripe_session_id,stripe_payment_intent_id,customer_email,amount_total,currency,payment_status,order_status,business_name,business_address,shipping_name,shipping_line1,shipping_line2,shipping_city,shipping_state,shipping_postal_code,shipping_country,created_at,order_items(id,product_name,quantity,unit_amount,amount_total,currency)"
+      "id,order_number,stripe_session_id,stripe_payment_intent_id,customer_email,amount_total,currency,payment_status,order_status,business_name,business_address,shipping_name,shipping_line1,shipping_line2,shipping_city,shipping_state,shipping_postal_code,shipping_country,tracking_number,shipping_carrier,tracking_url,fulfilled_at,created_at,order_items(id,product_name,quantity,unit_amount,amount_total,currency)"
     )
     .eq("id", id)
     .single();
@@ -152,6 +157,17 @@ export default async function OrderDetailPage({
           {/* LEFT — order items + totals (2/3) */}
           <div className="flex flex-col gap-4 lg:col-span-2">
 
+            {/* Fulfillment card (Shopify-like) */}
+            <AdminOrderFulfillment
+              orderId={order.id}
+              isFr={isFr}
+              initialOrderStatus={order.order_status}
+              initialTrackingNumber={order.tracking_number}
+              initialShippingCarrier={order.shipping_carrier}
+              initialTrackingUrl={order.tracking_url}
+              initialFulfilledAt={order.fulfilled_at}
+            />
+
             {/* Items card */}
             <div className="rounded-xl border bg-card shadow-xs overflow-hidden">
               <div className="px-5 py-4 border-b space-y-2">
@@ -165,18 +181,6 @@ export default async function OrderDetailPage({
                       : `${order.order_items.length} item(s)`
                     : (isFr ? "Aucun article enregistré" : "No line items stored")}
                 </p>
-                <div className="flex flex-wrap items-center gap-2">
-                  <Badge
-                    className={order.order_status === "fulfilled"
-                      ? "bg-green-100 text-green-800 border-green-200"
-                      : "bg-blue-50 text-blue-700 border-blue-200"}
-                    variant="outline"
-                  >
-                    {order.order_status === "fulfilled"
-                      ? (isFr ? "Traité" : "Fulfilled")
-                      : (isFr ? "En attente" : "Pending")}
-                  </Badge>
-                </div>
               </div>
 
               {/* Items list */}
