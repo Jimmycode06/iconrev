@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { enforceRateLimit } from "@/lib/api-security";
 
 export const dynamic = "force-dynamic";
+
+const METADATA_MAX_LENGTH = 2000;
 
 const EVENT_TYPES = new Set([
   "page_view",
@@ -17,6 +20,29 @@ function cleanText(value: unknown, max = 500) {
 }
 
 export async function POST(request: NextRequest) {
+  // Rate-limit généreux : analytics envoie 1 event par page view.
+  const limitBlock = enforceRateLimit(request, {
+    scope: "analytics",
+    limit: 60,
+    windowMs: 60_000,
+  });
+  if (limitBlock) return limitBlock;
+
+  // Vérifie l'origine quand le navigateur l'envoie. sendBeacon ne l'envoie pas
+  // toujours, on est donc tolérant si l'header est absent.
+  const origin = request.headers.get("origin");
+  if (origin) {
+    try {
+      const originHost = new URL(origin).host;
+      const requestHost = request.headers.get("host");
+      if (requestHost && originHost !== requestHost) {
+        return NextResponse.json({ ok: true, skipped: true });
+      }
+    } catch {
+      return NextResponse.json({ ok: true, skipped: true });
+    }
+  }
+
   try {
     const body = await request.json();
     const eventType = cleanText(body.eventType, 64);
@@ -30,10 +56,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: true, skipped: true });
     }
 
-    const metadata =
-      body.metadata && typeof body.metadata === "object" && !Array.isArray(body.metadata)
-        ? body.metadata
-        : {};
+    let metadata: Record<string, unknown> = {};
+    if (
+      body.metadata &&
+      typeof body.metadata === "object" &&
+      !Array.isArray(body.metadata)
+    ) {
+      const serialised = JSON.stringify(body.metadata);
+      if (serialised.length <= METADATA_MAX_LENGTH) {
+        metadata = body.metadata;
+      }
+    }
 
     const { error } = await supabase.from("analytics_events").insert({
       event_type: eventType,

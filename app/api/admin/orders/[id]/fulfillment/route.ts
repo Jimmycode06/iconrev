@@ -10,6 +10,7 @@ import {
   buildTrackingUrl,
   isSupportedCarrier,
 } from "@/lib/shipping-carriers";
+import { assertSameOrigin, enforceRateLimit } from "@/lib/api-security";
 
 export const dynamic = "force-dynamic";
 
@@ -67,6 +68,16 @@ export async function PATCH(
   request: Request,
   ctx: { params: Promise<{ id: string }> }
 ) {
+  const originBlock = assertSameOrigin(request);
+  if (originBlock) return originBlock;
+
+  const limitBlock = enforceRateLimit(request, {
+    scope: "admin-fulfillment",
+    limit: 30,
+    windowMs: 60_000,
+  });
+  if (limitBlock) return limitBlock;
+
   const guard = await ensureAdmin();
   if (!guard.ok) return guard.res;
 
@@ -144,9 +155,19 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  _request: Request,
+  request: Request,
   ctx: { params: Promise<{ id: string }> }
 ) {
+  const originBlock = assertSameOrigin(request);
+  if (originBlock) return originBlock;
+
+  const limitBlock = enforceRateLimit(request, {
+    scope: "admin-fulfillment",
+    limit: 30,
+    windowMs: 60_000,
+  });
+  if (limitBlock) return limitBlock;
+
   const guard = await ensureAdmin();
   if (!guard.ok) return guard.res;
 

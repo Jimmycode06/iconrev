@@ -1,11 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { stripe } from "@/lib/stripe";
 import Stripe from "stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
+import {
+  CHECKOUT_OWNERSHIP_COOKIE,
+  isOwnedCheckoutSession,
+} from "@/lib/checkout-ownership";
+import { enforceRateLimit } from "@/lib/api-security";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
+  // Petit rate-limit pour éviter qu'un tiers itère sur des session_id
+  // (même si le cookie d'ownership est notre vraie protection).
+  const limitBlock = enforceRateLimit(request, {
+    scope: "checkout-session",
+    limit: 30,
+    windowMs: 60_000,
+  });
+  if (limitBlock) return limitBlock;
+
   try {
     const searchParams = request.nextUrl.searchParams;
     const sessionId = searchParams.get("session_id");
@@ -14,6 +29,23 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         { error: "session_id is required" },
         { status: 400 }
+      );
+    }
+
+    if (!/^cs_[a-zA-Z0-9_]{10,128}$/.test(sessionId)) {
+      return NextResponse.json(
+        { error: "Invalid session id" },
+        { status: 400 }
+      );
+    }
+
+    const ownershipCookie = cookies().get(CHECKOUT_OWNERSHIP_COOKIE)?.value;
+    if (!isOwnedCheckoutSession(ownershipCookie, sessionId)) {
+      // L'utilisateur n'est pas l'auteur de cette session → 404 pour ne pas
+      // confirmer son existence.
+      return NextResponse.json(
+        { error: "Session not found" },
+        { status: 404 }
       );
     }
 

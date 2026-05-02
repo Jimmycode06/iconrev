@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import type Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { getBogoFreeQuantity } from "@/lib/promotions";
 import { packImageUrlForProductId } from "@/lib/pack-display-image";
+import { assertSameOrigin, enforceRateLimit } from "@/lib/api-security";
+import {
+  CHECKOUT_OWNERSHIP_COOKIE,
+  rememberCheckoutSession,
+} from "@/lib/checkout-ownership";
 
 /** Montants serveur (centimes EUR) — doivent correspondre aux prix catalogue. */
 const UNIT_AMOUNT_EUR_CENTS: Record<string, number> = {
@@ -35,6 +41,16 @@ function stripeProductData(
 }
 
 export async function POST(request: NextRequest) {
+  const originBlock = assertSameOrigin(request);
+  if (originBlock) return originBlock;
+
+  const limitBlock = enforceRateLimit(request, {
+    scope: "checkout",
+    limit: 10,
+    windowMs: 60_000,
+  });
+  if (limitBlock) return limitBlock;
+
   try {
     const body = await request.json();
     const { items, businessInfo, locale: localeParam } = body;
@@ -137,7 +153,16 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    return NextResponse.json({ sessionId: session.id, url: session.url });
+    const response = NextResponse.json({
+      sessionId: session.id,
+      url: session.url,
+    });
+    rememberCheckoutSession(
+      response,
+      cookies().get(CHECKOUT_OWNERSHIP_COOKIE)?.value,
+      session.id
+    );
+    return response;
   } catch (error: any) {
     console.error("Stripe checkout session error:", error);
     return NextResponse.json(

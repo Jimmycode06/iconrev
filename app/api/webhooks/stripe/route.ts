@@ -4,6 +4,32 @@ import Stripe from "stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+const isProd = process.env.NODE_ENV === "production";
+
+/**
+ * Filtre `raw_checkout_session` pour éviter de stocker des PII inutiles ou
+ * sensibles (numéros de carte tokenisés, headers internes Stripe, etc.).
+ * On ne garde que ce dont l'admin a besoin pour relire la commande.
+ */
+function summariseStripeSession(session: Stripe.Checkout.Session) {
+  return {
+    id: session.id,
+    payment_status: session.payment_status,
+    amount_total: session.amount_total,
+    currency: session.currency,
+    metadata: session.metadata ?? null,
+    created: session.created,
+    payment_method_types: session.payment_method_types ?? null,
+    customer_details: session.customer_details
+      ? {
+          email: session.customer_details.email,
+          name: session.customer_details.name,
+          phone: session.customer_details.phone,
+        }
+      : null,
+    line_items_count: session.line_items?.data?.length ?? 0,
+  };
+}
 
 export async function POST(request: NextRequest) {
   if (!webhookSecret) {
@@ -44,17 +70,19 @@ export async function POST(request: NextRequest) {
       break;
 
     case "payment_intent.succeeded":
-      const paymentIntent = event.data.object as Stripe.PaymentIntent;
-      console.log("PaymentIntent succeeded:", paymentIntent.id);
+      // No-op : la persistence se fait sur checkout.session.completed.
       break;
 
-    case "payment_intent.payment_failed":
+    case "payment_intent.payment_failed": {
       const failedPayment = event.data.object as Stripe.PaymentIntent;
       console.error("PaymentIntent failed:", failedPayment.id);
       break;
+    }
 
     default:
-      console.log(`Unhandled event type: ${event.type}`);
+      if (!isProd) {
+        console.log(`Unhandled event type: ${event.type}`);
+      }
   }
 
   return NextResponse.json({ received: true });
@@ -63,18 +91,6 @@ export async function POST(request: NextRequest) {
 async function handleCheckoutSessionCompleted(
   session: Stripe.Checkout.Session
 ) {
-  console.log("Payment succeeded:", session.id);
-  console.log("Customer email:", session.customer_details?.email);
-  console.log(
-    "Shipping address:",
-    session.collected_information?.shipping_details?.address
-  );
-  console.log(
-    "Amount:",
-    session.amount_total != null ? session.amount_total / 100 : "—",
-    (session.currency || "eur").toUpperCase()
-  );
-
   const supabase = createAdminClient();
   if (!supabase) {
     console.warn(
@@ -89,6 +105,18 @@ async function handleCheckoutSessionCompleted(
 
   const shipping = enrichedSession.collected_information?.shipping_details;
   const amountTotal = enrichedSession.amount_total ?? 0;
+
+  // 1) On lit l'état actuel pour ne pas écraser un order_status > 'paid'
+  //    (par ex. 'fulfilled' déjà traité par l'admin).
+  const { data: existing } = await supabase
+    .from("orders")
+    .select("id,order_status")
+    .eq("stripe_session_id", enrichedSession.id)
+    .maybeSingle();
+
+  const preservedOrderStatus =
+    existing?.order_status === "fulfilled" ? "fulfilled" : "paid";
+
   const orderPayload = {
     stripe_session_id: enrichedSession.id,
     stripe_payment_intent_id:
@@ -100,7 +128,7 @@ async function handleCheckoutSessionCompleted(
     amount_total: amountTotal,
     currency: (enrichedSession.currency || "eur").toUpperCase(),
     payment_status: enrichedSession.payment_status,
-    order_status: "paid",
+    order_status: preservedOrderStatus,
     business_name: enrichedSession.metadata?.business_name || null,
     business_place_id: enrichedSession.metadata?.business_place_id || null,
     business_address: enrichedSession.metadata?.business_address || null,
@@ -111,14 +139,8 @@ async function handleCheckoutSessionCompleted(
     shipping_state: shipping?.address?.state || null,
     shipping_postal_code: shipping?.address?.postal_code || null,
     shipping_country: shipping?.address?.country || null,
-    raw_checkout_session: enrichedSession,
+    raw_checkout_session: summariseStripeSession(enrichedSession),
   };
-
-  const { data: existing } = await supabase
-    .from("orders")
-    .select("id")
-    .eq("stripe_session_id", enrichedSession.id)
-    .maybeSingle();
 
   let order: { id: string };
   if (existing) {

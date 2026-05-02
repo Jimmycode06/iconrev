@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { assertSameOrigin, enforceRateLimit } from "@/lib/api-security";
 
 function getSupabaseAdmin() {
   return createServerClient(
@@ -34,13 +35,66 @@ function getSupabaseUser() {
 }
 
 export async function POST(request: Request) {
+  const originBlock = assertSameOrigin(request);
+  if (originBlock) return originBlock;
+
+  const limitBlock = enforceRateLimit(request, {
+    scope: "cards-activate",
+    limit: 10,
+    windowMs: 60_000,
+  });
+  if (limitBlock) return limitBlock;
+
   try {
     const body = await request.json();
-    const { cardId, googlePlaceId, businessName, businessAddress } = body;
+    const {
+      cardId,
+      activationToken,
+      googlePlaceId,
+      businessName,
+      businessAddress,
+    } = body;
 
     if (!cardId || !googlePlaceId || !businessName) {
       return NextResponse.json(
         { error: "Missing required fields: cardId, googlePlaceId, businessName" },
+        { status: 400 }
+      );
+    }
+
+    if (typeof cardId !== "string" || cardId.length > 64) {
+      return NextResponse.json(
+        { error: "Invalid card identifier." },
+        { status: 400 }
+      );
+    }
+    if (typeof googlePlaceId !== "string" || googlePlaceId.length > 128) {
+      return NextResponse.json(
+        { error: "Invalid Google Place ID." },
+        { status: 400 }
+      );
+    }
+    if (typeof businessName !== "string" || businessName.length > 200) {
+      return NextResponse.json(
+        { error: "Invalid business name." },
+        { status: 400 }
+      );
+    }
+    if (
+      businessAddress != null &&
+      (typeof businessAddress !== "string" || businessAddress.length > 500)
+    ) {
+      return NextResponse.json(
+        { error: "Invalid business address." },
+        { status: 400 }
+      );
+    }
+    if (
+      activationToken != null &&
+      (typeof activationToken !== "string" || activationToken.length > 128)
+    ) {
+      return NextResponse.json(
+        { error: "Invalid activation token." },
         { status: 400 }
       );
     }
@@ -62,7 +116,7 @@ export async function POST(request: Request) {
 
     const { data: card, error: fetchError } = await supabase
       .from("cards")
-      .select("id, review_url, owner_id")
+      .select("id, review_url, owner_id, activation_token")
       .eq("id", cardId)
       .single();
 
@@ -77,6 +131,16 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: "This card has already been activated." },
         { status: 409 }
+      );
+    }
+
+    // Si la carte a un activation_token (cartes émises après la migration),
+    // l'appelant doit le fournir. Pour les cartes legacy (token NULL), on
+    // accepte sans token pour ne pas casser les plaques déjà imprimées.
+    if (card.activation_token && card.activation_token !== activationToken) {
+      return NextResponse.json(
+        { error: "Invalid activation link. Please scan the QR code on your plate again." },
+        { status: 403 }
       );
     }
 
