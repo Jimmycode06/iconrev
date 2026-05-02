@@ -46,6 +46,10 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
 
     try {
       if (tab === "register") {
+        if (password.length < 8) {
+          setError("Le mot de passe doit contenir au moins 8 caractères.");
+          return;
+        }
         const { data, error: signUpError } = await supabase.auth.signUp({
           email,
           password,
@@ -354,14 +358,14 @@ export function AuthForm({ onAuthenticated }: AuthFormProps) {
               type="password"
               placeholder={
                 tab === "register"
-                  ? "Au moins 6 caractères"
+                  ? "Au moins 8 caractères"
                   : "Votre mot de passe"
               }
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="pl-9"
               required
-              minLength={6}
+              minLength={tab === "register" ? 8 : 6}
             />
           </div>
         </div>

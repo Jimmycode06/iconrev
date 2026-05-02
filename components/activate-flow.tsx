@@ -21,6 +21,7 @@ type Step = "auth" | "search" | "confirm" | "done";
 
 interface ActivateFlowProps {
   cardId: string;
+  activationToken?: string;
 }
 
 const STEPS: { key: Step; label: string; icon: React.ElementType }[] = [
@@ -29,7 +30,7 @@ const STEPS: { key: Step; label: string; icon: React.ElementType }[] = [
   { key: "confirm", label: "Activer", icon: CheckCircle2 },
 ];
 
-export function ActivateFlow({ cardId }: ActivateFlowProps) {
+export function ActivateFlow({ cardId, activationToken }: ActivateFlowProps) {
   const [step, setStep] = useState<Step>("auth");
   const [email, setEmail] = useState<string | null>(null);
   const [selectedPlace, setSelectedPlace] = useState<PlaceResult | null>(null);
@@ -74,6 +75,7 @@ export function ActivateFlow({ cardId }: ActivateFlowProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           cardId,
+          activationToken: activationToken ?? null,
           googlePlaceId: selectedPlace.placeId,
           businessName: selectedPlace.name,
           businessAddress: selectedPlace.address,

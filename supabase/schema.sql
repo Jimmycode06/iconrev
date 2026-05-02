@@ -3,6 +3,10 @@
 -- 1. Cards table
 create table if not exists public.cards (
   id text primary key,
+  -- Token aléatoire imprimé dans le QR code en plus de l'id (sécurité contre
+  -- l'énumération séquentielle des id type 00001, 00002…). Nullable pour
+  -- conserver la compatibilité avec les plaques déjà imprimées sans token.
+  activation_token text,
   google_place_id text,
   review_url text,
   business_name text,
@@ -12,6 +16,10 @@ create table if not exists public.cards (
   activated_at timestamptz,
   created_at timestamptz default now()
 );
+
+-- Backfill idempotent pour les bases existantes
+alter table public.cards
+  add column if not exists activation_token text;
 
 -- 2. Enable Row Level Security
 alter table public.cards enable row level security;

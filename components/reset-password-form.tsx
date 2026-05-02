@@ -203,7 +203,7 @@ export function ResetPasswordForm() {
     e.preventDefault();
     setError(null);
 
-    if (password.length < 6) {
+    if (password.length < 8) {
       setError(t("error_short"));
       return;
     }
@@ -277,7 +277,7 @@ export function ResetPasswordForm() {
             onChange={(e) => setPassword(e.target.value)}
             className="pl-9"
             required
-            minLength={6}
+            minLength={8}
             disabled={!recoveryReady || bootstrapLoading}
           />
         </div>
@@ -300,7 +300,7 @@ export function ResetPasswordForm() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             className="pl-9"
             required
-            minLength={6}
+            minLength={8}
             disabled={!recoveryReady || bootstrapLoading}
           />
         </div>

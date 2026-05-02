@@ -10,11 +10,12 @@ export const metadata: Metadata = {
 };
 
 interface PageProps {
-  searchParams: { id?: string };
+  searchParams: { id?: string; t?: string };
 }
 
 export default async function ActivatePage({ searchParams }: PageProps) {
   const cardId = searchParams.id;
+  const activationToken = searchParams.t;
 
   if (!cardId) {
     return (
@@ -73,7 +74,7 @@ export default async function ActivatePage({ searchParams }: PageProps) {
             fiche Google Business.
           </p>
         </div>
-        <ActivateFlow cardId={cardId} />
+        <ActivateFlow cardId={cardId} activationToken={activationToken} />
       </div>
     </section>
   );
