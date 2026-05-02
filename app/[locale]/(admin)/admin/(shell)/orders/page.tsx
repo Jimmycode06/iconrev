@@ -1,4 +1,9 @@
-import { ClipboardListIcon, PackageCheckIcon, ShoppingBagIcon } from "lucide-react";
+import {
+  CalendarIcon,
+  ClipboardListIcon,
+  PackageCheckIcon,
+  ShoppingBagIcon,
+} from "lucide-react";
 import { AdminOrdersTable } from "@/components/admin-orders-table";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -128,44 +133,35 @@ export default async function AdminOrdersPage({
         <div className="@container/main flex flex-1 flex-col gap-2">
           <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
 
-            {/* KPI Cards (today only) */}
+            {/* Compact KPI strip (Shopify-like) */}
             <div className="px-4 lg:px-6">
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Card className="@container/card">
-                  <CardHeader className="pb-2">
-                    <CardDescription className="flex items-center gap-1.5 text-xs uppercase tracking-wide">
-                      <ClipboardListIcon className="h-3.5 w-3.5" />
-                      {isFr ? "Commandes (aujourd'hui)" : "Orders (today)"}
-                    </CardDescription>
-                    <CardTitle className="text-3xl font-semibold tabular-nums">
+              <div className="rounded-lg border bg-white shadow-xs flex flex-wrap items-stretch divide-y sm:divide-y-0 sm:divide-x divide-border">
+                <div className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-foreground shrink-0">
+                  <CalendarIcon className="h-4 w-4 text-muted-foreground" />
+                  {isFr ? "Aujourd'hui" : "Today"}
+                </div>
+                <div className="flex items-center gap-3 px-4 py-3 min-w-[180px]">
+                  <ClipboardListIcon className="h-4 w-4 text-muted-foreground shrink-0" />
+                  <div className="leading-tight">
+                    <div className="text-xs text-muted-foreground">
+                      {isFr ? "Commandes" : "Orders"}
+                    </div>
+                    <div className="text-base font-semibold tabular-nums">
                       {todayOrders.length}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-xs text-muted-foreground">
-                    {isFr
-                      ? "Toutes commandes reçues depuis 00:00"
-                      : "All orders received since midnight"}
-                  </CardContent>
-                </Card>
-
-                <Card className="@container/card">
-                  <CardHeader className="pb-2">
-                    <CardDescription className="flex items-center gap-1.5 text-xs uppercase tracking-wide">
-                      <PackageCheckIcon className="h-3.5 w-3.5" />
-                      {isFr
-                        ? "Commandes traitées (aujourd'hui)"
-                        : "Fulfilled orders (today)"}
-                    </CardDescription>
-                    <CardTitle className="text-3xl font-semibold tabular-nums">
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 px-4 py-3 min-w-[200px]">
+                  <PackageCheckIcon className="h-4 w-4 text-muted-foreground shrink-0" />
+                  <div className="leading-tight">
+                    <div className="text-xs text-muted-foreground">
+                      {isFr ? "Commandes traitées" : "Fulfilled orders"}
+                    </div>
+                    <div className="text-base font-semibold tabular-nums">
                       {todayFulfilled.length}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-xs text-muted-foreground">
-                    {isFr
-                      ? "Commandes marquées comme traitées aujourd'hui"
-                      : "Orders marked as fulfilled today"}
-                  </CardContent>
-                </Card>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 

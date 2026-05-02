@@ -138,7 +138,11 @@ export function AdminOrdersTable({ orders, locale, isFr }: Props) {
             return (
               <TableRow
                 key={order.id}
-                className="cursor-pointer hover:bg-muted/40 transition-colors"
+                className={
+                  isFulfilled
+                    ? "cursor-pointer bg-gray-100/80 text-muted-foreground hover:bg-gray-200/70 transition-colors"
+                    : "cursor-pointer bg-white hover:bg-muted/40 transition-colors"
+                }
                 onClick={() =>
                   router.push(`/${locale}/admin/orders/${order.id}`)
                 }
@@ -177,19 +181,13 @@ export function AdminOrdersTable({ orders, locale, isFr }: Props) {
                   {formatPrice((order.amount_total || 0) / 100, locale)}
                 </TableCell>
 
-                {/* Payment status */}
+                {/* Payment status (Shopify-like: neutral gray) */}
                 <TableCell>
                   <Badge
                     variant="outline"
-                    className={
-                      isPaid
-                        ? "bg-green-100 text-green-800 hover:bg-green-100 border-green-200 gap-1.5"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-100 border-gray-200 gap-1.5"
-                    }
+                    className="bg-gray-100 text-gray-800 hover:bg-gray-100 border-gray-200 gap-1.5"
                   >
-                    <StatusDot
-                      color={isPaid ? "bg-green-500" : "bg-gray-500"}
-                    />
+                    <StatusDot color="bg-gray-500" />
                     {isPaid
                       ? isFr
                         ? "Payée"
@@ -198,20 +196,20 @@ export function AdminOrdersTable({ orders, locale, isFr }: Props) {
                   </Badge>
                 </TableCell>
 
-                {/* Fulfillment status */}
+                {/* Fulfillment status (yellow when unfulfilled, gray when fulfilled) */}
                 <TableCell>
                   {isFulfilled ? (
                     <Badge
                       variant="outline"
-                      className="bg-green-100 text-green-800 hover:bg-green-100 border-green-200 gap-1.5"
+                      className="bg-gray-100 text-gray-800 hover:bg-gray-100 border-gray-200 gap-1.5"
                     >
-                      <StatusDot color="bg-green-500" />
+                      <StatusDot color="bg-gray-500" />
                       {isFr ? "Traité" : "Fulfilled"}
                     </Badge>
                   ) : (
                     <Badge
                       variant="outline"
-                      className="bg-amber-100 text-amber-800 hover:bg-amber-100 border-amber-200 gap-1.5"
+                      className="bg-amber-100 text-amber-900 hover:bg-amber-100 border-amber-200 gap-1.5"
                     >
                       <StatusDot color="bg-amber-500" />
                       {isFr ? "Non traité" : "Unfulfilled"}
@@ -239,9 +237,9 @@ export function AdminOrdersTable({ orders, locale, isFr }: Props) {
                   {isFulfilled && hasTracking ? (
                     <Badge
                       variant="outline"
-                      className="bg-blue-50 text-blue-700 hover:bg-blue-50 border-blue-200 gap-1.5"
+                      className="bg-gray-100 text-gray-800 hover:bg-gray-100 border-gray-200 gap-1.5"
                     >
-                      <StatusDot color="bg-blue-500" />
+                      <StatusDot color="bg-gray-500" />
                       {isFr ? "Suivi ajouté" : "Tracking added"}
                     </Badge>
                   ) : (
